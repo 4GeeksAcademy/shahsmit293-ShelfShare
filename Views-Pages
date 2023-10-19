@@ -1,0 +1,17 @@
+Views/Pages:
+ 1. Browse/Front page.
+ 2. Login Page.
+ 3. Signup page.
+ 4. Profile page.
+ 5. View Page(opens if you click link to view information for a particular book).
+ 6. Personal Profile page.
+ 7. Add books page.(possibly just located on the personal profile Page)
+ 8. Add wishlist page.(possibly just located on the personal profile Page)
+ 8. Messages/inbox page.
+
+Components:
+  1. Navbar
+  2. Notifications Dropdown(on navbar).
+  3. Book Cards.
+  4. Wishlist(on Personal Profile and profile page)
+  5. Available Books(on Personal Profile and profile page)
