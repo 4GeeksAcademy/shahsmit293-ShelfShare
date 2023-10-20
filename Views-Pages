@@ -7,7 +7,9 @@ Views/Pages:
  6. Personal Profile page.
  7. Add books page.(possibly just located on the personal profile Page)
  8. Add wishlist page.(possibly just located on the personal profile Page)
- 8. Messages/inbox page.
+ 9. Messages/inbox page.
+ 10. Account information page(update account info).
+
 
 Components:
   1. Navbar
