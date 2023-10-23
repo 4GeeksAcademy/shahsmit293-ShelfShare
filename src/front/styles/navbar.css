@@ -1,0 +1,21 @@
+.logo-image {
+    max-width: 50px;
+    height: auto;
+  }
+.logo-container {
+display: flex;
+align-items: flex-end;
+}
+
+.logo-text {
+    margin-left:10px;
+    font-size:24px;
+    color: #333;
+}
+
+.About-text{
+    margin-left:80px;
+    font-size:20px;
+    color: #333;
+    
+}
