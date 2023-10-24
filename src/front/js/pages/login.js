@@ -6,7 +6,8 @@ export const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
     const { store, actions } = useContext(Context);
-	console.log(email, password,"TEST***")
+
+
 
     return (
         <div className=" justify-content-center align-items-center vh-100">
@@ -27,7 +28,14 @@ export const Login = () => {
 						<div>Forgot E-mail</div>
 						<div>Forgot Password</div>                         
 						<div>Creat Account</div>
-                        <button type="button" class="btn btn-secondary">Submit</button> 
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            onClick={()=>{
+                                actions.login(email, password)						
+                                }
+                            }
+                            >Submit</button> 
 					</div>
                 </div>
             </div>
