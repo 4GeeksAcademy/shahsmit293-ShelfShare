@@ -32,3 +32,15 @@ def signup():
     db.session.commit()
     return user.serialize()
 
+@api.route('/login',methods=['POST'])
+def login():
+    password=request.json.get("password",None)
+    email=request.json.get("email",None)
+    userEmail=User.query.filter_by(email=email).first()
+    userPassword=User.query.filter_by(password=password).first()
+    if not userEmail:
+        return jsonify("Email or password are incorret!"), 401
+    if not userPassword:
+        return jsonify("Email or password are incorret!"), 401
+
+    return jsonify(userEmail.serialize()), 200
