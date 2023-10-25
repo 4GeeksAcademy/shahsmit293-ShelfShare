@@ -40,11 +40,12 @@ def signup():
 def login():
     password=request.json.get("password",None)
     email=request.json.get("email",None)
-    userEmail=User.query.filter_by(email=email).first()
-    userPassword=User.query.filter_by(password=password).first()
-    if not userEmail:
+    user=User.query.filter_by(email=email).first()
+    
+    if not user:
         return jsonify("Email or password are incorret!"), 401
-    if not userPassword:
+    if not check_password_hash(user.password,password):
         return jsonify("Email or password are incorret!"), 401
+    token=create_access_token(identity=email)
 
-    return jsonify(userEmail.serialize()), 200
+    return jsonify(token=token), 200

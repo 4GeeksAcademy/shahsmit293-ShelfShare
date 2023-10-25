@@ -41,18 +41,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method:'POST',
 					headers:{'Content-Type':'application/json'},
 					body:JSON.stringify({email:email,password:password})
-				}).then((resp)=>{
-					if (resp.status !=200){
-						alert("User not found! Try again...")
-						return false						
-					}
-					else if (resp.status == 200){
-						alert("User logged in...")
-					}
-					resp.json()})
-
-					.then((data)=>{setStore({user:data})}
-					)
+				}).then((resp)=> resp.json())
+				  .then((data)=>{setStore({user:data.token})})
 			},
 
 			changeColor: (index, color) => {
