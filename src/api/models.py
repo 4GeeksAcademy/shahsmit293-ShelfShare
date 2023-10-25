@@ -4,16 +4,11 @@ import sys
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
-import os
-import sys
-from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship, declarative_base
-from sqlalchemy import create_engine
+
 
 db = SQLAlchemy()
 
 class User(db.Model):
-    __tablename__ = 'user'
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -23,10 +18,7 @@ class User(db.Model):
     age = db.Column(db.String(80), unique=False, nullable=False)
     location = db.Column(db.String(140), unique=False, nullable=False)
     
-    first_name = db.Column(db.String(80), unique=False, nullable=False)
-    last_name = db.Column(db.String(80), unique=False, nullable=False)
-    age = db.Column(db.String(80), unique=False, nullable=False)
-    location = db.Column(db.String(140), unique=False, nullable=False)
+   
     
     def __repr__(self):
         return f'<User {self.email}>'
@@ -39,13 +31,7 @@ class User(db.Model):
         self.age=age
         self.location=location
 
-    def __init__(self,email,password,first_name,last_name,age,location):
-        self.email=email
-        self.password=password
-        self.first_name=first_name
-        self.last_name=last_name
-        self.age=age
-        self.location=location
+
 
     def serialize(self):
         return {
@@ -54,11 +40,8 @@ class User(db.Model):
             "first_name": self.first_name,
             "last_name": self.last_name,
             "age": self.age,
-            "location": self.location
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "age": self.age,
-            "location": self.location
+            "location": self.location,
+           
             # do not serialize the password, its a security breach
         }
 class Book(db.Model):
