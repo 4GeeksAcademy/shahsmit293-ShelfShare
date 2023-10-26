@@ -17,7 +17,7 @@ class User(db.Model):
     last_name = db.Column(db.String(80), unique=False, nullable=False)
     age = db.Column(db.String(80), unique=False, nullable=False)
     location = db.Column(db.String(140), unique=False, nullable=False)
-    books = db.relationship("Book", backref="user",uselist=True)
+    # books = db.relationship("Book", backref="user",uselist=True)
     
    
     
@@ -73,8 +73,8 @@ class Book(db.Model):
             "year": self.year,
             "quantity": self.year,
             "user_id": self.user_id,
-            "user_location": self.user.location,
-            "user": self.user.serialize()
+            # "user_location": self.user.location,
+            # "user": self.user.serialize()
         }
     
 class WishlistBook(db.Model):

@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useContext } from "react/cjs/react.development";
+import { Context } from "../store/appContext";
+
 export const Showbook = () => {
+  const { store, actions } = useContext(Context);
   const { bookid } = useParams();
   const navigate = useNavigate();
+  useEffect(() => {
+    actions.singlebook(bookid);
+  }, []);
   return (
     <div className="main">
       <div
@@ -31,7 +38,7 @@ export const Showbook = () => {
             margin: "25px",
           }}
         >
-          <h1>Book Name</h1>
+          <h1>Book Name:{store.singlebook.name}</h1>
           <h3 style={{ overflowWrap: "break-word" }}>Description</h3>
         </div>
       </div>
@@ -57,15 +64,15 @@ export const Showbook = () => {
       >
         <div>
           <h3>Name:</h3>
-          <h5>Name</h5>
+          <h5>{store.singlebook.name}</h5>
         </div>
         <div>
           <h3>Author:</h3>
-          <h5>Author</h5>
+          <h5>{store.singlebook.author}</h5>
         </div>
         <div>
           <h3>Year</h3>
-          <h5>year</h5>
+          <h5>{store.singlebook.year}</h5>
         </div>
         <div>
           <h3>Exchange</h3>

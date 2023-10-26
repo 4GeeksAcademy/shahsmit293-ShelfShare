@@ -54,11 +54,19 @@ export const Home = () => {
         </div>
       </div>
       <div className="row gy-3">
-        <Bookcard />
-        <Bookcard />
-        <Bookcard />
-        <Bookcard />
-        <Bookcard />
+        {store.allbooks.map((element, index) => {
+          return (
+            <Bookcard
+              key={element.id}
+              bookname={element.name}
+              author={element.author}
+              year={element.year}
+              category={element.category}
+              location={"none"}
+              bookid={element.id}
+            />
+          );
+        })}
       </div>
     </div>
   );

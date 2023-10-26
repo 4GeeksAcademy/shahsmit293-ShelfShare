@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User,Book
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -49,3 +49,31 @@ def login():
     token=create_access_token(identity=email)
 
     return jsonify(token=token), 200
+
+@api.route('/addbook',methods=['POST'])
+def add_book():
+    body=request.json
+    book=Book(
+        name=body["name"],
+        author=body["author"],
+        category=body["category"],
+        year=body["year"],
+        quantity=body["quantity"],
+        user_id=body["user_id"]
+    )
+    db.session.add(book)
+    db.session.commit()
+    return book.serialize()
+
+@api.route('/allbooks',methods=['GET'])
+def all_books():
+    books=Book.query.all()
+    allbooks_dictionary=[]
+    for book in books:
+        allbooks_dictionary.append(book.serialize())
+    return jsonify(allbooks_dictionary),200
+
+@api.route('/book/<id>',methods=['GET'])
+def individual_book(id):
+    books=Book.query.get(id)
+    return jsonify(books.serialize()),200
