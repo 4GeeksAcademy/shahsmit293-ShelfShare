@@ -3,19 +3,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
-				user:{},
-					demo: [
-						{
-							title: "FIRST",
-							background: "white",
-							initial: "white"
-						},
-						{
-							title: "SECOND",
-							background: "white",
-							initial: "white"
-						}
-					]
+					token:[],
+						user:{},
+							demo: [
+								{
+									title: "FIRST",
+									background: "white",
+									initial: "white"
+								},
+								{
+									title: "SECOND",
+									background: "white",
+									initial: "white"
+								}
+							]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -36,13 +37,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			logout:()=>{
+				sessionStorage.removeItem("token")
+				setStore ({token:null})
+			},
+
+			updateStoreFromStorage:()=>{
+				const token=sessionStorage.getItem("token")
+				const user=sessionStorage.getItem("user")
+				let userObject=JSON.parse(user)
+				if(token && token != "" && token != "undefined" ){
+					setStore({token:token})
+					setStore({user:userObject})
+				}
+			},
+
 			login:(email,password) => {
 				fetch(backend+"api/login",{
 					method:'POST',
 					headers:{'Content-Type':'application/json'},
 					body:JSON.stringify({email:email,password:password})
 				}).then((resp)=> resp.json())
-				  .then((data)=>{setStore({user:data.token})})
+				  .then((data)=>{
+					sessionStorage.setItem("token",data.token)
+					setStore({user:data.token})})
 			},
 
 			changeColor: (index, color) => {
