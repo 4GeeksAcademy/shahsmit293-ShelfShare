@@ -13,12 +13,13 @@ export const SignUp = () => {
   console.log("STORE***", store.user);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <label>First Name:</label>
       <input
         type="text"
         name="firstName"
-        onChange={handleInputChange}
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
         required
       />
       <br />
@@ -28,14 +29,20 @@ export const SignUp = () => {
       <input
         type="text"
         name="lastName"
-        onChange={handleInputChange}
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
         required
       />
       <br />
       <br />
 
       <label>Age:</label>
-      <input type="number" name="age" onChange={handleInputChange} required />
+      <input
+        type="number"
+        name="age"
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+      />
       <br />
       <br />
 
@@ -43,14 +50,21 @@ export const SignUp = () => {
       <input
         type="text"
         name="location"
-        onChange={handleInputChange}
+        value={age}
+        onChange={(e) => setAge(e.target.value)}
         required
       />
       <br />
       <br />
 
       <label>Email ID:</label>
-      <input type="email" name="email" onChange={handleInputChange} required />
+      <input
+        type="email"
+        name="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
       <br />
       <br />
 
@@ -58,7 +72,8 @@ export const SignUp = () => {
       <input
         type="password"
         name="password"
-        onChange={handleInputChange}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         required
       />
       <br />
