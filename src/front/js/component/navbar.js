@@ -34,7 +34,13 @@ export const Navbar = () => {
           >
             <b>Login</b>
           </button>
-          <button type="button" className="btn btn-outline-dark">
+          <button
+            type="button"
+            className="btn btn-outline-dark"
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
             <b>Signup</b>
           </button>
         </div>
