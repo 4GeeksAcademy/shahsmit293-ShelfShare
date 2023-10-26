@@ -17,6 +17,7 @@ class User(db.Model):
     last_name = db.Column(db.String(80), unique=False, nullable=False)
     age = db.Column(db.String(80), unique=False, nullable=False)
     location = db.Column(db.String(140), unique=False, nullable=False)
+    books = db.relationship("Book", backref="user",uselist=True)
     
    
     
@@ -52,8 +53,16 @@ class Book(db.Model):
     category = db.Column(db.String, nullable=False)
     year = db.Column(db.Integer, nullable=True)
     quantity = db.Column(db.Integer, nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship(User, backref="books")
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    # user = db.relationship(User, backref="books",uselist=False)
+
+    def __init__(self,name,author,category,year,quantity,user_id):
+        self.name=name
+        self.author=author
+        self.category=category
+        self.year=year
+        self.quantity=quantity
+        self.user_id=user_id
 
     def serialize(self):
         return {
