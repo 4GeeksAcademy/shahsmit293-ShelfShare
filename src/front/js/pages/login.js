@@ -36,7 +36,18 @@ export const Login = () => {
                                 actions.login(email, password)						
                                 }
                             }
-                            >Submit</button> 
+                            >Submit</button>
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            onClick={()=> {
+                                actions.logout()
+                                setName("")
+                                setEmail("")
+                                setPassword("")
+                                }
+                            }
+                            >Logout</button> 
 					</div>
                 </div>
             </div>

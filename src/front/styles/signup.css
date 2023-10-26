@@ -1,0 +1,22 @@
+.forgot {
+  color: rgb(0, 166, 255);
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+.input {
+  width: 100%;
+  max-width: 600px;
+  padding: 5px;
+  margin-bottom: 15px;
+  margin: 10px;
+  border-radius: 8px;
+}
+.btn {
+  width: 100%;
+  max-width: 500px;
+  padding: 5px;
+  margin-bottom: 15px;
+  margin: 10px;
+  border-radius: 8px;
+}
