@@ -1,19 +1,21 @@
 const getState = ({ getStore, getActions, setStore }) => {
+	let backend = process.env.BACKEND_URL
 	return {
 		store: {
 			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+				user:{},
+					demo: [
+						{
+							title: "FIRST",
+							background: "white",
+							initial: "white"
+						},
+						{
+							title: "SECOND",
+							background: "white",
+							initial: "white"
+						}
+					]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -33,6 +35,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
+
+			login:(email,password) => {
+				fetch(backend+"api/login",{
+					method:'POST',
+					headers:{'Content-Type':'application/json'},
+					body:JSON.stringify({email:email,password:password})
+				}).then((resp)=> resp.json())
+				  .then((data)=>{setStore({user:data.token})})
+			},
+
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();
