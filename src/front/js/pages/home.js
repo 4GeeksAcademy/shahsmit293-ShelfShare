@@ -20,6 +20,8 @@ export const Home = () => {
       return store.descendiingbooks;
     } else if (select == "") {
       return store.allbooks;
+    } else if (select == "year") {
+      store.years.sort((a, b) => b.year.localeCompare(a.year));
     }
   }
   const sorted = (e) => {
@@ -67,12 +69,8 @@ export const Home = () => {
           <option value="">Sort By</option>
           <option value="Ascending">Ascending</option>
           <option value="Descending">Descending</option>
+          <option value="Year">Year</option>
         </select>
-        <div className="input-group-append">
-          <button className="btn btn-outline-secondary" type="button">
-            Submit
-          </button>
-        </div>
       </div>
       <div className="row gy-3">
         {dataType()
@@ -89,7 +87,7 @@ export const Home = () => {
                 author={element.author}
                 year={element.year}
                 category={element.category}
-                location="usa"
+                location={element.user.location}
                 bookid={element.id}
               />
             );
