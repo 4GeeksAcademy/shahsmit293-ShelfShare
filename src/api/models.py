@@ -71,9 +71,9 @@ class Book(db.Model):
             "author": self.author,
             "category": self.category,
             "year": self.year,
-            "quantity": self.year,
+            "quantity": self.quantity,
             "user_id": self.user_id,
-            # "user_location": self.user.location,
+            # "user_location": self.user_location,
             # "user": self.user.serialize()
         }
     

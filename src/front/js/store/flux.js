@@ -17,6 +17,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         },
       ],
       allbooks: [],
+      ascendingbooks: [],
+      descendiingbooks: [],
       singlebook: [],
     },
     actions: {
@@ -76,7 +78,13 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           })
           .then((data) => {
-            setStore({ allbooks: data });
+            const asc = [...data];
+            const desc = [...data];
+            setStore({
+              allbooks: data,
+              ascendingbooks: asc,
+              descendiingbooks: desc,
+            });
           });
       },
 
