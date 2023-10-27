@@ -17,7 +17,10 @@ const getState = ({ getStore, getActions, setStore }) => {
         },
       ],
       allbooks: [],
+      ascendingbooks: [],
+      descendiingbooks: [],
       singlebook: [],
+      years: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -54,11 +57,14 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       login: (email, password) => {
-        fetch(backend + "api/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: email, password: password }),
-        })
+        fetch(
+          "https://3001-4geeksacade-shahsmit293-229i3p40s7c.ws-us105.gitpod.io/api/login",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, password: password }),
+          }
+        )
           .then((resp) => resp.json())
           .then((data) => {
             setStore({ user: data.token });
@@ -76,7 +82,15 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           })
           .then((data) => {
-            setStore({ allbooks: data });
+            const asc = [...data];
+            const desc = [...data];
+            const years = [...data];
+            setStore({
+              allbooks: data,
+              ascendingbooks: asc,
+              descendiingbooks: desc,
+              years: years,
+            });
           });
       },
 

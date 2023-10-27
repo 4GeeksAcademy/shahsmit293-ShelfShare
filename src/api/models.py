@@ -54,7 +54,7 @@ class Book(db.Model):
     year = db.Column(db.Integer, nullable=True)
     quantity = db.Column(db.Integer, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    # user = db.relationship(User, backref="books",uselist=False)
+    user = db.relationship(User, backref="books")
 
     def __init__(self,name,author,category,year,quantity,user_id):
         self.name=name
@@ -71,10 +71,10 @@ class Book(db.Model):
             "author": self.author,
             "category": self.category,
             "year": self.year,
-            "quantity": self.year,
+            "quantity": self.quantity,
             "user_id": self.user_id,
             # "user_location": self.user.location,
-            # "user": self.user.serialize()
+            "user": self.user.serialize()
         }
     
 class WishlistBook(db.Model):

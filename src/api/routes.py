@@ -59,7 +59,7 @@ def add_book():
         category=body["category"],
         year=body["year"],
         quantity=body["quantity"],
-        user_id=body["user_id"]
+        user_id=body["user_id"],
     )
     db.session.add(book)
     db.session.commit()
