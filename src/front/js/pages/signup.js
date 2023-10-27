@@ -13,73 +13,83 @@ export const SignUp = () => {
   console.log("STORE***", store.user);
 
   return (
-    <form>
-      <label>First Name:</label>
-      <input
-        type="text"
-        name="firstName"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        required
-      />
-      <br />
-      <br />
+    <div className="text-center">
+      <form className="form">
+        <label>First Name:</label>
+        <input
+          class="input"
+          type="text"
+          name="firstName"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+        <br />
+        <br />
 
-      <label>Last Name:</label>
-      <input
-        type="text"
-        name="lastName"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        required
-      />
-      <br />
-      <br />
+        <label>Last Name:</label>
+        <input
+          class="input"
+          type="text"
+          name="lastName"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
+        <br />
+        <br />
 
-      <label>Age:</label>
-      <input
-        type="number"
-        name="age"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-      />
-      <br />
-      <br />
+        <label>Age:</label>
+        <input
+          class="input"
+          type="number"
+          name="age"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+        <br />
+        <br />
 
-      <label>Location:</label>
-      <input
-        type="text"
-        name="location"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
-        required
-      />
-      <br />
-      <br />
+        <label>Location:</label>
+        <input
+          class="input"
+          type="text"
+          name="location"
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+          required
+        />
+        <br />
+        <br />
 
-      <label>Email ID:</label>
-      <input
-        type="email"
-        name="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <br />
-      <br />
+        <label>Email ID:</label>
+        <input
+          class="input"
+          type="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <br />
+        <br />
 
-      <label>Password:</label>
-      <input
-        type="password"
-        name="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <br />
-      <br />
+        <label>Password:</label>
+        <input
+          class="input"
+          type="password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <br />
+        <br />
 
-      <button type="submit">Submit</button>
-    </form>
+        <button class="btn" type="submit">
+          Submit
+        </button>
+      </form>
+    </div>
   );
 };
