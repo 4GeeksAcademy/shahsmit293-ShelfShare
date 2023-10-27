@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/signup.css";
+import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
   const [firstName, setFirstName] = useState("");
@@ -11,6 +12,7 @@ export const SignUp = () => {
   const [password, setPassword] = useState("");
   const { store, actions } = useContext(Context);
   console.log("STORE***", store.user);
+  const navigate = useNavigate();
 
   return (
     <div className="text-center">
@@ -86,10 +88,15 @@ export const SignUp = () => {
         <br />
         <br />
 
-        <button class="btn" type="submit">
-          Submit
-        </button>
-      </form>
-    </div>
+      <button 
+      type="button" 
+      onClick={(e) => {
+        actions.signup(email, password, age, location, firstName, lastName).then(
+          () => navigate("/")
+        )}
+        
+      }
+      >Submit</button>
+    </form>
   );
 };
