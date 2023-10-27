@@ -3,6 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       message: null,
+      accessToken: undefined,
       user: {},
       demo: [
         {
@@ -46,7 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       getMessage: async () => {
         try {
           // fetching data from the backend
-          const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
+          const resp = await fetch(process.env.BACKEND_URL + "api/hello");
           const data = await resp.json();
           setStore({ message: data.message });
           // don't forget to return something, that is how the async resolves
@@ -56,9 +57,30 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      signup: (email, password, age, location, first_name, last_name) => {
+        return fetch(backend + "api/signup", {
+          method: "POST",
+          headers:{"Content-Type": "application/json"},
+          body: JSON.stringify(
+            {email: email, 
+            password: password, 
+            first_name: first_name,
+            last_name: last_name,
+            age: age,
+            location: location})
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+          setStore({
+            user: data.user,
+            accessToken: data.token
+          });
+        })
+      },
+
       login: (email, password) => {
         fetch(
-          "https://3001-4geeksacade-shahsmit293-229i3p40s7c.ws-us105.gitpod.io/api/login",
+          backend + "api/login",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -67,14 +89,17 @@ const getState = ({ getStore, getActions, setStore }) => {
         )
           .then((resp) => resp.json())
           .then((data) => {
-            setStore({ user: data.token });
+            setStore({ 
+              user: data.user,
+              accessToken: data.token
+             });
           });
       },
 
       //for all books
       allbooksdata: () => {
         fetch(
-          "https://3001-4geeksacade-shahsmit293-229i3p40s7c.ws-us105.gitpod.io/api/allbooks"
+          backend + "api/allbooks"
         )
           .then((response) => {
             if (response.ok) {
@@ -98,7 +123,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       singlebook: (j) => {
         const store = getStore();
         fetch(
-          `https://3001-4geeksacade-shahsmit293-229i3p40s7c.ws-us105.gitpod.io/api/book/${j}`
+          `${backend} + api/book/${j}`
         )
           .then((response) => {
             if (response.ok) {
