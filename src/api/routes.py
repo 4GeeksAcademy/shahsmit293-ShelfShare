@@ -34,7 +34,9 @@ def signup():
     )
     db.session.add(user)
     db.session.commit()
-    return user.serialize()
+    token=create_access_token(identity=user.email)
+
+    return jsonify(user=user.serialize(), token=token), 201
 
 @api.route('/login',methods=['POST'])
 def login():
@@ -48,7 +50,7 @@ def login():
         return jsonify("Email or password are incorret!"), 401
     token=create_access_token(identity=email)
 
-    return jsonify(token=token), 200
+    return jsonify(token=token, user=user.serialize()), 200
 
 @api.route('/addbook',methods=['POST'])
 def add_book():
