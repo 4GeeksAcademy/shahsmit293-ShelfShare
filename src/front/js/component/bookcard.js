@@ -35,8 +35,8 @@ export const Bookcard = (props) => {
 Bookcard.propTypes = {
   bookname: propTypes.string,
   author: propTypes.string,
-  year: propTypes.string,
+  year: propTypes.number,
   category: propTypes.string,
   location: propTypes.string,
-  bookid: propTypes.string,
+  bookid: propTypes.number,
 };

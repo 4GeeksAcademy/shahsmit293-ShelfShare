@@ -19,7 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       ],
       allbooks: [],
       ascendingbooks: [],
-      descendiingbooks: [],
+      descendingbooks: [],
       singlebook: [],
       years: [],
     },
@@ -59,48 +59,44 @@ const getState = ({ getStore, getActions, setStore }) => {
       signup: (email, password, age, location, first_name, last_name) => {
         return fetch(backend + "api/signup", {
           method: "POST",
-          headers:{"Content-Type": "application/json"},
-          body: JSON.stringify(
-            {email: email, 
-            password: password, 
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            password: password,
             first_name: first_name,
             last_name: last_name,
             age: age,
-            location: location})
+            location: location,
+          }),
         })
-        .then((resp) => resp.json())
-        .then((data) => {
-          setStore({
-            user: data.user,
-            accessToken: data.token
+          .then((resp) => resp.json())
+          .then((data) => {
+            setStore({
+              user: data.user,
+              accessToken: data.token,
+            });
+            sessionStorage.setItem("token", data.token);
           });
-          sessionStorage.setItem("token", data.token);
-        })
       },
 
       login: (email, password) => {
-        fetch(
-          backend + "api/login",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: email, password: password }),
-          }
-        )
+        fetch(backend + "api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email, password: password }),
+        })
           .then((resp) => resp.json())
           .then((data) => {
-            setStore({ 
+            setStore({
               user: data.user,
-              accessToken: data.token
-             });
+              accessToken: data.token,
+            });
           });
       },
 
       //for all books
       allbooksdata: () => {
-        fetch(
-          backend + "api/allbooks"
-        )
+        fetch(backend + "api/allbooks")
           .then((response) => {
             if (response.ok) {
               return response.json();
@@ -113,7 +109,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             setStore({
               allbooks: data,
               ascendingbooks: asc,
-              descendiingbooks: desc,
+              descendingbooks: desc,
               years: years,
             });
           });
@@ -122,9 +118,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       //for single book
       singlebook: (j) => {
         const store = getStore();
-        fetch(
-          `${backend} + api/book/${j}`
-        )
+        fetch(`${backend} + api/book/${j}`)
           .then((response) => {
             if (response.ok) {
               return response.json();

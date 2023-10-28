@@ -12,23 +12,31 @@ export const Home = () => {
   const [select, setSelect] = useState("");
 
   function dataType() {
-    if (select == "Ascending") {
+    if (select === "Ascending") {
       store.ascendingbooks.sort((a, b) => a.name.localeCompare(b.name));
       return store.ascendingbooks;
-    } else if (select == "Descending") {
-      store.descendiingbooks.sort((a, b) => b.name.localeCompare(a.name));
-      return store.descendiingbooks;
-    } else if (select == "") {
+    } else if (select === "Descending") {
+      store.descendingbooks.sort((a, b) => b.name.localeCompare(a.name));
+      return store.descendingbooks;
+    } else if (select === "Year Ascending") {
+      store.years.sort((a, b) => a.year - b.year);
+      return store.years;
+    } else if (select === "Year Descending") {
+      store.years.sort((a, b) => b.year - a.year);
+      return store.years;
+    } else if (select === "") {
       return store.allbooks;
-    } else if (select == "year") {
-      store.years.sort((a, b) => b.year.localeCompare(a.year));
     }
   }
   const sorted = (e) => {
-    if (e.target.value == "Ascending") {
+    if (e.target.value === "Ascending") {
       setSelect("Ascending");
-    } else if (e.target.value == "Descending") {
+    } else if (e.target.value === "Descending") {
       setSelect("Descending");
+    } else if (e.target.value === "Year Ascending") {
+      setSelect("Year Ascending");
+    } else if (e.target.value === "Year Descending") {
+      setSelect("Year Descending");
     } else {
       setSelect("");
     }
@@ -69,7 +77,8 @@ export const Home = () => {
           <option value="">Sort By</option>
           <option value="Ascending">Ascending</option>
           <option value="Descending">Descending</option>
-          <option value="Year">Year</option>
+          <option value="Year Ascending">Year (Ascending)</option>
+          <option value="Year Descending">Year (Descending)</option>
         </select>
       </div>
       <div className="row gy-3">
