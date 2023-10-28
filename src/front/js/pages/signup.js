@@ -88,15 +88,17 @@ export const SignUp = () => {
         <br />
         <br />
 
-      <button 
-      type="button" 
-      onClick={(e) => {
-        actions.signup(email, password, age, location, firstName, lastName).then(
-          () => navigate("/")
-        )}
-        
-      }
-      >Submit</button>
-    </form>
+        <button
+          type="button"
+          onClick={(e) => {
+            actions
+              .signup(email, password, age, location, firstName, lastName)
+              .then(() => navigate("/"));
+          }}
+        >
+          Submit
+        </button>
+      </form>
+    </div>
   );
 };
