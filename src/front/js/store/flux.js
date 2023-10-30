@@ -22,12 +22,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       descendingbooks: [],
       singlebook: [],
       years: [],
-<<<<<<< HEAD
       users: [],
-      singleUser: []
-=======
+      singleUser: [],
       reverseallbook: [],
->>>>>>> develop
     },
     actions: {
       // Use getActions to call a function within a fuction
