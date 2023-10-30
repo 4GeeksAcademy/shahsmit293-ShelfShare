@@ -3,7 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       message: null,
-      accessToken: undefined,
+      accessToken: null,
       user: {},
       demo: [
         {
@@ -31,15 +31,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       logout: () => {
         sessionStorage.removeItem("token");
-        setStore({ token: null });
+        setStore({ accessToken: null });
       },
 
       updateStoreFromStorage: () => {
-        accessToken = sessionStorage.getItem("accessToken");
-        let userObject = JSON.parse(user);
-        if (token && token != "" && token != "undefined") {
-          setStore({ accessToken: token });
-          setStore({ user: userObject });
+        let accessToken = sessionStorage.getItem("token");
+        if (accessToken && accessToken != "" && accessToken != "undefined") {
+          setStore({ accessToken: accessToken });
+
         }
       },
 
@@ -93,7 +92,9 @@ const getState = ({ getStore, getActions, setStore }) => {
               user: data.user,
               accessToken: data.token
              });
-          });
+             sessionStorage.setItem("token", data.token);
+          }
+          );
       },
 
       //for all books

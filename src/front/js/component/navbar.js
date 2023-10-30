@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import "../../styles/navbar.css";
-import { useNavigate } from "react-router-dom";
+
 
 export const Navbar = () => {
-  const navigate = useNavigate();
+  const { store, actions } = useContext(Context);
+  console.log("STORE***",store)
+  const navigate = useNavigate()
+
+
+  useEffect(()=>{
+    actions.updateStoreFromStorage();
+    },[store.accessToken])
+    console.log("TEST321",store.accessToken)
+
   return (
     <nav className="navbar navbar-light bg-light">
       <div className="container">
@@ -21,29 +31,48 @@ export const Navbar = () => {
             <b>About Us</b>
           </p>
         </div>
-        <div
-          className="ml-auto"
-          style={{ display: "flex", flexDirection: "row" }}
-        >
-          <button
-            type="button"
-            className="btn btn-outline-dark"
-            onClick={() => {
-              navigate("/login");
-            }}
+          <div
+            className="ml-auto"
+            style={{ display: "flex", flexDirection: "row" }}
           >
-            <b>Login</b>
-          </button>
-          <button
-            type="button"
-            className="btn btn-outline-dark"
-            onClick={() => {
-              navigate("/signup");
-            }}
-          >
-            <b>Signup</b>
-          </button>
-        </div>
+              {store.accessToken?
+              <div>
+                    <button
+                      type="button"
+                      className="btn btn-outline-dark"
+                      onClick={() => {
+                        actions.logout()
+                        window.location.reload()
+                      }}
+                    >
+                      <b>Logout</b>
+                    </button>
+              </div>
+              :
+              <div  className="ml-auto"
+              style={{ display: "flex", flexDirection: "row" }}>          
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark"
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                  >
+                    <b>Login</b>
+                  </button>
+  
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark"
+                    onClick={() => {
+                      navigate("/signup");
+                    }}
+                  >
+                    <b>Signup</b>
+                  </button>
+              </div>
+            }
+          </div>
       </div>
     </nav>
   );
