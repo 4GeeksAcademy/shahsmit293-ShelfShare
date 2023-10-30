@@ -61,6 +61,7 @@ def add_book():
         category=body["category"],
         year=body["year"],
         quantity=body["quantity"],
+        image=body["image"],
         user_id=body["user_id"],
     )
     db.session.add(book)
@@ -79,3 +80,11 @@ def all_books():
 def individual_book(id):
     books=Book.query.get(id)
     return jsonify(books.serialize()),200
+
+@api.route('/alluser',methods=['GET'])
+def all_user():
+    users=User.query.all()
+    allusers_dictionary=[]
+    for user in users:
+        allusers_dictionary.append(user.serialize())
+    return jsonify(allusers_dictionary),200
