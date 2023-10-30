@@ -9,8 +9,9 @@ export const Bookcard = (props) => {
       <div className="card" style={{ width: "18rem" }}>
         <img
           className="card-img-top"
-          src="https://placehold.co/600x400"
+          src={props.image}
           alt="Card image cap"
+          style={{ width: "100%", height: "auto", objectFit: "contain" }}
         />
         <div className="card-body">
           <h5 className="card-title">BookName:{props.bookname}</h5>
@@ -35,8 +36,9 @@ export const Bookcard = (props) => {
 Bookcard.propTypes = {
   bookname: propTypes.string,
   author: propTypes.string,
-  year: propTypes.string,
+  year: propTypes.number,
   category: propTypes.string,
+  image: propTypes.string,
   location: propTypes.string,
-  bookid: propTypes.string,
+  bookid: propTypes.number,
 };
