@@ -1,7 +1,9 @@
-.forgot {
-  color: rgb(0, 166, 255);
-  text-decoration: underline;
-  font-size: 12px;
+.form {
+  align-items: center;
+}
+
+.text-center {
+  text-align: center !important;
 }
 
 .input {
