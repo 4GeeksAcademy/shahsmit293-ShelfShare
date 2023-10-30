@@ -79,3 +79,16 @@ def all_books():
 def individual_book(id):
     books=Book.query.get(id)
     return jsonify(books.serialize()),200
+
+@api.route('/user/<id>', methods=['GET'])
+def individual_user(id):
+    user=User.query.get(id)
+    return jsonify(user.serialize()), 200
+
+@api.route('/allusers', methods=['GET'])
+def loadAllUsers():
+    users=User.query.all()
+    allusers_dictionary=[]
+    for user in users:
+        allusers_dictionary.append(user.serialize())
+    return jsonify(allusers_dictionary), 200

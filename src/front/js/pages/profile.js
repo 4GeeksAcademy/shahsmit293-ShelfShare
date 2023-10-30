@@ -1,8 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const Profile = () => {
+    
+    const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+    const { userid } = useParams();
+
+    useEffect(() => {
+        actions.singleUser(userid);
+    }, [])
+
+    
+
 
 	return (
         <div className="container-fluid">
@@ -48,9 +60,9 @@ export const Profile = () => {
             </div>
             <div className="row mb-2 d-flex justify-content-center">
                 <div className="col-4 d-flex align-items-center flex-column border border-3 p-2">
-                    <p>Name: John Pazda</p>
-                    <p>Age: 27</p>
-                    <p>Address: 1738 spring Drive<br></br> Marietta, GA 30060</p>
+                    <p>Name: {store.singleUser.first_name} {store.singleUser.last_name}</p>
+                    <p>Age: {store.singleUser.age}</p>
+                    <p>Address: {store.singleUser.location}</p>
                 </div>
             </div>
         </div>

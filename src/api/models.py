@@ -17,9 +17,7 @@ class User(db.Model):
     last_name = db.Column(db.String(80), unique=False, nullable=False)
     age = db.Column(db.String(80), unique=False, nullable=False)
     location = db.Column(db.String(140), unique=False, nullable=False)
-    # books = db.relationship("Book", backref="user",uselist=True)
-    
-   
+    # books = db.relationship("Book", backref="user",uselist=True) 
     
     def __repr__(self):
         return f'<User {self.email}>'
@@ -31,8 +29,6 @@ class User(db.Model):
         self.last_name=last_name
         self.age=age
         self.location=location
-
-
 
     def serialize(self):
         return {
