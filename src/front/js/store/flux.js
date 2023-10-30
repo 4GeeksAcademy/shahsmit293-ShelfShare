@@ -130,21 +130,21 @@ const getState = ({ getStore, getActions, setStore }) => {
       loadAllUserInformation: () => {
         fetch(backend + "api/allusers")
           .then((resp) => {
-            if(resp.ok) {
+            if (resp.ok) {
               return resp.json();
-              }    
+            }
           })
           .then((data) => {
             setStore({
-              users: [...data]
-            })
-          })
-        },
+              users: [...data],
+            });
+          });
+      },
 
       //for single book
       singlebook: (j) => {
         const store = getStore();
-        fetch(`${backend} + api/book/${j}`)
+        fetch(`${backend}api/book/${j}`)
           .then((response) => {
             if (response.ok) {
               return response.json();
@@ -155,17 +155,15 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
       },
       singleUser: (j) => {
-        fetch(
-          `${backend}api/user/${j}`
-        )
-        .then((resp) => {
-          if(resp.ok) {
-            return resp.json();
-          }
-        })
-        .then((data) => {
-          setStore({singleUser: data });
-        });
+        fetch(`${backend}api/user/${j}`)
+          .then((resp) => {
+            if (resp.ok) {
+              return resp.json();
+            }
+          })
+          .then((data) => {
+            setStore({ singleUser: data });
+          });
       },
 
       changeColor: (index, color) => {
