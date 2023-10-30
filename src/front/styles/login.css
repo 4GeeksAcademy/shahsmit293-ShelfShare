@@ -1,5 +1,6 @@
 .forgot{
     color:rgb(0, 166, 255);
+    cursor: pointer;
     text-decoration:underline;
     font-size: 12px;
 }
