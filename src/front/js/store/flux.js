@@ -22,7 +22,12 @@ const getState = ({ getStore, getActions, setStore }) => {
       descendingbooks: [],
       singlebook: [],
       years: [],
+<<<<<<< HEAD
+      users: [],
+      singleUser: []
+=======
       reverseallbook: [],
+>>>>>>> develop
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -125,6 +130,20 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
       },
 
+      loadAllUserInformation: () => {
+        fetch(backend + "api/allusers")
+          .then((resp) => {
+            if(resp.ok) {
+              return resp.json();
+              }    
+          })
+          .then((data) => {
+            setStore({
+              users: [...data]
+            })
+          })
+        },
+
       //for single book
       singlebook: (j) => {
         const store = getStore();
@@ -137,6 +156,19 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((data) => {
             setStore({ singlebook: data });
           });
+      },
+      singleUser: (j) => {
+        fetch(
+          `${backend}api/user/${j}`
+        )
+        .then((resp) => {
+          if(resp.ok) {
+            return resp.json();
+          }
+        })
+        .then((data) => {
+          setStore({singleUser: data });
+        });
       },
 
       changeColor: (index, color) => {
