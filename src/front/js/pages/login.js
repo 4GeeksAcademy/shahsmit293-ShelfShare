@@ -29,7 +29,11 @@ export const Login = () => {
                         required/>						
                     </div>                   
                     <div>
-						<i class="fa-solid fa-lock"></i>
+                        {store.accessToken?
+                        <i class="fa-solid fa-lock-open"></i>
+                        :
+                        <i class="fa-solid fa-lock"></i>
+                        }
                         <input
                         className="input"
                         type="password"
@@ -52,9 +56,10 @@ export const Login = () => {
                             type="button"
                             class="btn btn-secondary"
                             onClick={()=> {
-                                actions.logout()
-                                setEmail("")
-                                setPassword("")
+                                actions.handleLogout()
+                                // actions.logout()
+                                // setEmail("")
+                                // setPassword("")
                                 }
                             }
                             >Logout

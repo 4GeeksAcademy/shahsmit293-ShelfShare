@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import "../../styles/navbar.css";
-
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -41,8 +41,9 @@ export const Navbar = () => {
                       type="button"
                       className="btn btn-outline-dark"
                       onClick={() => {
-                        actions.logout()
-                        window.location.reload()
+                        actions.handleLogout()
+                        // actions.logout()
+                        // window.location.reload()
                       }}
                     >
                       <b>Logout</b>

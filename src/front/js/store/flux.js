@@ -33,6 +33,14 @@ const getState = ({ getStore, getActions, setStore }) => {
         sessionStorage.removeItem("token");
         setStore({ accessToken: null });
       },
+      handleLogout: () => {
+        const { logout } = getActions();
+        const confirmLogout = window.confirm("Are you sure?");
+        if (confirmLogout) {
+            logout();
+            window.location.reload()
+        }
+      },
 
       updateStoreFromStorage: () => {
         let accessToken = sessionStorage.getItem("token");
