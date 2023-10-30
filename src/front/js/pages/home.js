@@ -26,6 +26,11 @@ export const Home = () => {
       return store.years;
     } else if (select === "") {
       return store.allbooks;
+    } else if (select === "old to new") {
+      return store.allbooks;
+    } else if (select === "new to old") {
+      store.reverseallbook.reverse();
+      return store.reverseallbook;
     }
   }
   const sorted = (e) => {
@@ -37,6 +42,10 @@ export const Home = () => {
       setSelect("Year Ascending");
     } else if (e.target.value === "Year Descending") {
       setSelect("Year Descending");
+    } else if (e.target.value === "old to new") {
+      setSelect("old to new");
+    } else if (e.target.value === "new to old") {
+      setSelect("new to old");
     } else {
       setSelect("");
     }
@@ -75,10 +84,12 @@ export const Home = () => {
           onChange={sorted}
         >
           <option value="">Sort By</option>
-          <option value="Ascending">Ascending</option>
-          <option value="Descending">Descending</option>
+          <option value="Ascending">Ascending(A-Z)</option>
+          <option value="Descending">Descending(Z-A)</option>
           <option value="Year Ascending">Year (Ascending)</option>
           <option value="Year Descending">Year (Descending)</option>
+          <option value="old to new">Oldest-Newest</option>
+          <option value="new to old">Newest-Oldest</option>
         </select>
       </div>
       <div className="row gy-3">
@@ -96,6 +107,7 @@ export const Home = () => {
                 author={element.author}
                 year={element.year}
                 category={element.category}
+                image={element.image}
                 location={element.user.location}
                 bookid={element.id}
               />

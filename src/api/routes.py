@@ -61,6 +61,7 @@ def add_book():
         category=body["category"],
         year=body["year"],
         quantity=body["quantity"],
+        image=body["image"],
         user_id=body["user_id"],
     )
     db.session.add(book)

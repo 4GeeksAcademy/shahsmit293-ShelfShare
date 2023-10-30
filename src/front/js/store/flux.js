@@ -22,6 +22,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       descendingbooks: [],
       singlebook: [],
       years: [],
+      reverseallbook: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -106,11 +107,13 @@ const getState = ({ getStore, getActions, setStore }) => {
             const asc = [...data];
             const desc = [...data];
             const years = [...data];
+            const reverse = [...data];
             setStore({
               allbooks: data,
               ascendingbooks: asc,
               descendingbooks: desc,
               years: years,
+              reverseallbook: reverse,
             });
           });
       },
