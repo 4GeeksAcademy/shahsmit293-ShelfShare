@@ -9,6 +9,7 @@ export const Showbook = () => {
   const navigate = useNavigate();
   useEffect(() => {
     actions.singlebook(bookid);
+    console.log(store.singlebook);
   }, []);
   return (
     <div className="main">
@@ -24,7 +25,7 @@ export const Showbook = () => {
         <div className="photos">
           <img
             className="main-image"
-            src="https://placehold.co/600x400"
+            src={store.singlebook.image}
             alt="Card image cap"
             style={{ width: "600px", height: "400px", margin: "25px" }}
           />
@@ -44,7 +45,7 @@ export const Showbook = () => {
       </div>
       <button
         type="button"
-        class="btn btn-success"
+        className="btn btn-success"
         onClick={() => {
           navigate("/login");
         }}
