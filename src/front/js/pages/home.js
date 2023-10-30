@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
@@ -8,7 +8,48 @@ import { useNavigate } from "react-router-dom";
 export const Home = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
+  const [select, setSelect] = useState("");
 
+  function dataType() {
+    if (select === "Ascending") {
+      store.ascendingbooks.sort((a, b) => a.name.localeCompare(b.name));
+      return store.ascendingbooks;
+    } else if (select === "Descending") {
+      store.descendingbooks.sort((a, b) => b.name.localeCompare(a.name));
+      return store.descendingbooks;
+    } else if (select === "Year Ascending") {
+      store.years.sort((a, b) => a.year - b.year);
+      return store.years;
+    } else if (select === "Year Descending") {
+      store.years.sort((a, b) => b.year - a.year);
+      return store.years;
+    } else if (select === "") {
+      return store.allbooks;
+    } else if (select === "old to new") {
+      return store.allbooks;
+    } else if (select === "new to old") {
+      store.reverseallbook.reverse();
+      return store.reverseallbook;
+    }
+  }
+  const sorted = (e) => {
+    if (e.target.value === "Ascending") {
+      setSelect("Ascending");
+    } else if (e.target.value === "Descending") {
+      setSelect("Descending");
+    } else if (e.target.value === "Year Ascending") {
+      setSelect("Year Ascending");
+    } else if (e.target.value === "Year Descending") {
+      setSelect("Year Descending");
+    } else if (e.target.value === "old to new") {
+      setSelect("old to new");
+    } else if (e.target.value === "new to old") {
+      setSelect("new to old");
+    } else {
+      setSelect("");
+    }
+  };
   return (
     <div className="text-center mt-5">
       <div className="add books">
@@ -30,35 +71,48 @@ export const Home = () => {
             type="search"
             placeholder="Search Books Here........"
             aria-label="Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
-          <button
-            className="btn btn-outline-success my-2 my-sm-0"
-            type="submit"
-          >
-            Search
-          </button>
         </div>
       </form>
 
       <div className="input-group" style={{ justifyContent: "center" }}>
-        <select className="custom-select" id="inputGroupSelect04">
-          <option selected="">Filter</option>
-          <option value={1}>One</option>
-          <option value={2}>Two</option>
-          <option value={3}>Three</option>
+        <select
+          className="custom-select"
+          id="inputGroupSelect04"
+          onChange={sorted}
+        >
+          <option value="">Sort By</option>
+          <option value="Ascending">Ascending(A-Z)</option>
+          <option value="Descending">Descending(Z-A)</option>
+          <option value="Year Ascending">Year (Ascending)</option>
+          <option value="Year Descending">Year (Descending)</option>
+          <option value="old to new">Oldest-Newest</option>
+          <option value="new to old">Newest-Oldest</option>
         </select>
-        <div className="input-group-append">
-          <button className="btn btn-outline-secondary" type="button">
-            Submit
-          </button>
-        </div>
       </div>
       <div className="row gy-3">
-        <Bookcard />
-        <Bookcard />
-        <Bookcard />
-        <Bookcard />
-        <Bookcard />
+        {dataType()
+          .filter((item) => {
+            const itemName = item.name.toLowerCase();
+            const term = search.toLowerCase();
+            return itemName.startsWith(term);
+          })
+          .map((element, index) => {
+            return (
+              <Bookcard
+                key={element.id}
+                bookname={element.name}
+                author={element.author}
+                year={element.year}
+                category={element.category}
+                image={element.image}
+                location={element.user.location}
+                bookid={element.id}
+              />
+            );
+          })}
       </div>
     </div>
   );

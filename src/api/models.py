@@ -17,9 +17,7 @@ class User(db.Model):
     last_name = db.Column(db.String(80), unique=False, nullable=False)
     age = db.Column(db.String(80), unique=False, nullable=False)
     location = db.Column(db.String(140), unique=False, nullable=False)
-    books = db.relationship("Book", backref="user",uselist=True)
-    
-   
+    # books = db.relationship("Book", backref="user",uselist=True) 
     
     def __repr__(self):
         return f'<User {self.email}>'
@@ -31,8 +29,6 @@ class User(db.Model):
         self.last_name=last_name
         self.age=age
         self.location=location
-
-
 
     def serialize(self):
         return {
@@ -53,15 +49,17 @@ class Book(db.Model):
     category = db.Column(db.String, nullable=False)
     year = db.Column(db.Integer, nullable=True)
     quantity = db.Column(db.Integer, nullable=True)
+    image = db.Column(db.String(2000), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    # user = db.relationship(User, backref="books",uselist=False)
+    user = db.relationship(User, backref="books")
 
-    def __init__(self,name,author,category,year,quantity,user_id):
+    def __init__(self,name,author,category,year,quantity,image,user_id):
         self.name=name
         self.author=author
         self.category=category
         self.year=year
         self.quantity=quantity
+        self.image=image
         self.user_id=user_id
 
     def serialize(self):
@@ -71,9 +69,10 @@ class Book(db.Model):
             "author": self.author,
             "category": self.category,
             "year": self.year,
-            "quantity": self.year,
+            "quantity": self.quantity,
+            "image":self.image,
             "user_id": self.user_id,
-            "user_location": self.user.location,
+            # "user_location": self.user.location,
             "user": self.user.serialize()
         }
     

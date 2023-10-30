@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useContext } from "react/cjs/react.development";
+import { Context } from "../store/appContext";
+
 export const Showbook = () => {
+  const { store, actions } = useContext(Context);
   const { bookid } = useParams();
   const navigate = useNavigate();
+  useEffect(() => {
+    actions.singlebook(bookid);
+    console.log(store.singlebook);
+  }, []);
   return (
     <div className="main">
       <div
@@ -17,7 +25,7 @@ export const Showbook = () => {
         <div className="photos">
           <img
             className="main-image"
-            src="https://placehold.co/600x400"
+            src={store.singlebook.image}
             alt="Card image cap"
             style={{ width: "600px", height: "400px", margin: "25px" }}
           />
@@ -31,13 +39,13 @@ export const Showbook = () => {
             margin: "25px",
           }}
         >
-          <h1>Book Name</h1>
+          <h1>Book Name:{store.singlebook.name}</h1>
           <h3 style={{ overflowWrap: "break-word" }}>Description</h3>
         </div>
       </div>
       <button
         type="button"
-        class="btn btn-success"
+        className="btn btn-success"
         onClick={() => {
           navigate("/login");
         }}
@@ -57,15 +65,15 @@ export const Showbook = () => {
       >
         <div>
           <h3>Name:</h3>
-          <h5>Name</h5>
+          <h5>{store.singlebook.name}</h5>
         </div>
         <div>
           <h3>Author:</h3>
-          <h5>Author</h5>
+          <h5>{store.singlebook.author}</h5>
         </div>
         <div>
           <h3>Year</h3>
-          <h5>year</h5>
+          <h5>{store.singlebook.year}</h5>
         </div>
         <div>
           <h3>Exchange</h3>
