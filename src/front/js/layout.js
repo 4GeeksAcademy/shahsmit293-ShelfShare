@@ -10,6 +10,7 @@ import { Showbook } from "./pages/showbook";
 import { Profile } from "./pages/profile";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
+import { Addbook } from "./pages/addbook";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -35,6 +36,7 @@ const Layout = () => {
             <Route element={<SignUp />} path="/signup" />
             <Route path="/profile/:userid" element={<Profile />} />
             <Route path="/showbook/:bookid" element={<Showbook />} />
+            <Route path="/addbook" element={<Addbook />} />
             <Route path="/showbook" element={<Showbook />} />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Single />} path="/single/:theid" />

@@ -25,6 +25,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       users: [],
       singleUser: [],
       reverseallbook: [],
+      activeuser: undefined,
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -83,13 +84,15 @@ const getState = ({ getStore, getActions, setStore }) => {
             setStore({
               user: data.user,
               accessToken: data.token,
+              activeuser: data.user.id,
             });
             sessionStorage.setItem("token", data.token);
           });
       },
 
       login: (email, password) => {
-        fetch(backend + "api/login", {
+        const store = getStore();
+        return fetch(backend + "api/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: email, password: password }),
@@ -99,8 +102,33 @@ const getState = ({ getStore, getActions, setStore }) => {
             setStore({
               user: data.user,
               accessToken: data.token,
+              activeuser: data.user.id,
             });
             sessionStorage.setItem("token", data.token);
+          });
+      },
+      // add book
+      addbook: (name, author, category, quantity, image, year, user_id) => {
+        const store = getStore();
+        return fetch(backend + "api/addbook", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name,
+            author: author,
+            category: category,
+            quantity: quantity,
+            image: image,
+            year: year,
+            user_id: user_id,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            allbooks.push(data.book);
+            setStore({
+              allbooks: addonebook,
+            });
           });
       },
 
