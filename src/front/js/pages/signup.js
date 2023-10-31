@@ -46,8 +46,8 @@ export const SignUp = () => {
           class="input"
           type="number"
           name="age"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
         />
         <br />
         <br />
@@ -57,8 +57,8 @@ export const SignUp = () => {
           class="input"
           type="text"
           name="location"
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
           required
         />
         <br />
