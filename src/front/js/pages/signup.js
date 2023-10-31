@@ -69,6 +69,16 @@ export const SignUp = () => {
                 onChange={(e) => setAge(e.target.value)}
               />
             </div>
+            <label>Age:</label>
+            <input
+              class="input"
+              type="number"
+              name="age"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+            />
+            <br />
+            <br />
 
             <div className="mb-3">
               <label htmlFor="location" className="form-label">
@@ -84,6 +94,17 @@ export const SignUp = () => {
                 required
               />
             </div>
+            <label>Location:</label>
+            <input
+              class="input"
+              type="text"
+              name="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              required
+            />
+            <br />
+            <br />
 
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
