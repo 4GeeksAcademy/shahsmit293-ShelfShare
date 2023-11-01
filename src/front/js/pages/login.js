@@ -10,6 +10,7 @@ export const Login = () => {
     const navigate = useNavigate();
     console.log("STORE***",store.user)
 
+
     return (
         <div className=" justify-content-center align-items-center vh-100">
             <div className="text-center login">
@@ -69,9 +70,9 @@ export const Login = () => {
                             type="button"
                             class="btn btn-secondary"
                             onClick={()=>{
-                                actions.login(email, password)						
-                                }
+                                actions.login(email, password)
                             }
+                        }
                             >Submit
                         </button>                        
                     } 

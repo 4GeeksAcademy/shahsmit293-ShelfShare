@@ -36,7 +36,8 @@ export const Navbar = () => {
             style={{ display: "flex", flexDirection: "row" }}
           >
               {store.accessToken?
-              <div>
+              <div className="d-flex">
+                    <p><b>Hello, {store?.user.first_name}!</b></p>
                     <button
                       type="button"
                       className="btn btn-outline-dark"

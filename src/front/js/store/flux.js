@@ -35,7 +35,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       logout: () => {
         sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
         setStore({ accessToken: null });
+        setStore({ user: null });
       },
       handleLogout: () => {
         const { logout } = getActions();
@@ -48,8 +50,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       updateStoreFromStorage: () => {
         let accessToken = sessionStorage.getItem("token");
+        let userString= sessionStorage.getItem("user");
+        let userObject= JSON.parse(userString);
         if (accessToken && accessToken != "" && accessToken != "undefined") {
           setStore({ accessToken: accessToken });
+          setStore({ user: userObject });
         }
       },
 
@@ -86,7 +91,9 @@ const getState = ({ getStore, getActions, setStore }) => {
               accessToken: data.token,
               activeuser: data.user.id,
             });
+            const userToString = JSON.stringify(data.user);
             sessionStorage.setItem("token", data.token);
+            sessionStorage.setItem("user", userToString);
           });
       },
 
@@ -104,7 +111,9 @@ const getState = ({ getStore, getActions, setStore }) => {
               accessToken: data.token,
               activeuser: data.user.id,
             });
+            const userToString = JSON.stringify(data.user);
             sessionStorage.setItem("token", data.token);
+            sessionStorage.setItem("user", userToString);
           });
       },
       // add book
