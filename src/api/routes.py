@@ -53,7 +53,12 @@ def login():
     return jsonify(token=token, user=user.serialize()), 200
 
 @api.route('/addbook',methods=['POST'])
+@jwt_required()
 def add_book():
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
     body=request.json
     book=Book(
         name=body["name"],
@@ -62,7 +67,7 @@ def add_book():
         year=body["year"],
         quantity=body["quantity"],
         image=body["image"],
-        user_id=body["user_id"],
+        user_id=user.id,
     )
     db.session.add(book)
     db.session.commit()
