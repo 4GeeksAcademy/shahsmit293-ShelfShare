@@ -23,7 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       singlebook: [],
       years: [],
       users: [],
-      singleUser: [],
+      singleUser: undefined,
       reverseallbook: [],
       activeuser: undefined,
     },
@@ -112,7 +112,10 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
         return fetch(backend + "api/addbook", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json", 
+            "Authorization": `Bearer ${store.accessToken}`
+           },
           body: JSON.stringify({
             name: name,
             author: author,
