@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/login.css";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,12 @@ export const Login = () => {
 	const [password, setPassword] = useState("");
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    console.log("STORE***",store.user)
+
+    useEffect(()=>{
+		if(store.accessToken &&	store.accessToken != "" && store.accessToken != "undefined" && store?.accessToken.length > 0){
+	    	navigate("/")			
+		}
+	},[store.accessToken])
 
 
     return (
@@ -58,9 +63,6 @@ export const Login = () => {
                             class="btn btn-secondary"
                             onClick={()=> {
                                 actions.handleLogout()
-                                // actions.logout()
-                                // setEmail("")
-                                // setPassword("")
                                 }
                             }
                             >Logout

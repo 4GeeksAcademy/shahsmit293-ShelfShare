@@ -13,7 +13,6 @@ export const Navbar = () => {
   useEffect(()=>{
     actions.updateStoreFromStorage();
     },[store.accessToken])
-    console.log("TEST321",store.accessToken)
 
   return (
     <nav className="navbar navbar-light bg-light">
@@ -36,19 +35,21 @@ export const Navbar = () => {
             style={{ display: "flex", flexDirection: "row" }}
           >
               {store.accessToken?
-              <div className="d-flex">
-                    <p><b>Hello, {store?.user.first_name}!</b></p>
-                    <button
-                      type="button"
-                      className="btn btn-outline-dark"
-                      onClick={() => {
-                        actions.handleLogout()
-                        // actions.logout()
-                        // window.location.reload()
-                      }}
-                    >
-                      <b>Logout</b>
-                    </button>
+              <div className="d-flex align-items-center justify-content-center">
+                    <div className = "usernavb">                      
+                    <p><b>{"😊 Hello, " + store?.user.first_name +"! How about a 📚 today?"}</b></p>
+                    </div>
+                    <div>  
+                      <button
+                        type="button"
+                        className="btn btn-outline-dark"
+                        onClick={() => {
+                          actions.handleLogout()
+                        }}
+                      >
+                        <b>Logout</b>
+                      </button>
+                    </div>
               </div>
               :
               <div  className="ml-auto"
