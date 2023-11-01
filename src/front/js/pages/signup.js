@@ -41,28 +41,26 @@ export const SignUp = () => {
         <br />
         <br />
 
-        <label>Age:</label>
-        <input
-          class="input"
-          type="number"
-          name="age"
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
-        />
-        <br />
-        <br />
+      <label>Age:</label>
+      <input
+        type="number"
+        name="age"
+        value={age}
+        onChange={(e) => setAge(e.target.value)}
+      />
+      <br />
+      <br />
 
-        <label>Location:</label>
-        <input
-          class="input"
-          type="text"
-          name="location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          required
-        />
-        <br />
-        <br />
+      <label>Location:</label>
+      <input
+        type="text"
+        name="location"
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        required
+      />
+      <br />
+      <br />
 
         <label>Email ID:</label>
         <input

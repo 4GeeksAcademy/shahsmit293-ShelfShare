@@ -55,42 +55,48 @@ export const Home = () => {
       <div className="add books">
         <button
           onClick={() => {
-            navigate("/login");
+            {
+              store.accessToken
+                ? navigate(`/profile/${store.activeuser}`)
+                : navigate("/login");
+            }
           }}
         >
           Upload Book Here.......
         </button>
       </div>
-      <form className="form-inline">
-        <div
-          className="search"
-          style={{ display: "inline-flex", justifyItems: "center" }}
-        >
-          <input
-            className="form-control mr-sm-2"
-            type="search"
-            placeholder="Search Books Here........"
-            aria-label="Search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-      </form>
+      <div className="find" style={{ display: "flex", padding: "px" }}>
+        <form className="form-inline">
+          <div
+            className="search"
+            style={{ display: "inline-flex", justifyItems: "center" }}
+          >
+            <input
+              className="form-control mr-sm-2"
+              type="search"
+              placeholder="Search Books Here........"
+              aria-label="Search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+        </form>
 
-      <div className="input-group" style={{ justifyContent: "center" }}>
-        <select
-          className="custom-select"
-          id="inputGroupSelect04"
-          onChange={sorted}
-        >
-          <option value="">Sort By</option>
-          <option value="Ascending">Ascending(A-Z)</option>
-          <option value="Descending">Descending(Z-A)</option>
-          <option value="Year Ascending">Year (Ascending)</option>
-          <option value="Year Descending">Year (Descending)</option>
-          <option value="old to new">Oldest-Newest</option>
-          <option value="new to old">Newest-Oldest</option>
-        </select>
+        <div className="input-group" style={{ justifyContent: "end" }}>
+          <select
+            className="custom-select"
+            id="inputGroupSelect04"
+            onChange={sorted}
+          >
+            <option value="">Sort By</option>
+            <option value="Ascending">Ascending(A-Z)</option>
+            <option value="Descending">Descending(Z-A)</option>
+            <option value="Year Ascending">Year (Ascending)</option>
+            <option value="Year Descending">Year (Descending)</option>
+            <option value="old to new">Oldest-Newest</option>
+            <option value="new to old">Newest-Oldest</option>
+          </select>
+        </div>
       </div>
       <div className="row gy-3">
         {dataType()
