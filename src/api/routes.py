@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User,Book
+from api.models import db, User, Book, WishlistBook
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -98,3 +98,21 @@ def loadAllUsers():
     for user in users:
         allusers_dictionary.append(user.serialize())
     return jsonify(allusers_dictionary), 200
+
+@api.route('/wishlist_book', methods=["POST"])
+@jwt_required()
+def add_wishlist_book():
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    body=request.json
+    wishlist_book=WishlistBook(
+        name=body["name"],
+        author=body["author"],
+        user_id=user.id
+    )
+    db.session.add(wishlist_book)
+    db.session.commit()
+    return wishlist_book.serialize()
+
