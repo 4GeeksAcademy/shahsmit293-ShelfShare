@@ -99,23 +99,29 @@ const getState = ({ getStore, getActions, setStore }) => {
         })
           .then((resp) => resp.json())
           .then((data) => {
-            setStore({
-              user: data.user,
-              accessToken: data.token,
-              activeuser: data.user.id,
-            });
-            sessionStorage.setItem("token", data.token);
+            const actions = getActions();
+            actions.logUserInTheStore(data);
           });
+      },
+
+      logUserInTheStore: (data) => {
+        setStore({
+          user: data.user,
+          accessToken: data.token,
+          activeuser: data.user.id,
+        });
+        sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("user", JSON.stringify(data.user));
       },
       // add book
       addbook: (name, author, category, quantity, image, year, user_id) => {
         const store = getStore();
         return fetch(backend + "api/addbook", {
           method: "POST",
-          headers: { 
-            "Content-Type": "application/json", 
-            "Authorization": `Bearer ${store.accessToken}`
-           },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
           body: JSON.stringify({
             name: name,
             author: author,

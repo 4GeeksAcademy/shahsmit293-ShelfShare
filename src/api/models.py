@@ -18,7 +18,8 @@ class User(db.Model):
     age = db.Column(db.String(80), unique=False, nullable=False)
     location = db.Column(db.String(140), unique=False, nullable=False)
     # books = db.relationship("Book", backref="user",uselist=True) 
-    
+    # wishlist_books 
+
     def __repr__(self):
         return f'<User {self.email}>'
 
@@ -92,13 +93,29 @@ class WishlistBook(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     author = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    wishlistuser = db.relationship(User, backref="wishlist_books")
+
+    def __init__(self,name,author,user_id):
+        self.name=name
+        self.author=author
+        self.user_id=user_id
 
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
-            "author": self.name
+            "author": self.name,
+            "wishlist_user": self.user.serialize()
         }
+    
+    def lean_serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "author": self.author,
+        }
+
 
 
 
