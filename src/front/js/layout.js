@@ -11,6 +11,7 @@ import { Profile } from "./pages/profile";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import { Addbook } from "./pages/addbook";
+import { Addwishlistbookbook } from "./pages/addwishlistbook";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -38,6 +39,7 @@ const Layout = () => {
             <Route path="/showbook/:bookid" element={<Showbook />} />
             <Route path="/addbook" element={<Addbook />} />
             <Route path="/showbook" element={<Showbook />} />
+            <Route path="/addwishlistbook" element={<Addwishlistbookbook />} />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />

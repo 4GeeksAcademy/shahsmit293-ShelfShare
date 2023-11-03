@@ -23,6 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       singlebook: [],
       years: [],
       users: [],
+      wishlistBooks: [],
       singleUser: undefined,
       reverseallbook: [],
       activeuser: undefined,
@@ -138,6 +139,37 @@ const getState = ({ getStore, getActions, setStore }) => {
             setStore({
               allbooks: addonebook,
             });
+          });
+      },
+
+      addWishlistBook: (name, author, user_id) => {
+        const store = getStore();
+        return fetch(backend + "api/wishlist_book", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: JSON.stringify({
+            name: name,
+            author: author,
+            user_id: user_id,
+          }),
+        })
+          .then((resp) => {
+            if (!resp.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return resp.json();
+          })
+          .then((data) => {
+            setStore({
+              wishlistBooks: [...store.wishlistBooks, data.wishlist_book],
+            });
+          })
+          .catch((error) => {
+            console.error("Error adding wishlist book:", error);
+            // Handle the error or show an error message to the user
           });
       },
 
