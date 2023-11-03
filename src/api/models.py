@@ -105,8 +105,8 @@ class WishlistBook(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "author": self.name,
-            "wishlist_user": self.user.serialize()
+            "author": self.author,
+            "wishlistuser": self.wishlistuser.serialize()
         }
     
     def lean_serialize(self):
