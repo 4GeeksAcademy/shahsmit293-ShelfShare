@@ -8,6 +8,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
+from datetime import datetime, timedelta
+import os
+import jwt
+
+JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'Shelfshare')
 
 api = Blueprint('api', __name__)
 
@@ -51,6 +56,25 @@ def login():
     token=create_access_token(identity=email)
 
     return jsonify(token=token, user=user.serialize()), 200
+
+@api.route('/reset-password', methods=['POST'])
+def generate_reset_password_token():
+    email = request.json.get('email')  
+    
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({'message': 'Email not found in the database.'}), 400
+
+    expiration_time = datetime.utcnow() + timedelta(hours=1)
+    payload = {
+        'email': email,
+        'exp': expiration_time
+    }
+    token = jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
+
+    return jsonify({'token': token}), 200
+
+
 
 @api.route('/addbook',methods=['POST'])
 def add_book():
