@@ -2,11 +2,14 @@ import React, { useContext, useState,useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/login.css";
 import { useNavigate } from "react-router-dom";
+import ForgotPasswordForm from './forgotPasswordForm';
 
 export const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
     const { store, actions } = useContext(Context);
+    const [showForgotPasswordForm, setShowForgotPasswordForm] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -50,12 +53,16 @@ export const Login = () => {
                         required
                         />
                     </div>
-					<div className="forgot">                    
-						<div>Forgot Password</div>                         
+                    <div className="forgot">
+                        <div onClick={() => setShowForgotPasswordForm(true)}
+                        >Forgot Password?
+                        </div>               
 						<div
                         onClick={() => navigate("/signup")}
-                        >Create Account</div>
+                        >Create Account
                         </div>
+                    </div>
+                    {showForgotPasswordForm && <ForgotPasswordForm onClose={() => setShowForgotPasswordForm(false)} />}
                     <div>
                     {store.accessToken? 
                         <button
