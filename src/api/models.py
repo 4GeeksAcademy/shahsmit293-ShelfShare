@@ -39,7 +39,8 @@ class User(db.Model):
             "last_name": self.last_name,
             "age": self.age,
             "location": self.location,
-            "books": [book.lean_serialize() for book in self.books]
+            "books": [book.lean_serialize() for book in self.books],
+            "wishlist_books": [book.lean_serialize() for book in self.wishlist_books]
            
             # do not serialize the password, its a security breach
         }
