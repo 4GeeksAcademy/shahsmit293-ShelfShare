@@ -15,8 +15,8 @@ import jwt
 api = Blueprint('api', __name__)
 
 JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'Shelfshare')
-GMAIL_USER = 'shelfshare4geeks@gmail.com'
-GMAIL_PASSWORD = 'Shelfshare' 
+# GMAIL_USER = 'shelfsharebooks@gmail.com'
+# GMAIL_PASSWORD = 'sharebooks@1' 
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -66,10 +66,10 @@ def forgot_password():
         'exp': expiration_time
     }
     token = jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
-
+    BACKEND_URL= os.getenv('BACKEND_URL')
     try:
         msg = MIMEMultipart()
-        msg['From'] = os.getenv('MAIL_USERNAME')
+        msg['From'] = "shelfsharebooks@gmail.com"
         msg['To'] = email
         msg['Subject'] = 'Password Reset'
         body = f'Click the following link to reset your password: {BACKEND_URL}/reset-password/{token}'
@@ -77,9 +77,9 @@ def forgot_password():
 
         server = smtplib.SMTP(os.getenv('MAIL_SERVER'), os.getenv('MAIL_PORT'))
         server.starttls()
-        server.login(os.getenv('MAIL_USERNAME'), os.getenv('MAIL_PASSWORD'))
+        server.login("shelfsharebooks@gmail.com", "sharebooks@1")
         text = msg.as_string()
-        server.sendmail(os.getenv('MAIL_USERNAME'), email, text)
+        server.sendmail("shelfsharebooks@gmail.com", email, text)
         server.quit()
 
         return jsonify({'message': 'Password reset link sent to your email.'}), 200
