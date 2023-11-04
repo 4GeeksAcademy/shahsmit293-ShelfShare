@@ -8,7 +8,6 @@ export const Profile = () => {
   const navigate = useNavigate();
   const { userid } = useParams();
 
-
   useEffect(() => {
     actions.singleUser(userid);
   }, []);
@@ -29,11 +28,11 @@ export const Profile = () => {
           <ul className="list-group">
             {store.singleUser?.books.map((book, index) => {
               return (
-                <li className="list-group-item" key={book.id}>{book.name} by {book.author}</li>
-
-              )
-            }
-            )}
+                <li className="list-group-item" key={book.id}>
+                  {book.name} by {book.author}
+                </li>
+              );
+            })}
           </ul>
           <button
             className="btn btn-success btn-sm mx-auto"
@@ -46,11 +45,20 @@ export const Profile = () => {
         </div>
         <div className="col-4 border border-3 rounded d-flex flex-column p-4 m-4">
           <ul className="list-group">
-            <li className="list-group-item">1</li>
-            <li className="list-group-item">2</li>
-            <li className="list-group-item">3</li>
+            {store.singeUser?.wishlist_books.map((book, index) => {
+              return (
+                <li className="list-group-item" key={book.id}>
+                  {book.name} by {book.author}
+                </li>
+              );
+            })}
           </ul>
-          <button className="btn btn-success btn-sm mx-auto">
+          <button
+            className="btn btn-success btn-sm mx-auto"
+            onClick={() => {
+              navigate("/addwishlistbook");
+            }}
+          >
             Add to Wishlist
           </button>
         </div>
