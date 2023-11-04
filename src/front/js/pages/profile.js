@@ -45,7 +45,7 @@ export const Profile = () => {
         </div>
         <div className="col-4 border border-3 rounded d-flex flex-column p-4 m-4">
           <ul className="list-group">
-            {store.singeUser?.wishlist_books.map((book, index) => {
+            {store.singleUser?.wishlist_books.map((book, index) => {
               return (
                 <li className="list-group-item" key={book.id}>
                   {book.name} by {book.author}
