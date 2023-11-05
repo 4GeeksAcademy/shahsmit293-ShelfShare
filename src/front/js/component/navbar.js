@@ -58,7 +58,12 @@ export const Navbar = () => {
                     </button>
                   </li>
                   <li>
-                    <button className="dropdown-item" href="#">
+                    <button
+                      className="dropdown-item"
+                      onClick={() => {
+                        navigate(`/inbox/${store.activeuser}`);
+                      }}
+                    >
                       Inbox
                     </button>
                   </li>

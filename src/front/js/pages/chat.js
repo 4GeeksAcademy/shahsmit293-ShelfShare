@@ -41,11 +41,17 @@ export const Chat = () => {
         </>
       </div>
       <div className="messages">
-        {store.allchats?.map((chat, index) => (
-          <div key={index}>
-            <p>{chat.message}</p>
-          </div>
-        ))}
+        {store.allchats?.map((chat, index) =>
+          chat.sender_id === parseInt(senderid) ? (
+            <div key={index} style={{ color: "red" }}>
+              <p>{chat.message}</p>
+            </div>
+          ) : (
+            <div key={index} style={{ color: "yellow" }}>
+              <p>{chat.message}</p>
+            </div>
+          )
+        )}
       </div>
     </div>
   );

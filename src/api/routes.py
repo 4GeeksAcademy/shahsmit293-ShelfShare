@@ -148,3 +148,16 @@ def get_chat(senderid,receiverid):
         (Conversation.sender_id == receiverid) & (Conversation.receiver_id == senderid))).all()
     results_dict = [item.serialize() for item in results]
     return jsonify(results_dict),200
+
+@api.route('/inbox/<inboxid>', methods=["GET"])
+@jwt_required()
+def inbox_chat(inboxid):
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    data = Conversation.query.filter(or_(
+        (Conversation.sender_id == inboxid),
+        (Conversation.receiver_id == inboxid))).all()
+    data_dict = [item.serialize() for item in data]
+    return jsonify(data_dict),200

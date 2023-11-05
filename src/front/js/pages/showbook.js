@@ -47,6 +47,10 @@ export const Showbook = () => {
         type="button"
         className="btn btn-success"
         onClick={() => {
+          if (store.activeuser === store.singlebook.user_id) {
+            alert("This is your book");
+            return;
+          }
           store.accessToken
             ? navigate(`/chat/${store.activeuser}/${store.singlebook.user_id}`)
             : navigate("/login");
