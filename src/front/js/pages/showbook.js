@@ -47,7 +47,9 @@ export const Showbook = () => {
         type="button"
         className="btn btn-success"
         onClick={() => {
-          navigate("/login");
+          store.accessToken
+            ? navigate(`/chat/${store.activeuser}/${store.singlebook.user_id}`)
+            : navigate("/login");
         }}
       >
         Contact me
