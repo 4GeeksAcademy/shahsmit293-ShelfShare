@@ -30,6 +30,14 @@ export const Profile = () => {
               return (
                 <li className="list-group-item" key={book.id}>
                   {book.name} by {book.author}
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {
+                      actions.deleteBook(book.id);
+                    }}
+                  >
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
                 </li>
               );
             })}
@@ -49,6 +57,14 @@ export const Profile = () => {
               return (
                 <li className="list-group-item" key={book.id}>
                   {book.name} by {book.author}
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {
+                      actions.deleteBook(book.id);
+                    }}
+                  >
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
                 </li>
               );
             })}

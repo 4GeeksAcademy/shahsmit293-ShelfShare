@@ -340,6 +340,26 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
       },
 
+      deleteBook: (bookID) => {
+        const store = getStore();
+        fetch(`${backend}api/deletebook/${bookID}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting book");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting book", error);
+          });
+      },
+
       changeColor: (index, color) => {
         //get the store
         const store = getStore();
