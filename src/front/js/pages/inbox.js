@@ -8,6 +8,7 @@ export const Inbox = () => {
   const navigate = useNavigate();
   const { inboxid } = useParams();
   useEffect(() => {
+    store.contacted = [];
     actions.inboxchats(+inboxid);
   }, []);
   return (
@@ -15,20 +16,29 @@ export const Inbox = () => {
       className="allchats"
       style={{ display: "flex", flexDirection: "column" }}
     >
-      {store.contacted.map((item, index) => {
-        return (
-          <button
-            key={index}
-            onClick={() => {
-              if (store.accessToken) {
-                navigate(`/chat/${inboxid}/${item.contactuserid}`);
-              }
-            }}
-          >
-            connect to user: {item.username}
-          </button>
-        );
-      })}
+      {store.contacted
+        .filter(
+          (value, index, self) =>
+            self.findIndex(
+              (item) =>
+                item.contactuserid === value.contactuserid &&
+                item.username === value.username
+            ) === index
+        )
+        .map((item, index) => {
+          return (
+            <button
+              key={index}
+              onClick={() => {
+                if (store.accessToken) {
+                  navigate(`/chat/${inboxid}/${item.contactuserid}`);
+                }
+              }}
+            >
+              connect to user: {item.username}
+            </button>
+          );
+        })}
     </div>
   );
 };
