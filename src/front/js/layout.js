@@ -4,6 +4,7 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
+import { ResetPassword } from "./pages/resetPassword";
 import { Login } from "./pages/login";
 import { SignUp } from "./pages/signup";
 import { Showbook } from "./pages/showbook";
@@ -32,6 +33,7 @@ const Layout = () => {
           <Navbar />
           <Routes>
             <Route element={<Home />} path="/" />
+            <Route element={<ResetPassword />} path="/resetPassword" />
             <Route element={<Login />} path="/login" />
             <Route element={<SignUp />} path="/signup" />
             <Route path="/profile/:userid" element={<Profile />} />

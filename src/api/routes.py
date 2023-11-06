@@ -65,6 +65,7 @@ def forgot_password():
     }
     token = jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
     BACKEND_URL= os.getenv('BACKEND_URL')
+    FRONTEND_URL= os.getenv('FRONTEND_URL')
     MAIL_USERNAME= os.getenv('MAIL_USERNAME')
     MAIL_PASSWORD= os.getenv('MAIL_PASSWORD')
 
@@ -73,7 +74,15 @@ def forgot_password():
         msg['From'] = MAIL_USERNAME
         msg['To'] = email
         msg['Subject'] = 'Password Reset'
-        body = f'Click the following link to reset your password: {BACKEND_URL}/reset-password/{token}'
+        body = f'Copie este numero na sua pagina:{token}\n\n'
+        body = f'Olá, você solicitou uma redefinição de senha. Se você não solicitou isso, ignore este e-mail.\n\n'
+        body += f'Clique no link abaixo para redefinir sua senha:\n'
+        body += f'Link: {FRONTEND_URL}resetPassword\n\n'
+        body += f'Token: {token}\n\n'
+        body += f'Este token é válido por 1 hora. Após a expiração, você precisará solicitar outra redefinição de senha.\n\n'
+        body += f'Atenciosamente,\nSua Aplicação'
+        
+
         msg.attach(MIMEText(body, 'plain'))
 
         server = smtplib.SMTP(os.getenv('MAIL_SERVER'), os.getenv('MAIL_PORT'))
@@ -87,6 +96,40 @@ def forgot_password():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+# ... (imports)
+
+@api.route('/reset-password/<token>', methods=['GET','POST'])
+def reset_password(token):
+    print(f"Received reset password request with token: {token}")
+    new_password = request.json.get('new_password')
+
+    try:
+        # Decodificar o token JWT para obter o email do usuário
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=['HS256'])
+        email = payload.get('email')
+
+        # Validar se o token não expirou e se o email é válido
+        # (Você pode adicionar mais validações conforme necessário)
+
+        # Encontrar o usuário pelo email
+        user = User.query.filter_by(email=email).first()
+        if user:
+            # Atualizar a senha do usuário
+            user.password = generate_password_hash(new_password)
+            db.session.commit()
+            return jsonify({'message': 'Password reset successful.'}), 200
+        else:
+            return jsonify({'error': 'Usuário não encontrado.'}), 404
+
+    except jwt.ExpiredSignatureError:
+        return jsonify({'error': 'Token expirado.'}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({'error': 'Token inválido.'}), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 
 # @api.route('/reset-password', methods=['POST'])
 # def generate_reset_password_token():
