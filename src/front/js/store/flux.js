@@ -138,7 +138,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         })
           .then((resp) => resp.json())
           .then((data) => {
-            allbooks.push(data.book);
+            store.allbooks.push(data.book);
             setStore({
               allbooks: addonebook,
             });
