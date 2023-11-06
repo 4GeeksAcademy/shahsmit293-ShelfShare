@@ -11,6 +11,8 @@ import { Profile } from "./pages/profile";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import { Addbook } from "./pages/addbook";
+import { Chat } from "./pages/chat";
+import { Inbox } from "./pages/inbox";
 import { Addwishlistbookbook } from "./pages/addwishlistbook";
 import injectContext from "./store/appContext";
 
@@ -40,6 +42,8 @@ const Layout = () => {
             <Route path="/addbook" element={<Addbook />} />
             <Route path="/showbook" element={<Showbook />} />
             <Route path="/addwishlistbook" element={<Addwishlistbookbook />} />
+            <Route path="/chat/:senderid/:receiverid" element={<Chat />} />
+            <Route path="/inbox/:inboxid" element={<Inbox />} />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />

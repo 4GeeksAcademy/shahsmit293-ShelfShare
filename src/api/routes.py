@@ -2,12 +2,15 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Book, WishlistBook
+from api.models import db, User, Book, WishlistBook,Conversation
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
+from sqlalchemy import or_
+from flask import Response
+import json
 
 api = Blueprint('api', __name__)
 
@@ -116,3 +119,45 @@ def add_wishlist_book():
     db.session.commit()
     return wishlist_book.serialize()
 
+@api.route('/addchat', methods=["POST"])
+@jwt_required()
+def add_chat():
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    body=request.json
+    chat=Conversation(
+        sender_id=body["sender_id"],
+        receiver_id=body["receiver_id"],
+        message=body["message"]
+    )
+    db.session.add(chat)
+    db.session.commit()
+    return chat.serialize(),200
+
+@api.route('/conversation/<senderid>&<receiverid>', methods=["GET"])
+@jwt_required()
+def get_chat(senderid,receiverid):
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    results = Conversation.query.filter(or_(
+        (Conversation.sender_id == senderid) & (Conversation.receiver_id == receiverid),
+        (Conversation.sender_id == receiverid) & (Conversation.receiver_id == senderid))).all()
+    results_dict = [item.serialize() for item in results]
+    return jsonify(results_dict),200
+
+@api.route('/inbox/<inboxid>', methods=["GET"])
+@jwt_required()
+def inbox_chat(inboxid):
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    data = Conversation.query.filter(or_(
+        (Conversation.sender_id == inboxid),
+        (Conversation.receiver_id == inboxid))).all()
+    data_dict = [item.serialize() for item in data]
+    return jsonify(data_dict),200

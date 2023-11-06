@@ -27,6 +27,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       singleUser: undefined,
       reverseallbook: [],
       activeuser: undefined,
+      allchats: undefined,
+      allinbox: undefined,
+      contacted: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -223,6 +226,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             setStore({ singlebook: data });
           });
       },
+      //for single user
       singleUser: (j) => {
         fetch(`${backend}api/user/${j}`)
           .then((resp) => {
@@ -232,6 +236,107 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .then((data) => {
             setStore({ singleUser: data });
+          });
+      },
+
+      //addchat
+      addchats: (sender_id, receiver_id, message) => {
+        const store = getStore();
+        return fetch(`${backend}api/addchat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: JSON.stringify({
+            sender_id: sender_id,
+            receiver_id: receiver_id,
+            message: message,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            return data.chat;
+          });
+      },
+
+      //get messages
+      getchats: (senderid, receiverid) => {
+        const store = getStore();
+        return fetch(`${backend}api/conversation/${senderid}&${receiverid}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((response) => {
+            if (response.headers.get("Content-Type") === "application/json") {
+              return response.json();
+            } else {
+              throw new Error(
+                "Expected JSON, got " + response.headers.get("Content-Type")
+              );
+            }
+          })
+          .then((data) => {
+            console.log(data);
+            setStore({
+              allchats: data,
+            });
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+          });
+      },
+
+      //get inbox messages list
+      inboxchats: (inboxid) => {
+        const store = getStore();
+        return fetch(`${backend}api/inbox/${inboxid}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((response) => {
+            if (response.headers.get("Content-Type") === "application/json") {
+              return response.json();
+            } else {
+              throw new Error(
+                "Expected JSON, got " + response.headers.get("Content-Type")
+              );
+            }
+          })
+          .then((data) => {
+            data.forEach((item) => {
+              if (
+                item.sender_id === inboxid &&
+                !store.contacted.includes(item.receiver_id)
+              ) {
+                store.contacted.push({
+                  contactuserid: item.receiver_id,
+                  username: item.receiver.first_name,
+                });
+              } else if (
+                item.receiver_id === inboxid &&
+                !store.contacted.includes(item.sender_id)
+              ) {
+                store.contacted.push({
+                  contactuserid: item.sender_id,
+                  username: item.sender.first_name,
+                });
+              }
+            });
+
+            console.log(data);
+            setStore({
+              allinbox: data,
+            });
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
           });
       },
 
