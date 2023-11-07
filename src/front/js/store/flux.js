@@ -118,25 +118,25 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       resetPassword:(token, newPassword) => {
-      const store = getStore();
-      return fetch(backend + "api/reset-password", {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({token: token, new_password: newPassword}),
-      })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Erro ao resetar a senha.');
-        }
-      })
-      .catch(error => {
-        // Lógica para tratar erros
-        console.error(error);
-        throw error;
-      });
-    },
+        const store = getStore();
+        return fetch(backend + "api/reset-password", {
+          method: 'POST',
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({token: token, new_password: newPassword}),
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Error resetting password.');
+          }
+        })
+        .catch(error => {
+          // Lógica para tratar erros
+          console.error(error);
+          throw error;
+        });
+      },
 
       // add book
       addbook: (name, author, category, quantity, image, year, user_id) => {

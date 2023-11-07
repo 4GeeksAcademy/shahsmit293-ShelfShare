@@ -2,16 +2,32 @@ import React, { useContext, useState,useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/login.css";
 import { useNavigate } from "react-router-dom";
-import ForgotPasswordForm from './forgotPasswordForm';
+import ForgotPassword from './forgotPassword';
 
 export const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
     const { store, actions } = useContext(Context);
-    const [showForgotPasswordForm, setShowForgotPasswordForm] = useState(false);
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const [error, setError] = useState("");
+
+    const validateLogin = ()=> {
+    if (email=="" && password==""){
+        setError("Enter your email and password!")
+    }
+    else if(email == ""){
+    setError("Enter your email!") 
+    }
+    else if (password == ""){
+    setError("Enter your Password!")
+    }
+}
 
     const navigate = useNavigate();
-
+    const test = ()=>{
+        let name="Alex"
+        return name
+        }
     useEffect(()=>{
 		if(store.accessToken &&	store.accessToken != "" && store.accessToken != "undefined" && store?.accessToken.length > 0){
 	    	navigate("/")			
@@ -24,6 +40,7 @@ export const Login = () => {
             <div className="text-center login">
                 <div >
                     <h1>Login</h1>
+                    <h4>{error??""}</h4>
                 </div>
                 <div>                    
                     <div>
@@ -54,7 +71,7 @@ export const Login = () => {
                         />
                     </div>
                     <div className="forgot">
-                        <div onClick={() => setShowForgotPasswordForm(true)}
+                        <div onClick={() => setShowForgotPassword(true)}
                         >Forgot Password?
                         </div>               
 						<div
@@ -62,7 +79,7 @@ export const Login = () => {
                         >Create Account
                         </div>
                     </div>
-                    {showForgotPasswordForm && <ForgotPasswordForm onClose={() => setShowForgotPasswordForm(false)} />}
+                    {showForgotPassword && <ForgotPassword onClose={() => setShowForgotPassword(false)} />}
                     <div>
                     {store.accessToken? 
                         <button
@@ -79,7 +96,9 @@ export const Login = () => {
                             type="button"
                             class="btn btn-secondary"
                             onClick={()=>{
+                                validateLogin()
                                 actions.login(email, password)
+
                             }
                         }
                             >Submit

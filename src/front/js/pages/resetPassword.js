@@ -19,7 +19,6 @@ export const ResetPassword = () => {
     }
     actions.resetPassword(token, password)
       .then(response => {
-        console.log("Resposta", response);
         setPassword('');
         setConfirmPassword('');
         setToken('');
@@ -39,13 +38,13 @@ export const ResetPassword = () => {
     <div className="justify-content-center align-items-center vh-100">
       <div className="text-center login">
         <div>
-          <h2>Redefinir Senha</h2>
+          <h2>Reset Password</h2>
         </div>
         <div>
           <input
             className="input"
             type="text"
-            placeholder="Cole o Token Recebido por Email"
+            placeholder="Paste the token received by email"
             value={token}
             onChange={(event) => setToken(event.target.value)}
           />
@@ -54,7 +53,7 @@ export const ResetPassword = () => {
           <input
             className="input"
             type="password"
-            placeholder="Nova Senha"
+            placeholder="New password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
@@ -63,7 +62,7 @@ export const ResetPassword = () => {
           <input
             className="input"
             type="password"
-            placeholder="Confirme a Nova Senha"
+            placeholder="Confirm new password"
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
           />
@@ -75,13 +74,9 @@ export const ResetPassword = () => {
           <button
             type="button"
             className="btn btn-secondary"
-            // onClick={handleResetPassword}
-            onClick={()=> {
-              actions.resetPassword(token, password)
-              }
-          }
+            onClick={handleResetPassword}
           >
-            Enviar
+            Submit
           </button>
         </div> 
       </div>
