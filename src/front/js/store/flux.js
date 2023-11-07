@@ -30,6 +30,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       allchats: undefined,
       allinbox: undefined,
       contacted: [],
+      matchingBooks: undefined,
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -139,9 +140,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((resp) => resp.json())
           .then((data) => {
             store.allbooks.push(data.book);
-            setStore({
-              allbooks: addonebook,
-            });
           });
       },
 
@@ -338,6 +336,62 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => {
             console.error("Fetch error:", error);
           });
+      },
+
+      deleteBook: (bookID) => {
+        const store = getStore();
+        fetch(`${backend}api/deletebook/${bookID}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting book");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting book", error);
+          });
+      },
+
+      deleteWishlistBook: (wishlistbookID) => {
+        const store = getStore();
+        fetch(`${backend}api/deletewishlistbook/${wishlistbookID}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("Error deleting book from your wishlist");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting book from your wishlist", error);
+          });
+      },
+
+      matchingWishlistBook: () => {
+        const store = getStore();
+        if (!store.singleUser) return;
+        const matchingBooks = store.singleUser.wishlist_books.filter((book) => {
+          return store.allbooks.find(
+            (book2) => book.name === book2.name && book.author === book2.author
+          );
+          // store.allbooks.some(
+          //  (book2) => book.name === book2.name && book.author === book2.author
+          // );
+        });
+        setStore({
+          matchingBooks: matchingBooks,
+        });
       },
 
       changeColor: (index, color) => {

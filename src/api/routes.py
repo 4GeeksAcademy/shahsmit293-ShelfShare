@@ -161,3 +161,38 @@ def inbox_chat(inboxid):
         (Conversation.receiver_id == inboxid))).all()
     data_dict = [item.serialize() for item in data]
     return jsonify(data_dict),200
+
+@api.route('deletebook/<int:bookID>', methods=["DELETE"])
+@jwt_required()
+def delete_book(bookID):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("This user doesn't exist"), 400
+    book = Book.query.get(bookID)
+    if book is None:
+        return jsonify("This book doesn't exist"), 400
+    
+    if book.user.id != user.id:
+        return jsonify("you are not authorized to delete this book"), 401
+    db.session.delete(book)
+    db.session.commit()
+    return jsonify("book deleted successfully"), 200
+
+
+@api.route('deletewishlistbook/<int:wishlistbookID>', methods=["DELETE"])
+@jwt_required()
+def delete_wishlist_book(wishlistbookID):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("This user doesn't exist"), 400
+    book = WishlistBook.query.get(wishlistbookID)
+    if book is None:
+        return jsonify("This book doesn't exist"), 400
+    if book.wishlistuser.id != user.id:
+        return jsonify("you are not authorized to delete this book")
+    db.session.delete(book)
+    db.session.commit()
+    return jsonify("book deleted successfully"), 200
+    

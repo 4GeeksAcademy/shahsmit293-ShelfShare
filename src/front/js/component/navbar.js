@@ -32,16 +32,26 @@ export const Navbar = () => {
         <div className="d-flex flex-direction-row justify-content-center align-items-center">
           {store.accessToken ? (
             <div className="d-flex align-items-center">
+              <button
+                type="button"
+                className="btn btn-outline-dark text-center d-flex justify-content-between ps-3 pe-3 pt-1"
+                style={{ fontSize: "20px" }}
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                <i className="fa-solid fa-book me-2 d-flex align-items-center justify-content-center pt-2"></i>
+                <p className="pt-1">Browse Books</p>
+              </button>
               <div className="dropdown m-4">
                 <button
-                  className="btn btn-secondary rounded-circle p-2"
-                  style={{ backgroundColor: "#e2753f" }}
+                  className="btn p-2"
                   type="button"
                   id="dropdownMenuButton1"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  <i class="fa-solid fa-user" style={{ fontSize: "50px" }}></i>
+                  <i class="fa-solid fa-bars" style={{ fontSize: "50px" }}></i>
                 </button>
                 <ul
                   className="dropdown-menu"

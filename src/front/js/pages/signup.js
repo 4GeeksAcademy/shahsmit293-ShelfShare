@@ -14,89 +14,122 @@ export const SignUp = () => {
   console.log("STORE***", store.user);
   const navigate = useNavigate();
 
+  const backgroundStyle = {
+    backgroundImage: `url(https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA1L2pvYjE4MDgtcmVtaXgtMDRhLWMuanBn.jpg)`,
+    backgroundSize: "contain",
+    backgroundPosition: "center",
+    minHeight: "100vh", // Set the minimum height to cover the entire viewport
+  };
+
   return (
-    <div className="text-center">
-      <form className="form">
-        <label>First Name:</label>
-        <input
-          class="input"
-          type="text"
-          name="firstName"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-        />
-        <br />
-        <br />
+    <div className="container mt-4 rounded" style={{ ...backgroundStyle }}>
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
+          <form className="form mt-4">
+            <div className="mb-3">
+              <label htmlFor="firstName" className="form-label">
+                First Name:
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+            </div>
 
-        <label>Last Name:</label>
-        <input
-          class="input"
-          type="text"
-          name="lastName"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
-        <br />
-        <br />
+            <div className="mb-3">
+              <label htmlFor="lastName" className="form-label">
+                Last Name:
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+            </div>
 
-      <label>Age:</label>
-      <input
-        type="number"
-        name="age"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
-      />
-      <br />
-      <br />
+            <div className="mb-3">
+              <label htmlFor="age" className="form-label">
+                Age:
+              </label>
+              <input
+                className="form-control"
+                type="number"
+                id="age"
+                name="age"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+              />
+            </div>
 
-      <label>Location:</label>
-      <input
-        type="text"
-        name="location"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        required
-      />
-      <br />
-      <br />
+            <div className="mb-3">
+              <label htmlFor="location" className="form-label">
+                Location:
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                id="location"
+                name="location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                required
+              />
+            </div>
 
-        <label>Email ID:</label>
-        <input
-          class="input"
-          type="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <br />
-        <br />
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">
+                Email ID:
+              </label>
+              <input
+                className="form-control"
+                type="email"
+                id="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
 
-        <label>Password:</label>
-        <input
-          class="input"
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <br />
-        <br />
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Password:
+              </label>
+              <input
+                className="form-control"
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
 
-        <button
-          type="button"
-          onClick={(e) => {
-            actions
-              .signup(email, password, age, location, firstName, lastName)
-              .then(() => navigate("/"));
-          }}
-        >
-          Submit
-        </button>
-      </form>
+            <button
+              type="button"
+              className="btn btn-primary"
+              style={{ marginBottom: "175px" }}
+              onClick={(e) => {
+                actions
+                  .signup(email, password, age, location, firstName, lastName)
+                  .then(() => navigate("/"));
+              }}
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
