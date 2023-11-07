@@ -12,6 +12,15 @@ export const Profile = () => {
     actions.singleUser(userid);
   }, []);
 
+  useEffect(() => {
+    if (!store.singleUser) return;
+    actions.matchingWishlistBook();
+  }, [store.singleUser]);
+
+  useEffect(() => {
+    console.log(store.matchingBooks);
+  }, [store.matchingBooks]);
+
   return (
     <div className="container-fluid">
       <div className="row d-flex justify-content-evenly mt-4">
@@ -28,10 +37,13 @@ export const Profile = () => {
           <ul className="list-group">
             {store.singleUser?.books.map((book, index) => {
               return (
-                <li className="list-group-item" key={book.id}>
+                <li
+                  className="list-group-item d-flex justify-content-between"
+                  key={book.id}
+                >
                   {book.name} by {book.author}
                   <button
-                    className="btn btn-danger"
+                    className="btn btn-danger btn-sm mx-auto"
                     onClick={() => {
                       actions.deleteBook(book.id);
                     }}
@@ -55,16 +67,25 @@ export const Profile = () => {
           <ul className="list-group">
             {store.singleUser?.wishlist_books.map((book, index) => {
               return (
-                <li className="list-group-item" key={book.id}>
+                <li
+                  className="list-group-item d-flex justify-content-between"
+                  key={book.id}
+                >
                   {book.name} by {book.author}
                   <button
-                    className="btn btn-danger"
+                    className="btn btn-danger btn-xs mx-auto"
                     onClick={() => {
-                      actions.deleteBook(book.id);
+                      actions.deleteWishlistBook(book.id);
                     }}
                   >
                     <i class="fa-solid fa-trash-can"></i>
                   </button>
+                  {store.matchingBooks?.find(
+                    (book2) =>
+                      book.name === book2.name && book.author === book2.author
+                  ) ? (
+                    <p>matched</p>
+                  ) : null}
                 </li>
               );
             })}
