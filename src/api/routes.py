@@ -99,10 +99,11 @@ def forgot_password():
     
 # ... (imports)
 
-@api.route('/reset-password/<token>', methods=['GET','POST'])
-def reset_password(token):
-    print(f"Received reset password request with token: {token}")
-    new_password = request.json.get('new_password')
+@api.route('/reset-password', methods=['POST'])
+def reset_password():
+    data = request.get_json()
+    token = data.get('token')
+    new_password = data.get('new_password')
 
     try:
         # Decodificar o token JWT para obter o email do usuário
@@ -128,6 +129,7 @@ def reset_password(token):
         return jsonify({'error': 'Token inválido.'}), 401
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 
 

@@ -1,37 +1,54 @@
-import React, { useState } from 'react';
+import React, { useContext, useState,useEffect } from "react";
+import { Context } from "../store/appContext";
 
 export const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [token, setToken] = useState('');
   const [error, setError] = useState('');
+  const { store, actions } = useContext(Context);
 
   const handleResetPassword = () => {
-    // Validação de entrada
     if (!password || !confirmPassword || !token) {
-      setError('Por favor, preencha todos os campos.');
+      setError('Please fill out all the fields.');
       return;
     }
-
     if (password !== confirmPassword) {
-      setError('As senhas não coincidem.');
+      setError('Passwords do not match...');
       return;
     }
+    actions.resetPassword(token, password)
+      .then(response => {
+        console.log("Resposta", response);
+        setPassword('');
+        setConfirmPassword('');
+        setToken('');
+        setError('');
+      })
+      .catch(error => {
+        console.log("Erro", error);
+        // Lógica para lidar com erros (por exemplo, mostrar mensagem de erro)
 
-    resetPassword(password, token);
-
-    // Limpar os campos e erros após a chamada
-    setPassword('');
-    setConfirmPassword('');
-    setToken('');
-    setError('');
+      });
   };
 
+    // Limpar os campos e erros após a chamada
+
+
   return (
-    <div className=" justify-content-center align-items-center vh-100">
+    <div className="justify-content-center align-items-center vh-100">
       <div className="text-center login">
         <div>
-          <h2>Reset Passaword</h2>
+          <h2>Redefinir Senha</h2>
+        </div>
+        <div>
+          <input
+            className="input"
+            type="text"
+            placeholder="Cole o Token Recebido por Email"
+            value={token}
+            onChange={(event) => setToken(event.target.value)}
+          />
         </div>
         <div>  
           <input
@@ -39,8 +56,8 @@ export const ResetPassword = () => {
             type="password"
             placeholder="Nova Senha"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            />
+            onChange={(event) => setPassword(event.target.value)}
+          />
         </div>
         <div>  
           <input
@@ -48,16 +65,7 @@ export const ResetPassword = () => {
             type="password"
             placeholder="Confirme a Nova Senha"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-        <div>  
-          <input
-            className="input"
-            type="text"
-            placeholder="Cole o Token Recebido por Email"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
+            onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </div>
         <div>
@@ -66,13 +74,17 @@ export const ResetPassword = () => {
         <div>
           <button
             type="button"
-            class="btn btn-secondary"
-            onClick={handleResetPassword}>Submit
+            className="btn btn-secondary"
+            // onClick={handleResetPassword}
+            onClick={()=> {
+              actions.resetPassword(token, password)
+              }
+          }
+          >
+            Enviar
           </button>
         </div> 
-    </div>
-  </div>  
+      </div>
+    </div>  
   );
 };
-
-
