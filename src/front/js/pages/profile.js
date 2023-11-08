@@ -10,7 +10,7 @@ export const Profile = () => {
 
   useEffect(() => {
     actions.singleUser(userid);
-  }, []);
+  }, [userid]);
 
   useEffect(() => {
     if (!store.singleUser) return;
@@ -50,6 +50,14 @@ export const Profile = () => {
                   >
                     <i class="fa-solid fa-trash-can"></i>
                   </button>
+                  <button
+                    className="btn btn-danger btn-sm mx-auto"
+                    onClick={() => {
+                      navigate(`/showbook/${book.id}`);
+                    }}
+                  >
+                    View
+                  </button>
                 </li>
               );
             })}
@@ -84,7 +92,13 @@ export const Profile = () => {
                     (book2) =>
                       book.name === book2.name && book.author === book2.author
                   ) ? (
-                    <p>matched</p>
+                    <button
+                      onClick={() => {
+                        navigate("/", { state: { search: book.name } });
+                      }}
+                    >
+                      matched
+                    </button>
                   ) : null}
                 </li>
               );
