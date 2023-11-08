@@ -4,11 +4,13 @@ import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
 import { Bookcard } from "../component/bookcard";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export const Home = () => {
+  let { state } = useLocation();
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(state?.search || "");
   const [select, setSelect] = useState("");
 
   function dataType() {
@@ -101,6 +103,7 @@ export const Home = () => {
       <div className="row gy-3">
         {dataType()
           .filter((item) => {
+            if (!item) return false;
             const itemName = item.name.toLowerCase();
             const term = search.toLowerCase();
             return itemName.startsWith(term);
@@ -116,6 +119,7 @@ export const Home = () => {
                 image={element.image}
                 location={element.user.location}
                 bookid={element.id}
+                yourbookid={element.user_id}
               />
             );
           })}

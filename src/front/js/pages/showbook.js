@@ -43,21 +43,26 @@ export const Showbook = () => {
           <h3 style={{ overflowWrap: "break-word" }}>Description</h3>
         </div>
       </div>
-      <button
-        type="button"
-        className="btn btn-success"
-        onClick={() => {
-          if (store.activeuser === store.singlebook.user_id) {
-            alert("This is your book");
-            return;
-          }
-          store.accessToken
-            ? navigate(`/chat/${store.activeuser}/${store.singlebook.user_id}`)
-            : navigate("/login");
-        }}
-      >
-        Contact me
-      </button>
+      {store.activeuser === store.singlebook.user_id ? null : (
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={() => {
+            if (store.activeuser === store.singlebook.user_id) {
+              alert("This is your book");
+              return;
+            }
+            store.accessToken
+              ? navigate(
+                  `/chat/${store.activeuser}/${store.singlebook.user_id}`
+                )
+              : navigate("/login");
+          }}
+        >
+          Contact me
+        </button>
+      )}
+
       <hr style={{ color: "black" }}></hr>
       <div
         className="footer"
