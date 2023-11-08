@@ -24,10 +24,7 @@ export const Login = () => {
 }
 
     const navigate = useNavigate();
-    const test = ()=>{
-        let name="Alex"
-        return name
-        }
+    
     useEffect(()=>{
 		if(store.accessToken &&	store.accessToken != "" && store.accessToken != "undefined" && store?.accessToken.length > 0){
 	    	navigate("/")			

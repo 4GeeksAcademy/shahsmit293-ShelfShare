@@ -1,5 +1,6 @@
 import React, { useContext, useState,useEffect } from "react";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 export const ResetPassword = () => {
   const [password, setPassword] = useState('');
@@ -7,6 +8,16 @@ export const ResetPassword = () => {
   const [token, setToken] = useState('');
   const [error, setError] = useState('');
   const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromUrl = urlParams.get('token');
+
+    if (tokenFromUrl) {
+      setToken(tokenFromUrl);
+    }
+  }, []);
 
   const handleResetPassword = () => {
     if (!password || !confirmPassword || !token) {
@@ -23,16 +34,13 @@ export const ResetPassword = () => {
         setConfirmPassword('');
         setToken('');
         setError('');
+        navigate("/login");
       })
       .catch(error => {
         console.log("Erro", error);
-        // Lógica para lidar com erros (por exemplo, mostrar mensagem de erro)
 
       });
   };
-
-    // Limpar os campos e erros após a chamada
-
 
   return (
     <div className="justify-content-center align-items-center vh-100">

@@ -67,17 +67,16 @@ def forgot_password():
     FRONTEND_URL= os.getenv('FRONTEND_URL')
     MAIL_USERNAME= os.getenv('MAIL_USERNAME')
     MAIL_PASSWORD= os.getenv('MAIL_PASSWORD')
+    URL_TOKEN = f"{FRONTEND_URL}resetPassword?token={token}"
 
     try:
         msg = MIMEMultipart()
         msg['From'] = MAIL_USERNAME
         msg['To'] = email
-        msg['Subject'] = 'Password Reset'
-        body = f'Copy this number on your page:{token}\n\n'
+        msg['Subject'] = 'Password Reset'        
         body = f'Hello, you requested a password reset. If you did not request this, please ignore this email.\n\n'
-        body += f'Click the link below to reset your password.:\n'
-        body += f'Link: {FRONTEND_URL}resetPassword\n\n'
-        body += f'Token: {token}\n\n'
+        body += f'Click the link below to reset your password.:\n\n'
+        body += f'Link: {URL_TOKEN}\n\n'       
         body += f'This token is valid for 1 hour. After expiration, you will need to request another password reset.\n\n'
         body += f'Sincerely,\nShelfShare'
 
@@ -103,25 +102,20 @@ def reset_password():
     new_password = data.get('new_password')
 
     try:
-        # Decodificar o token JWT para obter o email do usuário
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=['HS256'])
         email = payload.get('email')
-        # Validar se o token não expirou e se o email é válido
-        # (Você pode adicionar mais validações conforme necessário)
-        # Encontrar o usuário pelo email
         user = User.query.filter_by(email=email).first()
         if user:
-            # Atualizar a senha do usuário
             user.password = generate_password_hash(new_password)
             db.session.commit()
             return jsonify({'message': 'Password reset successful.'}), 200
         else:
-            return jsonify({'error': 'Usuário não encontrado.'}), 404
+            return jsonify({'error': 'User not found.'}), 404
 
     except jwt.ExpiredSignatureError:
-        return jsonify({'error': 'Token expirado.'}), 401
+        return jsonify({'error': 'Expired token.'}), 401
     except jwt.InvalidTokenError:
-        return jsonify({'error': 'Token inválido.'}), 401
+        return jsonify({'error': 'Invalid token.'}), 401
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

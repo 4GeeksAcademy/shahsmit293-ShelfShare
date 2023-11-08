@@ -37,7 +37,7 @@ export const Navbar = () => {
               {store.accessToken?
               <div className="d-flex align-items-center justify-content-center">
                     <div className = "usernavb">                      
-                    <p><b>{"😊 Hello, " + store?.user.first_name +"! How about a 📚 today?"}</b></p>
+                    <p><b>{"😊 Hello, " + store?.user.first_name +"! How about a book 📚 today?"}</b></p>
                     </div>
                     <div>  
                       <button

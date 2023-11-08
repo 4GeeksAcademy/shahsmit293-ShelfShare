@@ -132,7 +132,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         })
         .catch(error => {
-          // Lógica para tratar erros
           console.error(error);
           throw error;
         });
