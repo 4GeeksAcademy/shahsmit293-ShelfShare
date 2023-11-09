@@ -4,6 +4,8 @@ import sys
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
+from sqlalchemy import Date, Time
+from sqlalchemy import func
 
 
 db = SQLAlchemy()
@@ -117,7 +119,40 @@ class WishlistBook(db.Model):
             "author": self.author,
         }
 
+class Conversation(db.Model):
+    __tablename__ = 'conversation'
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    message = db.Column(db.String(4000), nullable=False)
+    current_date = db.Column(Date, default=func.current_date())
+    current_time = db.Column(Time, default=func.current_time())
+    sender = db.relationship(User, backref="sent_conversations", foreign_keys=[sender_id])
+    receiver = db.relationship(User, backref="received_conversations", foreign_keys=[receiver_id])
 
+    def __init__(self,sender_id,receiver_id,message):
+        self.sender_id=sender_id
+        self.receiver_id=receiver_id
+        self.message=message
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "sender_id": self.sender_id,
+            "receiver_id": self.receiver_id,
+            "message":self.message,
+            "current_date": self.current_date.isoformat() if self.current_date else None,
+            "current_time": self.current_time.strftime('%H:%M') if self.current_time else None,
+            "sender": self.sender.serialize(),
+            "receiver": self.receiver.serialize()
+        }
+    
+    def lean_serialize(self):
+        return {
+            "id": self.id,
+            "sender_id": self.sender_id,
+            "receiver_id": self.receiver_id,
+        }
 
 
 

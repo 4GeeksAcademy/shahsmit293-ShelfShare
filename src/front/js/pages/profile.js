@@ -10,7 +10,16 @@ export const Profile = () => {
 
   useEffect(() => {
     actions.singleUser(userid);
-  }, []);
+  }, [userid]);
+
+  useEffect(() => {
+    if (!store.singleUser) return;
+    actions.matchingWishlistBook();
+  }, [store.singleUser]);
+
+  useEffect(() => {
+    console.log(store.matchingBooks);
+  }, [store.matchingBooks]);
 
   return (
     <div className="container-fluid">
@@ -28,8 +37,27 @@ export const Profile = () => {
           <ul className="list-group">
             {store.singleUser?.books.map((book, index) => {
               return (
-                <li className="list-group-item" key={book.id}>
+                <li
+                  className="list-group-item d-flex justify-content-between"
+                  key={book.id}
+                >
                   {book.name} by {book.author}
+                  <button
+                    className="btn btn-danger btn-sm mx-auto"
+                    onClick={() => {
+                      actions.deleteBook(book.id);
+                    }}
+                  >
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                  <button
+                    className="btn btn-danger btn-sm mx-auto"
+                    onClick={() => {
+                      navigate(`/showbook/${book.id}`);
+                    }}
+                  >
+                    View
+                  </button>
                 </li>
               );
             })}
@@ -45,10 +73,33 @@ export const Profile = () => {
         </div>
         <div className="col-4 border border-3 rounded d-flex flex-column p-4 m-4">
           <ul className="list-group">
-            {store.singeUser?.wishlist_books.map((book, index) => {
+            {store.singleUser?.wishlist_books.map((book, index) => {
               return (
-                <li className="list-group-item" key={book.id}>
+                <li
+                  className="list-group-item d-flex justify-content-between"
+                  key={book.id}
+                >
                   {book.name} by {book.author}
+                  <button
+                    className="btn btn-danger btn-xs mx-auto"
+                    onClick={() => {
+                      actions.deleteWishlistBook(book.id);
+                    }}
+                  >
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                  {store.matchingBooks?.find(
+                    (book2) =>
+                      book.name === book2.name && book.author === book2.author
+                  ) ? (
+                    <button
+                      onClick={() => {
+                        navigate("/", { state: { search: book.name } });
+                      }}
+                    >
+                      matched
+                    </button>
+                  ) : null}
                 </li>
               );
             })}
