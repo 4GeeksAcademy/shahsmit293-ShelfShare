@@ -95,7 +95,7 @@ export const Login = () => {
                   :
                   <button
                     type="button"
-                    class="btn btn-secondary"
+                    class="btn btn-success"
                     onClick={() => {
                       validateLogin()
                       actions.login(email, password)
@@ -111,6 +111,6 @@ export const Login = () => {
         </div>
 
       )}
-      </div>
+    </div>
   );
 }

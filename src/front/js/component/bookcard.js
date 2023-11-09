@@ -24,7 +24,7 @@ export const Bookcard = (props) => {
           <p className="card-text">Location:{props.location}</p>
           {store.activeuser ? (
             <button
-              className="btn btn-primary"
+              className="btn btn-success"
               onClick={() => {
                 navigate(`/showbook/${props.bookid}`);
               }}

@@ -6,6 +6,7 @@ import { Bookcard } from "../component/bookcard";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
+
 export const Home = () => {
   let { state } = useLocation();
   const { store, actions } = useContext(Context);
@@ -53,9 +54,9 @@ export const Home = () => {
     }
   };
   return (
-    <div className="text-center mt-5">
+    <div className="background text-center mt-5">
       <div className="add books">
-        <button
+        <button type="button" class="btn btn-success"
           onClick={() => {
             {
               store.accessToken
@@ -64,7 +65,7 @@ export const Home = () => {
             }
           }}
         >
-          Upload Book Here.......
+          Upload Book Here
         </button>
       </div>
       <div className="find" style={{ display: "flex", padding: "px" }}>

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import "../../styles/signup.css";
+import "../../styles/addWishlistBook.css";
 import { useNavigate } from "react-router-dom";
 
 export const Addwishlistbookbook = () => {
@@ -10,7 +10,7 @@ export const Addwishlistbookbook = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   return (
-    <div className="text-center">
+    <div className="background text-center">
       <form className="form">
         <label>Book Name:</label>
         <input
@@ -36,7 +36,7 @@ export const Addwishlistbookbook = () => {
         <br />
         <br />
 
-        <button
+        <button class="btn btn-success"
           type="button"
           onClick={(e) => {
             actions.addWishlistBook(name, author, store.activeuser).then(() => {

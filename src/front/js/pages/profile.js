@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import "../../styles/home.css";
+import "../../styles/profile.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 export const Profile = () => {
@@ -22,7 +22,7 @@ export const Profile = () => {
   }, [store.matchingBooks]);
 
   return (
-    <div className="container-fluid">
+    <div className="background container-fluid">
       <div className="row d-flex justify-content-evenly mt-4">
         <div className="col-4 d-flex justify-content-center align-items-center">
           <h3>My available books</h3>
