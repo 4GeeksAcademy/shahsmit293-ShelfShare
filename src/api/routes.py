@@ -1,6 +1,9 @@
-from flask import request, jsonify, Blueprint
-from api.models import db, User, Book
-from api.utils import APIException
+"""
+This module takes care of starting the API Server, Loading the DB and Adding the endpoints
+"""
+from flask import Flask, request, jsonify, url_for, Blueprint
+from api.models import db, User, Book, WishlistBook,Conversation
+from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
@@ -11,6 +14,9 @@ from email.mime.text import MIMEText
 import smtplib
 import os
 import jwt
+from sqlalchemy import or_
+from flask import Response
+import json
 
 api = Blueprint('api', __name__)
 
@@ -121,15 +127,19 @@ def reset_password():
 
 @api.route('/addbook', methods=['POST'])
 def add_book():
-    body = request.json
-    book = Book(
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    body=request.json
+    book=Book(
         name=body["name"],
         author=body["author"],
         category=body["category"],
         year=body["year"],
         quantity=body["quantity"],
         image=body["image"],
-        user_id=body["user_id"],
+        user_id=user.id,
     )
     db.session.add(book)
     db.session.commit()
@@ -158,7 +168,104 @@ def individual_user(id):
         return jsonify({"message": "User not found"}), 404
 
 @api.route('/allusers', methods=['GET'])
-def load_all_users():
-    users = User.query.all()
-    all_users_dictionary = [user.serialize() for user in users]
-    return jsonify(all_users_dictionary), 200
+def loadAllUsers():
+    users=User.query.all()
+    allusers_dictionary=[]
+    for user in users:
+        allusers_dictionary.append(user.serialize())
+    return jsonify(allusers_dictionary), 200
+
+@api.route('/wishlist_book', methods=["POST"])
+@jwt_required()
+def add_wishlist_book():
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    body=request.json
+    wishlist_book=WishlistBook(
+        name=body["name"],
+        author=body["author"],
+        user_id=user.id
+    )
+    db.session.add(wishlist_book)
+    db.session.commit()
+    return wishlist_book.serialize()
+
+@api.route('/addchat', methods=["POST"])
+@jwt_required()
+def add_chat():
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    body=request.json
+    chat=Conversation(
+        sender_id=body["sender_id"],
+        receiver_id=body["receiver_id"],
+        message=body["message"]
+    )
+    db.session.add(chat)
+    db.session.commit()
+    return chat.serialize(),200
+
+@api.route('/conversation/<senderid>&<receiverid>', methods=["GET"])
+@jwt_required()
+def get_chat(senderid,receiverid):
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    results = Conversation.query.filter(or_(
+        (Conversation.sender_id == senderid) & (Conversation.receiver_id == receiverid),
+        (Conversation.sender_id == receiverid) & (Conversation.receiver_id == senderid))).all()
+    results_dict = [item.serialize() for item in results]
+    return jsonify(results_dict),200
+
+@api.route('/inbox/<inboxid>', methods=["GET"])
+@jwt_required()
+def inbox_chat(inboxid):
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    data = Conversation.query.filter(or_(
+        (Conversation.sender_id == inboxid),
+        (Conversation.receiver_id == inboxid))).all()
+    data_dict = [item.serialize() for item in data]
+    return jsonify(data_dict),200
+
+@api.route('deletebook/<int:bookID>', methods=["DELETE"])
+@jwt_required()
+def delete_book(bookID):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("This user doesn't exist"), 400
+    book = Book.query.get(bookID)
+    if book is None:
+        return jsonify("This book doesn't exist"), 400
+    
+    if book.user.id != user.id:
+        return jsonify("you are not authorized to delete this book"), 401
+    db.session.delete(book)
+    db.session.commit()
+    return jsonify("book deleted successfully"), 200
+
+
+@api.route('deletewishlistbook/<int:wishlistbookID>', methods=["DELETE"])
+@jwt_required()
+def delete_wishlist_book(wishlistbookID):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("This user doesn't exist"), 400
+    book = WishlistBook.query.get(wishlistbookID)
+    if book is None:
+        return jsonify("This book doesn't exist"), 400
+    if book.wishlistuser.id != user.id:
+        return jsonify("you are not authorized to delete this book")
+    db.session.delete(book)
+    db.session.commit()
+    return jsonify("book deleted successfully"), 200
+    

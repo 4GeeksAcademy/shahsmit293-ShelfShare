@@ -98,7 +98,9 @@ export const Addbook = () => {
                 year,
                 store.activeuser
               )
-              .then(() => navigate(`/profile/${store.activeuser}`));
+              .then(() => {
+                navigate(`/profile/${store.activeuser}`);
+              });
           }}
         >
           Submit

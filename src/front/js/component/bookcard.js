@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import propTypes from "prop-types";
+import { Context } from "../store/appContext";
 
 export const Bookcard = (props) => {
   const navigate = useNavigate();
+  const { store, actions } = useContext(Context);
+  const isUserBook = store.activeuser === props.yourbookid;
   return (
     <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
       <div className="card border border-3" style={{ width: "18rem" }}>
@@ -19,14 +22,25 @@ export const Bookcard = (props) => {
           <p className="card-text">Year:{props.year}</p>
           <p className="card-text">Category:{props.category}</p>
           <p className="card-text">Location:{props.location}</p>
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              navigate(`/showbook/${props.bookid}`);
-            }}
-          >
-            View
-          </button>
+          {store.activeuser ? (
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                navigate(`/showbook/${props.bookid}`);
+              }}
+            >
+              {isUserBook ? "Your Book" : "View"}
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                navigate(`/showbook/${props.bookid}`);
+              }}
+            >
+              View
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -41,4 +55,5 @@ Bookcard.propTypes = {
   image: propTypes.string,
   location: propTypes.string,
   bookid: propTypes.number,
+  yourbookid: propTypes.number,
 };

@@ -23,6 +23,14 @@ const injectContext = (PassedComponent) => {
 
     useEffect(() => {
       state.actions.allbooksdata();
+      var token = sessionStorage.getItem("token");
+      if (token) {
+        let user = JSON.parse(sessionStorage.getItem("user"));
+        state.actions.logUserInTheStore({
+          user: user,
+          token: token,
+        });
+      }
       /**
        * EDIT THIS!
        * This function is the equivalent to "window.onLoad", it only runs once on the entire application lifetime
