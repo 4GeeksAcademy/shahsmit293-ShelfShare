@@ -40,7 +40,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       logout: () => {
         sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
         setStore({ accessToken: null });
+        setStore({ user: null });
       },
       handleLogout: () => {
         const { logout } = getActions();
@@ -53,8 +55,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       updateStoreFromStorage: () => {
         let accessToken = sessionStorage.getItem("token");
+        let userString= sessionStorage.getItem("user");
+        let userObject= JSON.parse(userString);
         if (accessToken && accessToken != "" && accessToken != "undefined") {
           setStore({ accessToken: accessToken });
+          setStore({ user: userObject });
         }
       },
 
@@ -91,7 +96,9 @@ const getState = ({ getStore, getActions, setStore }) => {
               accessToken: data.token,
               activeuser: data.user.id,
             });
+            const userToString = JSON.stringify(data.user);
             sessionStorage.setItem("token", data.token);
+            sessionStorage.setItem("user", userToString);
           });
       },
 
@@ -118,6 +125,27 @@ const getState = ({ getStore, getActions, setStore }) => {
         sessionStorage.setItem("token", data.token);
         sessionStorage.setItem("user", JSON.stringify(data.user));
       },
+
+      resetPassword:(token, newPassword) => {
+        const store = getStore();
+        return fetch(backend + "api/reset-password", {
+          method: 'POST',
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({token: token, new_password: newPassword}),
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Error resetting password.');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          throw error;
+        });
+      },
+
       // add book
       addbook: (name, author, category, quantity, image, year, user_id) => {
         const store = getStore();
