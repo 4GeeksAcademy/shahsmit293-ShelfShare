@@ -138,7 +138,7 @@ export const SignUp = () => {
 
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-success"
               style={{ marginBottom: "175px" }}
               onClick={(e) => {
                 actions

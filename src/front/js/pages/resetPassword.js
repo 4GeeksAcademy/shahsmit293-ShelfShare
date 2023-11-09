@@ -1,4 +1,4 @@
-import React, { useContext, useState,useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 
@@ -57,7 +57,7 @@ export const ResetPassword = () => {
             onChange={(event) => setToken(event.target.value)}
           />
         </div>
-        <div>  
+        <div>
           <input
             className="input"
             type="password"
@@ -66,7 +66,7 @@ export const ResetPassword = () => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <div>  
+        <div>
           <input
             className="input"
             type="password"
@@ -81,13 +81,13 @@ export const ResetPassword = () => {
         <div>
           <button
             type="button"
-            className="btn btn-secondary"
+            className="btn btn-success"
             onClick={handleResetPassword}
           >
             Submit
           </button>
-        </div> 
+        </div>
       </div>
-    </div>  
+    </div>
   );
 };
