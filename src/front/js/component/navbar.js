@@ -37,6 +37,7 @@ export const Navbar = () => {
                 className="btn btn-outline-dark text-center d-flex justify-content-between ps-3 pe-3 pt-1"
                 style={{ fontSize: "20px" }}
                 onClick={() => {
+                  actions.allbooksdata();
                   navigate("/");
                 }}
               >
@@ -51,7 +52,10 @@ export const Navbar = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  <i class="fa-solid fa-bars" style={{ fontSize: "50px" }}></i>
+                  <i
+                    className="fa-solid fa-bars"
+                    style={{ fontSize: "50px" }}
+                  ></i>
                 </button>
                 <ul
                   className="dropdown-menu"
