@@ -43,7 +43,7 @@ export const Profile = () => {
                 >
                   {book.name} by {book.author}
                   <button
-                    className="btn btn-danger btn-sm mx-auto"
+                    className="btn btn-danger button-small mx-auto"
                     onClick={() => {
                       actions.deleteBook(book.id);
                     }}
@@ -81,7 +81,7 @@ export const Profile = () => {
                 >
                   {book.name} by {book.author}
                   <button
-                    className="btn btn-danger btn-xs mx-auto"
+                    className="btn btn-danger small-button mx-auto"
                     onClick={() => {
                       actions.deleteWishlistBook(book.id);
                     }}
