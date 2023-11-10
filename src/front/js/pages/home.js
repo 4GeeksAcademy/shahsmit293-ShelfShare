@@ -35,16 +35,14 @@ export const Home = () => {
       store.reverseallbook.reverse();
       return store.reverseallbook;
     } else if (select === "Only For Exchange") {
-      const exchnagebooks = store.onlyexchangebooks.filter((item) => { item.exchange === "yes" });
-      return exchnagebooks;
+      return store.onlyexchangebooks;
     } else if (select === "Only For Donate") {
-      const donatebooks = store.onlydonatebooks.filter((item) => { item.donate === "no" });
-      return donatebooks;
+      return store.onlydonatebooks;
     } else if (select === "Both Exchange & Donate") {
-      const bothbooks = store.exchangeanddonatebooks.filter((item) => { item.exchange === "yes" && item.donate === "yes" });
-      return bothbooks;
+      return store.exchangeanddonatebooks;
     }
   }
+
   const sorted = (e) => {
     if (e.target.value === "Ascending") {
       setSelect("Ascending");

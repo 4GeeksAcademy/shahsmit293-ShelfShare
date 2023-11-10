@@ -58,6 +58,14 @@ export const Profile = () => {
                   >
                     View
                   </button>
+                  <button
+                    className="btn btn-info btn-sm mx-auto"
+                    onClick={() => {
+                      navigate(`/editbook/${book.id}`);
+                    }}
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
                 </li>
               );
             })}
