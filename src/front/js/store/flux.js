@@ -22,6 +22,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       descendingbooks: [],
       singlebook: [],
       years: [],
+      onlyexchangebooks: [],
+      onlydonatebooks: [],
+      exchangeanddonatebooks: [],
       users: [],
       wishlistBooks: [],
       singleUser: undefined,
@@ -55,8 +58,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       updateStoreFromStorage: () => {
         let accessToken = sessionStorage.getItem("token");
-        let userString= sessionStorage.getItem("user");
-        let userObject= JSON.parse(userString);
+        let userString = sessionStorage.getItem("user");
+        let userObject = JSON.parse(userString);
         if (accessToken && accessToken != "" && accessToken != "undefined") {
           setStore({ accessToken: accessToken });
           setStore({ user: userObject });
@@ -126,28 +129,28 @@ const getState = ({ getStore, getActions, setStore }) => {
         sessionStorage.setItem("user", JSON.stringify(data.user));
       },
 
-      resetPassword:(token, newPassword) => {
+      resetPassword: (token, newPassword) => {
         const store = getStore();
         return fetch(backend + "api/reset-password", {
           method: 'POST',
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({token: token, new_password: newPassword}),
+          body: JSON.stringify({ token: token, new_password: newPassword }),
         })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error('Error resetting password.');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          throw error;
-        });
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error('Error resetting password.');
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            throw error;
+          });
       },
 
       // add book
-      addbook: (name, author, category, quantity, image, year, user_id) => {
+      addbook: (name, author, category, quantity, image, year, donate, exchange, description, user_id) => {
         const store = getStore();
         return fetch(backend + "api/addbook", {
           method: "POST",
@@ -162,6 +165,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             quantity: quantity,
             image: image,
             year: year,
+            donate: donate,
+            exchange: exchange,
+            description: description,
             user_id: user_id,
           }),
         })
@@ -215,12 +221,18 @@ const getState = ({ getStore, getActions, setStore }) => {
             const desc = [...data];
             const years = [...data];
             const reverse = [...data];
+            const exchange = [...data];
+            const donate = [...data];
+            const exchangedonate = [...data];
             setStore({
               allbooks: data,
               ascendingbooks: asc,
               descendingbooks: desc,
               years: years,
               reverseallbook: reverse,
+              onlyexchangebooks: exchange,
+              onlydonatebooks: donate,
+              exchangeanddonatebooks: exchangedonate
             });
           });
       },

@@ -34,6 +34,15 @@ export const Home = () => {
     } else if (select === "new to old") {
       store.reverseallbook.reverse();
       return store.reverseallbook;
+    } else if (select === "Only For Exchange") {
+      const exchnagebooks = store.onlyexchangebooks.filter((item) => { item.exchange === "yes" });
+      return exchnagebooks;
+    } else if (select === "Only For Donate") {
+      const donatebooks = store.onlydonatebooks.filter((item) => { item.donate === "no" });
+      return donatebooks;
+    } else if (select === "Both Exchange & Donate") {
+      const bothbooks = store.exchangeanddonatebooks.filter((item) => { item.exchange === "yes" && item.donate === "yes" });
+      return bothbooks;
     }
   }
   const sorted = (e) => {
@@ -49,6 +58,12 @@ export const Home = () => {
       setSelect("old to new");
     } else if (e.target.value === "new to old") {
       setSelect("new to old");
+    } else if (e.target.value === "Only For Exchange") {
+      setSelect("Only For Exchange");
+    } else if (e.target.value === "Only For Donate") {
+      setSelect("Only For Donate");
+    } else if (e.target.value === "Both Exchange & Donate") {
+      setSelect("Both Exchange & Donate");
     } else {
       setSelect("");
     }
@@ -98,32 +113,41 @@ export const Home = () => {
             <option value="Year Descending">Year (Descending)</option>
             <option value="old to new">Oldest-Newest</option>
             <option value="new to old">Newest-Oldest</option>
+            <option value="Only For Exchange">Only For Exchange</option>
+            <option value="Only For Donate">Only For Donate</option>
+            <option value="Both Exchange & Donate">Both Exchange & Donate</option>
           </select>
         </div>
       </div>
       <div className="row gy-3">
-        {dataType()
-          .filter((item) => {
-            if (!item) return false;
-            const itemName = item.name.toLowerCase();
-            const term = search.toLowerCase();
-            return itemName.startsWith(term);
-          })
-          .map((element, index) => {
-            return (
-              <Bookcard
-                key={element.id}
-                bookname={element.name}
-                author={element.author}
-                year={element.year}
-                category={element.category}
-                image={element.image}
-                location={element.user.location}
-                bookid={element.id}
-                yourbookid={element.user_id}
-              />
-            );
-          })}
+        {dataType().length > 0 ? (
+          dataType()
+            .filter((item) => {
+              if (!item) return false;
+              const itemName = item.name.toLowerCase();
+              const term = search.toLowerCase();
+              return itemName.startsWith(term);
+            })
+            .map((element, index) => {
+              return (
+                <Bookcard
+                  key={element.id}
+                  bookname={element.name}
+                  author={element.author}
+                  year={element.year}
+                  category={element.category}
+                  image={element.image}
+                  location={element.user.location}
+                  bookid={element.id}
+                  yourbookid={element.user_id}
+                  exchange={element.exchange}
+                  donate={element.donate}
+                />
+              );
+            })
+        ) : (
+          <p>No books to display.</p>
+        )}
       </div>
     </div>
   );
