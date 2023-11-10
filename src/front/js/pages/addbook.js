@@ -13,9 +13,6 @@ export const Addbook = () => {
   const [donate, setDonate] = useState("No");
   const [exchange, setExchange] = useState("No");
   const [description, setDescription] = useState("")
-  const [donate, setDonate] = useState("No");
-  const [exchange, setExchange] = useState("No");
-  const [description, setDescription] = useState("")
 
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
@@ -153,36 +150,7 @@ export const Addbook = () => {
             <br />
             <br />
 
-            <label>Donate:</label>
-            <input
-              type="checkbox"
-              name="donate"
-              onChange={(e) => setDonate(e.target.checked ? "Yes" : "No")}
-            />
-            <br />
-            <br />
 
-            <label>Exchange:</label>
-            <input
-              type="checkbox"
-              name="exchange"
-              onChange={(e) => setExchange(e.target.checked ? "Yes" : "No")}
-            />
-            <br />
-            <br />
-
-            <label>Description</label>
-            <p />
-            <textarea
-              id="Description"
-              name="Description"
-              rows={4}
-              cols={80}
-              defaultValue={""}
-              placeholder="Type here about book.............."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
             <br />
             <br />
 
@@ -210,6 +178,6 @@ export const Addbook = () => {
               Submit
             </button>
           </form>
-        </div>
-        );
+        </div></div>
+    </div>);
 };
