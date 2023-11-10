@@ -126,6 +126,7 @@ def reset_password():
         return jsonify({'error': str(e)}), 500
 
 @api.route('/addbook', methods=['POST'])
+@jwt_required()
 def add_book():
     email=get_jwt_identity()
     user= User.query.filter_by(email=email).one_or_none()
@@ -139,6 +140,9 @@ def add_book():
         year=body["year"],
         quantity=body["quantity"],
         image=body["image"],
+        donate=body["donate"],
+        exchange=body["exchange"],
+        description=body["description"],
         user_id=user.id,
     )
     db.session.add(book)

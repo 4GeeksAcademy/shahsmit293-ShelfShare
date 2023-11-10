@@ -55,16 +55,22 @@ class Book(db.Model):
     year = db.Column(db.Integer, nullable=True)
     quantity = db.Column(db.Integer, nullable=True)
     image = db.Column(db.String(2000), nullable=True)
+    donate = db.Column(db.String, nullable=True)
+    exchange = db.Column(db.String, nullable=True)
+    description = db.Column(db.String(4000), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     user = db.relationship(User, backref="books")
 
-    def __init__(self,name,author,category,year,quantity,image,user_id):
+    def __init__(self,name,author,category,year,quantity,image,donate,exchange,description,user_id):
         self.name=name
         self.author=author
         self.category=category
         self.year=year
         self.quantity=quantity
         self.image=image
+        self.donate=donate
+        self.exchange=exchange
+        self.description=description
         self.user_id=user_id
 
     def serialize(self):
@@ -76,6 +82,9 @@ class Book(db.Model):
             "year": self.year,
             "quantity": self.quantity,
             "image":self.image,
+            "donate":self.donate,
+            "exchange":self.exchange,
+            "description":self.description,
             "user_id": self.user_id,
             # "user_location": self.user.location,
             "user": self.user.serialize()

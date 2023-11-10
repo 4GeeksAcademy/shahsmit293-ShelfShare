@@ -40,7 +40,7 @@ export const Showbook = () => {
           }}
         >
           <h1>Book Name:{store.singlebook.name}</h1>
-          <h3 style={{ overflowWrap: "break-word" }}>Description</h3>
+          <h3 style={{ overflowWrap: "break-word" }}>{store.singlebook.description}</h3>
         </div>
       </div>
       {store.activeuser === store.singlebook.user_id ? null : (
@@ -54,8 +54,8 @@ export const Showbook = () => {
             }
             store.accessToken
               ? navigate(
-                  `/chat/${store.activeuser}/${store.singlebook.user_id}`
-                )
+                `/chat/${store.activeuser}/${store.singlebook.user_id}`
+              )
               : navigate("/login");
           }}
         >
@@ -88,11 +88,11 @@ export const Showbook = () => {
         </div>
         <div>
           <h3>Exchange</h3>
-          <h5>yes</h5>
+          <h5>{store.singlebook.exchange}</h5>
         </div>
         <div>
           <h3>Donate</h3>
-          <h5>yes</h5>
+          <h5>{store.singlebook.donate}</h5>
         </div>
       </div>
     </div>

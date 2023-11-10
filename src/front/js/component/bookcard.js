@@ -21,6 +21,8 @@ export const Bookcard = (props) => {
           <p className="card-text">Author:{props.author}</p>
           <p className="card-text">Year:{props.year}</p>
           <p className="card-text">Category:{props.category}</p>
+          <p className="card-text">Available For Exchange:{props.exchange}</p>
+          <p className="card-text">Available For Donate:{props.donate}</p>
           <p className="card-text">Location:{props.location}</p>
           {store.activeuser ? (
             <button
@@ -56,4 +58,6 @@ Bookcard.propTypes = {
   location: propTypes.string,
   bookid: propTypes.number,
   yourbookid: propTypes.number,
+  exchange: propTypes.string,
+  donate: propTypes.donate
 };
