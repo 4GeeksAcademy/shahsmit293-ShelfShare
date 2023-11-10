@@ -140,6 +140,9 @@ def add_book():
         year=body["year"],
         quantity=body["quantity"],
         image=body["image"],
+        donate=body["donate"],
+        exchange=body["exchange"],
+        description=body["description"],
         user_id=user.id,
     )
     db.session.add(book)
