@@ -34,6 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       allinbox: undefined,
       contacted: [],
       matchingBooks: undefined,
+      edibook: undefined
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -209,33 +210,39 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //for all books
-      allbooksdata: () => {
-        fetch(backend + "api/allbooks")
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            }
+      allbooksdata: async () => {
+        const response = await fetch(backend + "api/allbooks");
+        if (response.ok) {
+          console.log(response)
+          const data = await response.json();
+          console.log('Fetched data:', data);
+          console.log(data)
+          const asc = [...data];
+          const desc = [...data];
+          const years = [...data];
+          const reverse = [...data];
+          const exchange = data.filter((item) => item.exchange === "Yes");
+          console.log('Exchange books:', exchange);
+          const donate = data.filter((item) => item.donate === "Yes");
+          console.log('Donate books:', donate);
+          const exchangedonate = data.filter((item) => item.exchange === "Yes" && item.donate === "Yes");
+          console.log('Exchange & Donate books:', exchangedonate);
+          setStore({
+            allbooks: data,
+            ascendingbooks: asc,
+            descendingbooks: desc,
+            years: years,
+            reverseallbook: reverse,
+            onlyexchangebooks: exchange,
+            onlydonatebooks: donate,
+            exchangeanddonatebooks: exchangedonate
           })
-          .then((data) => {
-            const asc = [...data];
-            const desc = [...data];
-            const years = [...data];
-            const reverse = [...data];
-            const exchange = [...data];
-            const donate = [...data];
-            const exchangedonate = [...data];
-            setStore({
-              allbooks: data,
-              ascendingbooks: asc,
-              descendingbooks: desc,
-              years: years,
-              reverseallbook: reverse,
-              onlyexchangebooks: exchange,
-              onlydonatebooks: donate,
-              exchangeanddonatebooks: exchangedonate
-            });
-          });
+        } else {
+          console.log('Fetch request failed:', response.status, response.statusText);
+        }
       },
+
+
 
       loadAllUserInformation: () => {
         fetch(backend + "api/allusers")
@@ -262,6 +269,54 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .then((data) => {
             setStore({ singlebook: data });
+          });
+      },
+
+      //for edit book
+      editbooks: (id, name, author, category, quantity, image, year, donate, exchange, description) => {
+        const store = getStore();
+        return fetch(`${backend}api/editbook/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: JSON.stringify({
+            name: name,
+            author: author,
+            category: category,
+            quantity: quantity,
+            image: image,
+            year: year,
+            donate: donate,
+            exchange: exchange,
+            description: description,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            // Update the allbooks array
+            store.allbooks = store.allbooks.map(b => b.id === id ? data.book : b);
+          });
+      },
+
+      //get editbooks
+      geteditbooks: (j) => {
+        const store = getStore();
+        fetch(`${backend}api/vieweditbook/${j}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          }
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then((data) => {
+            console.log(data.book)
+            setStore({ editbook: data.book });
           });
       },
       //for single user
