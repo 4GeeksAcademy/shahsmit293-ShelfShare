@@ -31,6 +31,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       allinbox: undefined,
       contacted: [],
       matchingBooks: undefined,
+      error_message_login:"",
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -111,9 +112,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         })
           .then((resp) => resp.json())
           .then((data) => {
-            const actions = getActions();
-            actions.logUserInTheStore(data);
-          });
+            if (data.token){
+              const actions = getActions();
+              actions.logUserInTheStore(data);
+            }
+            else{
+              setStore({ error_message_login: data });
+            }
+            
+          })          
       },
 
       logUserInTheStore: (data) => {
@@ -124,6 +131,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
         sessionStorage.setItem("token", data.token);
         sessionStorage.setItem("user", JSON.stringify(data.user));
+
       },
 
       resetPassword:(token, newPassword) => {

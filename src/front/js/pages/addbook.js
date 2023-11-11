@@ -18,7 +18,7 @@ export const Addbook = () => {
       <form className="form">
         <label>Book Name:</label>
         <input
-          class="input"
+          className="input"
           type="text"
           name="name"
           value={name}
@@ -30,7 +30,7 @@ export const Addbook = () => {
 
         <label>Author Name:</label>
         <input
-          class="input"
+          className="input"
           type="text"
           name="author"
           value={author}
@@ -63,7 +63,7 @@ export const Addbook = () => {
 
         <label>Quantity:</label>
         <input
-          class="input"
+          className="input"
           type="quantity"
           name="quantity"
           value={quantity}
@@ -75,7 +75,7 @@ export const Addbook = () => {
 
         <label>Image:</label>
         <input
-          class="input"
+          className="input"
           type="text"
           name="text"
           value={image}

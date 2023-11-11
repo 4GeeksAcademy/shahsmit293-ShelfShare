@@ -30,6 +30,10 @@ export const Login = () => {
       navigate("/")
     }
   }, [store.accessToken])
+  useEffect(() => {
+    console.log("Erro_Message***", store.error_message_login)
+  }, [store.error_message_login])
+
 
 
   return (
@@ -42,10 +46,11 @@ export const Login = () => {
             <div >
               <h1>Login</h1>
               <h4>{error ?? ""}</h4>
+              <h4>{error ?? ""}</h4>
             </div>
             <div>
               <div>
-                <i class="fa-regular fa-envelope"></i>
+                <i className="fa-regular fa-envelope"></i>
                 <input
                   className="input"
                   type="email"
@@ -57,9 +62,9 @@ export const Login = () => {
               </div>
               <div>
                 {store.accessToken ?
-                  <i class="fa-solid fa-lock-open"></i>
+                  <i className="fa-solid fa-lock-open"></i>
                   :
-                  <i class="fa-solid fa-lock"></i>
+                  <i className="fa-solid fa-lock"></i>
                 }
                 <input
                   className="input"
@@ -85,7 +90,7 @@ export const Login = () => {
                 {store.accessToken ?
                   <button
                     type="button"
-                    class="btn btn-secondary"
+                    className="btn btn-secondary"
                     onClick={() => {
                       actions.handleLogout()
                     }
@@ -95,7 +100,7 @@ export const Login = () => {
                   :
                   <button
                     type="button"
-                    class="btn btn-secondary"
+                    className="btn btn-secondary"
                     onClick={() => {
                       validateLogin()
                       actions.login(email, password)
@@ -105,12 +110,13 @@ export const Login = () => {
                   >Submit
                   </button>
                 }
+                {store.error_message_login}
               </div>
             </div>
           </div>
         </div>
 
       )}
-      </div>
+    </div>
   );
 }

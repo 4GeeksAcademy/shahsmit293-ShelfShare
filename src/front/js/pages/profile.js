@@ -48,7 +48,7 @@ export const Profile = () => {
                       actions.deleteBook(book.id);
                     }}
                   >
-                    <i class="fa-solid fa-trash-can"></i>
+                    <i className="fa-solid fa-trash-can"></i>
                   </button>
                   <button
                     className="btn btn-danger btn-sm mx-auto"
@@ -86,7 +86,7 @@ export const Profile = () => {
                       actions.deleteWishlistBook(book.id);
                     }}
                   >
-                    <i class="fa-solid fa-trash-can"></i>
+                    <i className="fa-solid fa-trash-can"></i>
                   </button>
                   {store.matchingBooks?.find(
                     (book2) =>

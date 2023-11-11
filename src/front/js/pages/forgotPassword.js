@@ -1,4 +1,4 @@
-import React, { useContext, useState,useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/login.css";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ const forgotPassword = ({ onClose }) => {
 
   const handleForgotPassword = () => {
     axios
-      .post('https://zany-meme-5ww5xwq55prh4v6r-3001.app.github.dev/api/forgot-password', {email})
+      .post('https://zany-meme-5ww5xwq55prh4v6r-3001.app.github.dev/api/forgot-password', { email })
       .then((response) => {
         alert('A password reset email with instructions has been sent to your email address.');
         onClose();
@@ -30,15 +30,15 @@ const forgotPassword = ({ onClose }) => {
             placeholder="Enter your email for password recovery"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            />
+          />
         </div>
         <div>
           <button
-          class="btn btn-secondary"
-          type="button"
-          onClick={handleForgotPassword}>Send Email</button>
+            className="btn btn-secondary"
+            type="button"
+            onClick={handleForgotPassword}>Send Email</button>
         </div>
-      </div>    
+      </div>
     </div>
   );
 };
