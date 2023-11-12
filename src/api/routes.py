@@ -273,3 +273,44 @@ def delete_wishlist_book(wishlistbookID):
     db.session.commit()
     return jsonify("book deleted successfully"), 200
     
+# edit book
+@api.route('/editbook/<int:book_id>', methods=['PUT'])
+@jwt_required()
+def edit_book(book_id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("User doesn't exist"), 400
+
+    book = Book.query.get(book_id)
+    if book is None:
+        return jsonify("Book doesn't exist"), 400
+
+    body = request.json
+    book.name = body.get("name", book.name)
+    book.author = body.get("author", book.author)
+    book.category = body.get("category", book.category)
+    book.year = body.get("year", book.year)
+    book.quantity = body.get("quantity", book.quantity)
+    book.image = body.get("image", book.image)
+    book.donate = body.get("donate", book.donate)
+    book.exchange = body.get("exchange", book.exchange)
+    book.description = body.get("description", book.description)
+
+    db.session.commit()
+    return jsonify(book.serialize())
+
+#get  edit book
+@api.route('/vieweditbook/<int:book_id>', methods=['GET'])
+@jwt_required()
+def get_edit_book(book_id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("User doesn't exist"), 400
+
+    book = Book.query.get(book_id)
+    if book is None:
+        return jsonify("Book doesn't exist"), 400
+
+    return jsonify(book.serialize())
