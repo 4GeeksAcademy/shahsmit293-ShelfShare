@@ -10,6 +10,7 @@ export const Login = () => {
   const { store, actions } = useContext(Context);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [error, setError] = useState("");
+  const [login_error_message,setLogin_error_message] = useState("");
 
   const validateLogin = () => {
     if (email == "" && password == "") {
@@ -30,9 +31,11 @@ export const Login = () => {
       navigate("/")
     }
   }, [store.accessToken])
-  useEffect(() => {
-    console.log("Erro_Message***", store.error_message_login)
-  }, [store.error_message_login])
+
+  // useEffect(() => {
+  //   setLogin_error_message(store.error_message_login ? store.error_message_login : "");
+  //   setError("")
+  // }, [store.error_message_login])
 
 
 
@@ -46,7 +49,7 @@ export const Login = () => {
             <div >
               <h1>Login</h1>
               <h4>{error ?? ""}</h4>
-              <h4>{error ?? ""}</h4>
+              <h4>{login_error_message}</h4>
             </div>
             <div>
               <div>
@@ -101,16 +104,20 @@ export const Login = () => {
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={() => {
-                      validateLogin()
-                      actions.login(email, password)
-
+                    onClick={() => {                     
+                      if (email && password){
+                        setLogin_error_message(store.error_message_login)
+                        actions.login(email, password)
+                        setError("")
+                        } else {
+                          setLogin_error_message("")
+                          validateLogin()
+                      }
                     }
                     }
                   >Submit
                   </button>
                 }
-                {store.error_message_login}
               </div>
             </div>
           </div>
