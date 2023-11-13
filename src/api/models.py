@@ -18,7 +18,7 @@ class User(db.Model):
     first_name = db.Column(db.String(80), unique=False, nullable=False)
     last_name = db.Column(db.String(80), unique=False, nullable=False)
     age = db.Column(db.String(80), unique=False, nullable=False)
-    location = db.Column(db.String(140), unique=False, nullable=False)
+    location = db.Column(db.String(200), unique=False, nullable=False)
     # books = db.relationship("Book", backref="user",uselist=True) 
     # wishlist_books 
 
