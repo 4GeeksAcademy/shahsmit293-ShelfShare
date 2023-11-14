@@ -32,6 +32,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       contacted: [],
       matchingBooks: undefined,
       error_message_login:"",
+      errorMessagePassword:"",
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -134,25 +135,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       },
 
-      resetPassword:(token, newPassword) => {
+      resetPassword: (token, newPassword) => {
         const store = getStore();
         return fetch(backend + "api/reset-password", {
           method: 'POST',
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({token: token, new_password: newPassword}),
+          body: JSON.stringify({ token: token, new_password: newPassword }),
         })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error('Error resetting password.');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          throw error;
-        });
+          .then(response => response.json())
+          .then(data => {
+            setStore({errorMessagePassword: data })
+            }
+          );
       },
+
 
       // add book
       addbook: (name, author, category, quantity, image, year, user_id) => {

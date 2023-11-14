@@ -32,10 +32,10 @@ export const Login = () => {
     }
   }, [store.accessToken])
 
-  // useEffect(() => {
-  //   setLogin_error_message(store.error_message_login ? store.error_message_login : "");
-  //   setError("")
-  // }, [store.error_message_login])
+  useEffect(() => {
+    setLogin_error_message(store.error_message_login ? store.error_message_login : "");
+    setError("")
+  }, [store.error_message_login])
 
 
 
