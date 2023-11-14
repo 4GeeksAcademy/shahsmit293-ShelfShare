@@ -8,10 +8,7 @@ export const ResetPassword = () => {
   const [token, setToken] = useState('');
   const [error, setError] = useState('');
   const { store, actions } = useContext(Context);
-  const [resetPasswordError,setResetPasswordError] = useState("");
   const navigate = useNavigate();
-
-  console.log("Marcello",resetPasswordError)
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -32,13 +29,15 @@ export const ResetPassword = () => {
       return;
     }  
     actions.resetPassword(token, password)
-      .then(response => {
-        setPassword('');
-        setConfirmPassword('');
-        setToken('');
-        setError('');
-        navigate("/login");
-      })
+    .then(response => {
+      if (store.errorMessagePassword && store.errorMessagePassword.message === 'Password reset successful.') {
+      setPassword('');
+      setConfirmPassword('');
+      setToken('');
+      setError('');
+      navigate("/login");
+      }
+    })
 
   };
 
@@ -83,9 +82,7 @@ export const ResetPassword = () => {
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={()=>{
-              handleResetPassword()
-            }}
+            onClick={handleResetPassword}
           >
             Submit
           </button>

@@ -145,6 +145,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then(response => response.json())
           .then(data => {
             setStore({errorMessagePassword: data })
+            console.log("Marques",data)
             }
           );
       },
