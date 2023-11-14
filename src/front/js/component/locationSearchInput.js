@@ -1,24 +1,21 @@
 import React, { useState } from "react";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 
-const LocationSearchInput = ({ setLocation, setCoordinates }) => {
-    const [address, setAddress] = useState("");
-
+const LocationSearchInput = ({ setLocation, setCoordinates, location }) => {
     const handleChange = (newAddress) => {
-        setAddress(newAddress);
+        setLocation(newAddress);
     };
 
     const handleSelect = async (value) => {
         const results = await geocodeByAddress(value);
         const ll = await getLatLng(results[0]);
-        setAddress(value); // Set the address to what the user selected
-        setLocation(value); // Set the location in the parent component
-        setCoordinates(ll); // Set the coordinates in the parent component
+        setLocation(value);
+        setCoordinates(ll);
     };
 
     return (
         <PlacesAutocomplete
-            value={address}
+            value={location}
             onChange={handleChange}
             onSelect={handleSelect}
             className="mt-0"
@@ -27,7 +24,7 @@ const LocationSearchInput = ({ setLocation, setCoordinates }) => {
                 <div>
                     <input
                         {...getInputProps({
-                            placeholder: 'Search Places ...',
+                            placeholder: 'Enter Address ...',
                             className: 'location-search-input form-control',
                         })}
                     />

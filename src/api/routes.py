@@ -38,7 +38,8 @@ def signup():
         first_name=body["first_name"],
         last_name=body["last_name"],
         age=body["age"],
-        location=body["location"]
+        location=body["location"],
+        coordinates=body["coordinates"]
     )
     db.session.add(user)
     db.session.commit()
