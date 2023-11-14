@@ -18,20 +18,24 @@ class User(db.Model):
     first_name = db.Column(db.String(80), unique=False, nullable=False)
     last_name = db.Column(db.String(80), unique=False, nullable=False)
     age = db.Column(db.String(80), unique=False, nullable=False)
-    location = db.Column(db.String(140), unique=False, nullable=False)
+    location = db.Column(db.String(200), unique=False, nullable=False)
+    lat = db.Column(db.String(200), unique=False, nullable=False)
+    lng = db.Column(db.String(200), unique=False, nullable=False)
     # books = db.relationship("Book", backref="user",uselist=True) 
     # wishlist_books 
 
     def __repr__(self):
         return f'<User {self.email}>'
 
-    def __init__(self,email,password,first_name,last_name,age,location):
+    def __init__(self,email,password,first_name,last_name,age,location,coordinates):
         self.email=email
         self.password=password
         self.first_name=first_name
         self.last_name=last_name
         self.age=age
         self.location=location
+        self.lat=coordinates["lat"],
+        self.lng=coordinates["lng"]
 
     def serialize(self):
         return {
@@ -42,7 +46,9 @@ class User(db.Model):
             "age": self.age,
             "location": self.location,
             "books": [book.lean_serialize() for book in self.books],
-            "wishlist_books": [book.lean_serialize() for book in self.wishlist_books]
+            "wishlist_books": [book.lean_serialize() for book in self.wishlist_books],
+            "lat": self.lat,
+            "lng": self.lng
            
             # do not serialize the password, its a security breach
         }

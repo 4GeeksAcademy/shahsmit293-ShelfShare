@@ -1,12 +1,18 @@
 import React, { useContext, useState } from "react";
+import PlacesAutocomplete, { geocodeByAddress, geocodeByPlaceId, getLatLng } from "react-places-autocomplete";
 import { Context } from "../store/appContext";
 import "../../styles/signup.css";
 import { useNavigate } from "react-router-dom";
+import LocationSearchInput from "../component/locationSearchInput";
 
 export const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState("");
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null
+  });
   const [location, setLocation] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -56,7 +62,7 @@ export const SignUp = () => {
               />
             </div>
 
-            <div className="mb-3">
+            <div className="">
               <label htmlFor="age" className="form-label">
                 Age:
               </label>
@@ -73,20 +79,12 @@ export const SignUp = () => {
             <br />
             <br />
 
-            <div className="mb-3">
-              <label htmlFor="location" className="form-label">
-                Location:
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                id="location"
-                name="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                required
-              />
-            </div>
+            <label>Address:</label>
+            <LocationSearchInput
+              setLocation={setLocation}
+              setCoordinates={setCoordinates}
+              location={location}
+            />
 
             <br />
             <br />
@@ -127,7 +125,7 @@ export const SignUp = () => {
               style={{ marginBottom: "175px" }}
               onClick={(e) => {
                 actions
-                  .signup(email, password, age, location, firstName, lastName)
+                  .signup(email, password, age, location, firstName, lastName, coordinates)
                   .then(() => navigate("/"));
               }}
             >
