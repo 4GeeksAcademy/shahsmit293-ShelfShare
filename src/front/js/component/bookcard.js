@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import propTypes from "prop-types";
 import { Context } from "../store/appContext";
@@ -7,6 +7,7 @@ export const Bookcard = (props) => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
   const isUserBook = store.activeuser === props.yourbookid;
+
   return (
     <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
       <div className="card border border-3" style={{ width: "18rem" }}>
@@ -43,6 +44,35 @@ export const Bookcard = (props) => {
               View
             </button>
           )}
+          {store.activeuser ? (
+            store.favoritebookid && store.favoritebookid.includes(props.bookid) ? (
+              <button
+                className="btn"
+                style={{ color: "blue" }}
+                onClick={() => {
+                  actions.deletefavoritebook(props.bookid);
+                }}
+              >
+                <i className="far fa-bookmark"></i>
+              </button>
+            ) : (
+              <button
+                className="btn"
+                style={{ color: "red" }}
+                onClick={() => {
+                  actions.addfavoritebook(store.activeuser, props.bookid);
+                }}
+              >
+                <i className="far fa-bookmark"></i>
+              </button>
+            )
+          ) : (
+            <button className="btn" style={{ display: "none" }}>
+              <i className="far fa-bookmark"></i>
+            </button>
+          )}
+
+
         </div>
       </div>
     </div>
@@ -59,5 +89,5 @@ Bookcard.propTypes = {
   bookid: propTypes.number,
   yourbookid: propTypes.number,
   exchange: propTypes.string,
-  donate: propTypes.donate
+  donate: propTypes.string
 };

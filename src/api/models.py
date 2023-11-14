@@ -170,4 +170,22 @@ class Conversation(db.Model):
         }
 
 
+# for favorite table
+class Favorite(db.Model):
+    __tablename__ = 'favorite'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id'),nullable=False)
+    book = db.relationship(Book, backref="favorite_books")
 
+    def __init__(self,user_id,book_id):
+        self.user_id=user_id
+        self.book_id=book_id
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "book_id": self.book_id,
+            "book":self.book.serialize()
+        }

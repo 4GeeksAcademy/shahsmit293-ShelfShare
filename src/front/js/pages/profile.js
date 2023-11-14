@@ -64,7 +64,7 @@ export const Profile = () => {
                       navigate(`/editbook/${book.id}`);
                     }}
                   >
-                    <i class="fas fa-edit"></i>
+                    <i className="fas fa-edit"></i>
                   </button>
                 </li>
               );
@@ -94,7 +94,7 @@ export const Profile = () => {
                       actions.deleteWishlistBook(book.id);
                     }}
                   >
-                    <i class="fa-solid fa-trash-can"></i>
+                    <i className="fa-solid fa-trash-can"></i>
                   </button>
                   {store.matchingBooks?.find(
                     (book2) =>
