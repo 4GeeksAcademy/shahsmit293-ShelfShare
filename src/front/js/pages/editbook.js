@@ -12,18 +12,19 @@ export const Editbook = () => {
     const navigate = useNavigate();
     useEffect(() => {
         // Fetch the book details when the component mounts
-        actions.geteditbooks(book_id)
+        actions.geteditbooks(book_id, setname, setauthor, setYear, setcategory, setquantity, setImage, setDonate, setExchange, setDescription)
+
     }, [book_id]);
 
 
-    const [name, setname] = useState();
+    const [name, setname] = useState("");
     const [author, setauthor] = useState("");
     const [year, setYear] = useState("");
     const [category, setcategory] = useState("");
     const [quantity, setquantity] = useState("");
     const [image, setImage] = useState("");
-    const [donate, setDonate] = useState("No");
-    const [exchange, setExchange] = useState("No");
+    const [donate, setDonate] = useState("");
+    const [exchange, setExchange] = useState("");
     const [description, setDescription] = useState("")
 
 
@@ -132,6 +133,7 @@ export const Editbook = () => {
                         <input
                             type="checkbox"
                             name="donate"
+                            checked={donate === "Yes"}
                             onChange={(e) => setDonate(e.target.checked ? "Yes" : "No")}
                         />
                         <br />
@@ -141,6 +143,7 @@ export const Editbook = () => {
                         <input
                             type="checkbox"
                             name="exchange"
+                            checked={exchange === "Yes"}
                             onChange={(e) => setExchange(e.target.checked ? "Yes" : "No")}
                         />
                         <br />
@@ -153,7 +156,6 @@ export const Editbook = () => {
                             name="Description"
                             rows={4}
                             cols={80}
-                            defaultValue={""}
                             placeholder="Type here about book.............."
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}

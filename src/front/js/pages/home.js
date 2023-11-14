@@ -14,6 +14,12 @@ export const Home = () => {
   const [search, setSearch] = useState(state?.search || "");
   const [select, setSelect] = useState("");
 
+  useEffect(() => {
+    if (store.activeuser) {
+      actions.getfavoritebook(store.activeuser)
+    }
+  }, [store.activeuser])
+
   function dataType() {
     if (select === "Ascending") {
       store.ascendingbooks.sort((a, b) => a.name.localeCompare(b.name));
@@ -32,8 +38,8 @@ export const Home = () => {
     } else if (select === "old to new") {
       return store.allbooks;
     } else if (select === "new to old") {
-      store.reverseallbook.reverse();
-      return store.reverseallbook;
+      let reversedBooks = [...store.reverseallbook].reverse();
+      return reversedBooks;;
     } else if (select === "Only For Exchange") {
       return store.onlyexchangebooks;
     } else if (select === "Only For Donate") {

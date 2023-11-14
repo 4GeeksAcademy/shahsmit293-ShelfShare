@@ -34,7 +34,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       allinbox: undefined,
       contacted: [],
       matchingBooks: undefined,
-      edibook: undefined
+      editbook: undefined,
+      favoritebookid: undefined
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -53,7 +54,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const confirmLogout = window.confirm("Are you sure?");
         if (confirmLogout) {
           logout();
-          window.location.reload();
+          window.location.href = '/';
         }
       },
 
@@ -301,9 +302,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //get editbooks
-      geteditbooks: (j) => {
+      geteditbooks: (j, setname, setauthor, setYear, setcategory, setquantity, setImage, setDonate, setExchange, setDescription) => {
         const store = getStore();
-        fetch(`${backend}api/vieweditbook/${j}`, {
+        return fetch(`${backend}api/vieweditbook/${j}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.accessToken}`,
@@ -315,8 +316,16 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           })
           .then((data) => {
-            console.log(data.book)
-            setStore({ editbook: data.book });
+            setname(data.name)
+            setauthor(data.author)
+            setYear(data.year)
+            setcategory(data.category)
+            setquantity(data.quantity)
+            setImage(data.image)
+            setDonate(data.donate)
+            setExchange(data.exchange)
+            setDescription(data.description)
+            setStore({ editbook: data });
           });
       },
       //for single user
@@ -488,6 +497,73 @@ const getState = ({ getStore, getActions, setStore }) => {
           matchingBooks: matchingBooks,
         });
       },
+
+      // Add favorite book
+      addfavoritebook: (user_id, book_id) => {
+        const store = getStore();
+        return fetch(`${backend}api/addfavoritebook`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            book_id: book_id,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            window.location.reload();
+            return data.favorite_book;
+          }).catch((error) => {
+            console.error('Error:', error);
+          });;
+      },
+
+      //delete favoritebook
+      deletefavoritebook: (bookid) => {
+        const store = getStore();
+        fetch(`${backend}api/deletefavoritebook/${bookid}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("Error deleting book from your favorite");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting book from your favorite", error);
+          });
+      },
+
+      //get favoritebook
+      getfavoritebook: (id) => {
+        const store = getStore();
+        return fetch(`${backend}api/viewfavoritebook/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then((data) => {
+            let allids = data.map((item) => item.book_id)
+            setStore({ favoritebookid: allids });
+          });
+      },
+
 
       changeColor: (index, color) => {
         //get the store
