@@ -14,6 +14,28 @@ export const Home = () => {
   const [search, setSearch] = useState(state?.search || "");
   const [select, setSelect] = useState("");
 
+  // Function to calculate distance between two points using Haversine formula
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Earth radius in kilometers
+
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) *
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c; // Distance in kilometers
+    return distance;
+  };
+
+
+
   function dataType() {
     if (select === "Ascending") {
       store.ascendingbooks.sort((a, b) => a.name.localeCompare(b.name));
@@ -41,6 +63,14 @@ export const Home = () => {
     } else if (select === "Both Exchange & Donate") {
       return store.exchangeanddonatebooks;
     }
+    else if (select === "within 30 Kilometers") {
+      const data = (store.allbooks && store.allbooks.filter((book) => {
+        if (calculateDistance(parseFloat(store.user.lat), parseFloat(store.user.lng), parseFloat(book.user.lat), parseFloat(book.user.lng)) <= 30) {
+          return true
+        } else return false
+      }))
+      return data
+    }
   }
 
   const sorted = (e) => {
@@ -62,6 +92,8 @@ export const Home = () => {
       setSelect("Only For Donate");
     } else if (e.target.value === "Both Exchange & Donate") {
       setSelect("Both Exchange & Donate");
+    } else if (e.target.value === "within 30 Kilometers") {
+      setSelect("within 30 Kilometers")
     } else {
       setSelect("");
     }
@@ -114,6 +146,7 @@ export const Home = () => {
             <option value="Only For Exchange">Only For Exchange</option>
             <option value="Only For Donate">Only For Donate</option>
             <option value="Both Exchange & Donate">Both Exchange & Donate</option>
+            <option value="within 30 Kilometers">Within 30 Kilometers</option>
           </select>
         </div>
       </div>

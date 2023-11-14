@@ -34,7 +34,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       allinbox: undefined,
       contacted: [],
       matchingBooks: undefined,
-      edibook: undefined
+      edibook: undefined,
+      booksWithin30Kilometers: undefined
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -80,7 +81,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      signup: (email, password, age, location, first_name, last_name) => {
+      signup: (email, password, age, location, first_name, last_name, coordinates) => {
         return fetch(backend + "api/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -91,6 +92,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             last_name: last_name,
             age: age,
             location: location,
+            coordinates: coordinates
           }),
         })
           .then((resp) => resp.json())
@@ -221,6 +223,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const desc = [...data];
           const years = [...data];
           const reverse = [...data];
+          const distance = [...data];
           const exchange = data.filter((item) => item.exchange === "Yes");
           console.log('Exchange books:', exchange);
           const donate = data.filter((item) => item.donate === "Yes");
@@ -235,7 +238,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             reverseallbook: reverse,
             onlyexchangebooks: exchange,
             onlydonatebooks: donate,
-            exchangeanddonatebooks: exchangedonate
+            exchangeanddonatebooks: exchangedonate,
+            booksWithin30Kilometers: distance
           })
         } else {
           console.log('Fetch request failed:', response.status, response.statusText);

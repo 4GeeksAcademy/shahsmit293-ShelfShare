@@ -9,25 +9,16 @@ export const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState("");
-  const [location, setLocation] = useState("");
-  const [address, setAddress] = useState({
+  const [coordinates, setCoordinates] = useState({
     lat: null,
     lng: null
   });
-  const [coordinates, setCoordinates] = useState("");
+  const [location, setLocation] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { store, actions } = useContext(Context);
   console.log("STORE***", store.user);
   const navigate = useNavigate();
-
-  const handleSelect = async (value) => {
-    const results = await geocodeByAddress(value);
-    const ll = await getLatLng(results[0]);
-    console.log(ll);
-    setAddress(results);
-    setCoordinates(ll);
-  }
 
   const backgroundStyle = {
     backgroundImage: `url(https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA1L2pvYjE4MDgtcmVtaXgtMDRhLWMuanBn.jpg)`,
@@ -89,7 +80,11 @@ export const SignUp = () => {
             <br />
 
             <label>Address:</label>
-            <LocationSearchInput />
+            <LocationSearchInput
+              setLocation={setLocation}
+              setCoordinates={setCoordinates}
+              location={location}
+            />
 
             <br />
             <br />
@@ -130,7 +125,7 @@ export const SignUp = () => {
               style={{ marginBottom: "175px" }}
               onClick={(e) => {
                 actions
-                  .signup(email, password, age, location, firstName, lastName)
+                  .signup(email, password, age, location, firstName, lastName, coordinates)
                   .then(() => navigate("/"));
               }}
             >
