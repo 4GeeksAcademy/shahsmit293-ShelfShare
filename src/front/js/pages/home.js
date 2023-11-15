@@ -110,7 +110,7 @@ export const Home = () => {
     }
   };
   return (
-    <div className="background text-center mt-5">
+    <div className="background text-center mt-4 mb-4">
       <div className="add books">
         <button type="button" class="btn btn-success"
           onClick={() => {
@@ -162,7 +162,7 @@ export const Home = () => {
           </select>
         </div>
       </div>
-      <div className="row gy-3">
+      <div className="row gy-3 mt-4">
         {dataType().length > 0 ? (
           dataType()
             .filter((item) => {
