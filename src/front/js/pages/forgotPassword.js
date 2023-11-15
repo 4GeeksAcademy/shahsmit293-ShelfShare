@@ -6,16 +6,32 @@ import axios from 'axios';
 
 const forgotPassword = ({ onClose }) => {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState(null);
 
   const handleForgotPassword = () => {
     axios
-      .post('https://zany-meme-5ww5xwq55prh4v6r-3001.app.github.dev/api/forgot-password', { email })
+      .post('https://3001-4geeksacade-shahsmit293-229i3p40s7c.ws-us106.gitpod.io/api/forgot-password', { email })
       .then((response) => {
         alert('A password reset email with instructions has been sent to your email address.');
         onClose();
       })
       .catch((error) => {
-        console.error(error);
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          setError(error.response.data);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+          setError('No response received from server.');
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+          setError(error.message);
+        }
       });
   };
 
@@ -34,7 +50,7 @@ const forgotPassword = ({ onClose }) => {
         </div>
         <div>
           <button
-            class="btn btn-success"
+            className="btn btn-secondary"
             type="button"
             onClick={handleForgotPassword}>Send Email</button>
         </div>
