@@ -37,7 +37,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       editbook: undefined,
       favoritebookid: undefined,
       booksWithin30Kilometers: undefined,
-      filterfavorite: undefined
+      filterfavorite: undefined,
+      error_message_login: "",
+      errorMessagePassword: "",
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -119,8 +121,14 @@ const getState = ({ getStore, getActions, setStore }) => {
         })
           .then((resp) => resp.json())
           .then((data) => {
-            const actions = getActions();
-            actions.logUserInTheStore(data);
+            if (data.token) {
+              const actions = getActions();
+              actions.logUserInTheStore(data);
+            }
+            else {
+              setStore({ error_message_login: data });
+            }
+
           });
       },
 
@@ -141,17 +149,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token: token, new_password: newPassword }),
         })
-          .then(response => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw new Error('Error resetting password.');
-            }
-          })
-          .catch(error => {
-            console.error(error);
-            throw error;
-          });
+          .then(response => response.json())
+          .then(data => {
+            setStore({ errorMessagePassword: data })
+            console.log("Marques", data)
+          }
+          );
       },
 
       // add book
