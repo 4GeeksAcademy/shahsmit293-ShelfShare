@@ -76,6 +76,9 @@ export const Home = () => {
         } else return false
       }))
       return data
+    } else if (select === "My Favorites") {
+      let filteredData = store.filterfavorite.filter(item => store.favoritebookid.includes(item.id));
+      return filteredData
     }
   }
 
@@ -100,6 +103,8 @@ export const Home = () => {
       setSelect("Both Exchange & Donate");
     } else if (e.target.value === "within 30 Kilometers") {
       setSelect("within 30 Kilometers")
+    } else if (e.target.value === "My Favorites") {
+      setSelect("My Favorites")
     } else {
       setSelect("");
     }
@@ -153,6 +158,7 @@ export const Home = () => {
             <option value="Only For Donate">Only For Donate</option>
             <option value="Both Exchange & Donate">Both Exchange & Donate</option>
             <option value="within 30 Kilometers">Within 30 Kilometers</option>
+            <option value="My Favorites">My Favorites</option>
           </select>
         </div>
       </div>

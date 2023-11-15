@@ -36,7 +36,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       matchingBooks: undefined,
       editbook: undefined,
       favoritebookid: undefined,
-      booksWithin30Kilometers: undefined
+      booksWithin30Kilometers: undefined,
+      filterfavorite: undefined
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -225,6 +226,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const years = [...data];
           const reverse = [...data];
           const distance = [...data];
+          const favorite = [...data];
           const exchange = data.filter((item) => item.exchange === "Yes");
           console.log('Exchange books:', exchange);
           const donate = data.filter((item) => item.donate === "Yes");
@@ -240,7 +242,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             onlyexchangebooks: exchange,
             onlydonatebooks: donate,
             exchangeanddonatebooks: exchangedonate,
-            booksWithin30Kilometers: distance
+            booksWithin30Kilometers: distance,
+            filterfavorite: favorite
           })
         } else {
           console.log('Fetch request failed:', response.status, response.statusText);
