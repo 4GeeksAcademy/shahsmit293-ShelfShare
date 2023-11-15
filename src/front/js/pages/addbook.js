@@ -103,15 +103,15 @@ export const Addbook = () => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="imageset" className="form-label">
+              <label >
                 Image:
               </label>
               <input
                 className="form-control"
-                type="file"
+                type="text"
                 id="image"
                 name="image"
-                onChange={(e) => setImage(e.target.files[0])}
+                onChange={(e) => setImage(e.target.value)}
                 required
               />
             </div>
