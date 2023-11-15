@@ -1,14 +1,61 @@
-/*
-    home.css: This website contains selectors only used in home.css
+.bookcard {
+  border: none;
+  border-radius: 15px;
+  padding: 20px;
+  transition: 0.3s;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  background-color: #f1f1f1; /* Grey background */
+  margin-bottom: 20px;
+  transform: perspective(1px) translateZ(0);
+  transition-duration: 0.3s;
+  transition-property: transform;
+  font-family: Arial, sans-serif;
+}
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
-.background {
-  background-image: url("https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA1L2pvYjE4MDgtcmVtaXgtMDRhLWMuanBn.jpg");
-  background-repeat: repeat;
-  height: 100vh;
-  background-position: center;
-  background-size: contain;
+.bookcard:hover,
+.bookcard:focus,
+.bookcard:active {
+  transform: scale(1.1);
+}
+
+.card-img-top {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.card-title {
+  font-size: 1.5em;
+  color: #333;
+  font-weight: bold;
+}
+
+.card-text {
+  color: #777;
+  font-size: 1em;
+}
+
+.btn-success {
+  background-color: #008cba; /* Blue */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 12px;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  transform: perspective(1px) translateZ(0);
+  transition-duration: 0.3s;
+  transition-property: transform;
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active {
+  transform: scale(1.1);
 }

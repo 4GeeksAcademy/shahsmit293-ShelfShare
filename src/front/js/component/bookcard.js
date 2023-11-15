@@ -10,15 +10,15 @@ export const Bookcard = (props) => {
 
   return (
     <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-      <div className="card border border-3" style={{ width: "18rem" }}>
+      <div className="bookcard">
         <img
           className="card-img-top"
           src={props.image}
           alt="Card image cap"
           style={{ width: "100%", height: "200px", objectFit: "contain" }}
         />
-        <div className="card-body">
-          <h5 className="card-title">BookName:{props.bookname}</h5>
+        <div className="container">
+          <h5 className="card-title"><b>BookName:{props.bookname}</b></h5>
           <p className="card-text">Author:{props.author}</p>
           <p className="card-text">Year:{props.year}</p>
           <p className="card-text">Category:{props.category}</p>
@@ -71,8 +71,6 @@ export const Bookcard = (props) => {
               <i className="far fa-bookmark"></i>
             </button>
           )}
-
-
         </div>
       </div>
     </div>
