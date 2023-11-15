@@ -20,17 +20,21 @@ export const SignUp = () => {
   console.log("STORE***", store.user);
   const navigate = useNavigate();
 
-  const backgroundStyle = {
-    backgroundImage: `url(https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA1L2pvYjE4MDgtcmVtaXgtMDRhLWMuanBn.jpg)`,
-    backgroundSize: "contain",
-    backgroundPosition: "center",
-    minHeight: "100vh", // Set the minimum height to cover the entire viewport
-  };
+  // const backgroundStyle = {
+  //   backgroundImage: `url(https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA1L2pvYjE4MDgtcmVtaXgtMDRhLWMuanBn.jpg)`,
+  //   backgroundSize: "contain",
+  //   backgroundPosition: "center",
+  //   minHeight: "100vh", // Set the minimum height to cover the entire viewport
+  // };
 
   return (
-    <div className="container mt-4 rounded" style={{ ...backgroundStyle }}>
+    <div className="container">
       <div className="row">
-        <div className="col-md-6 offset-md-3">
+        <div className="col-md-6">
+          <img src="https://m.media-amazon.com/images/I/61I-fP2T5gL._AC_SL1100_.jpg" alt="Background" className="background-image" />
+        </div>
+        <div className="col-md-6">
+          <h2 className="text-center">Sign Up</h2>
           <form className="form mt-4">
             <div className="mb-3">
               <label htmlFor="firstName" className="form-label">

@@ -39,8 +39,15 @@ export const Showbook = () => {
             margin: "25px",
           }}
         >
-          <h1>Book Name:{store.singlebook.name}</h1>
-          <h3 style={{ overflowWrap: "break-word" }}>{store.singlebook.description}</h3>
+          <div className="bookname" style={{ display: "inline-block" }}><h1>Book Name:</h1><h5>{store.singlebook.name}</h5></div>
+          <div className="description"><h3 style={{ overflowWrap: "break-word" }}>Description: </h3><h5>{store.singlebook.description}</h5></div>
+
+          <div className="author"><h3>Author: </h3><h5>{store.singlebook.author}</h5></div>
+
+
+          <h3>Year: <h5>{store.singlebook.year}</h5></h3>
+          <h3>Exchange: <h5>{store.singlebook.exchange}</h5></h3>
+          <h3>Donate:  <h5>{store.singlebook.donate}</h5></h3>
         </div>
       </div>
       {store.activeuser === store.singlebook.user_id ? null : (
@@ -72,28 +79,8 @@ export const Showbook = () => {
           padding: "15px",
           justifyContent: "space-evenly",
           color: "red",
-        }}
-      >
-        <div>
-          <h3>Name:</h3>
-          <h5>{store.singlebook.name}</h5>
-        </div>
-        <div>
-          <h3>Author:</h3>
-          <h5>{store.singlebook.author}</h5>
-        </div>
-        <div>
-          <h3>Year</h3>
-          <h5>{store.singlebook.year}</h5>
-        </div>
-        <div>
-          <h3>Exchange</h3>
-          <h5>{store.singlebook.exchange}</h5>
-        </div>
-        <div>
-          <h3>Donate</h3>
-          <h5>{store.singlebook.donate}</h5>
-        </div>
+        }}>
+
       </div>
     </div>
   );
