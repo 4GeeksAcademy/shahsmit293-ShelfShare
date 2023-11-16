@@ -30,16 +30,15 @@ export const ResetPassword = () => {
     }
     actions.resetPassword(token, password)
       .then(response => {
-        setPassword('');
-        setConfirmPassword('');
-        setToken('');
-        setError('');
-        navigate("/login");
+        if (store.errorMessagePassword && store.errorMessagePassword.message === 'Password reset successful.') {
+          setPassword('');
+          setConfirmPassword('');
+          setToken('');
+          setError('');
+          navigate("/login");
+        }
       })
-      .catch(error => {
-        console.log("Erro", error);
 
-      });
   };
 
   return (
@@ -77,11 +76,12 @@ export const ResetPassword = () => {
         </div>
         <div>
           {error && <div className="error-message">{error}</div>}
+          {store.errorMessagePassword?.error && <div className="error-message">{store.errorMessagePassword.error}</div>}
         </div>
         <div>
           <button
             type="button"
-            className="btn btn-success"
+            className="btn btn-secondary"
             onClick={handleResetPassword}
           >
             Submit

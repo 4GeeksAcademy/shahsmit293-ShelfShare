@@ -7,6 +7,8 @@ export const Bookcard = (props) => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
   const isUserBook = store.activeuser === props.yourbookid;
+  let locationArray = props.location.split(", ");
+  let lastTwo = locationArray.slice(-2).join(", ");
 
   return (
     <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -23,8 +25,8 @@ export const Bookcard = (props) => {
           <p className="card-text">Year:{props.year}</p>
           <p className="card-text">Category:{props.category}</p>
           <p className="card-text">Available For Exchange:{props.exchange}</p>
-          <p className="card-text">Available For Donate:{props.donate}</p>
-          <p className="card-text">Location:{props.location}</p>
+          <p className="card-text">Available For Donate:{props.donate}</p>{ }
+          <p className="card-text">Location:{lastTwo}</p>
           {store.activeuser ? (
             <button
               className="btn btn-success"
