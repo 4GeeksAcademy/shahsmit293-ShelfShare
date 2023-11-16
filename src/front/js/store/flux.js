@@ -128,15 +128,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         })
           .then((resp) => resp.json())
           .then((data) => {
-            if (data.token) {
+            if (data.token){
               const actions = getActions();
               actions.logUserInTheStore(data);
             }
-            else {
+            else{
               setStore({ error_message_login: data });
             }
-
-          });
+            
+          })          
       },
 
       logUserInTheStore: (data) => {
@@ -147,6 +147,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
         sessionStorage.setItem("token", data.token);
         sessionStorage.setItem("user", JSON.stringify(data.user));
+
       },
 
       resetPassword: (token, newPassword) => {
@@ -158,11 +159,12 @@ const getState = ({ getStore, getActions, setStore }) => {
         })
           .then(response => response.json())
           .then(data => {
-            setStore({ errorMessagePassword: data })
-            console.log("Marques", data)
-          }
+            setStore({errorMessagePassword: data })
+            console.log("Marques",data)
+            }
           );
       },
+
 
       // add book
       addbook: (name, author, category, quantity, image, year, donate, exchange, description, user_id) => {

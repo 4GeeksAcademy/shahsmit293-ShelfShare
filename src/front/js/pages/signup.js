@@ -17,7 +17,6 @@ export const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { store, actions } = useContext(Context);
-  console.log("STORE***", store.user);
   const navigate = useNavigate();
 
   // const backgroundStyle = {

@@ -27,17 +27,17 @@ export const ResetPassword = () => {
     if (password !== confirmPassword) {
       setError('Passwords do not match...');
       return;
-    }
+    }  
     actions.resetPassword(token, password)
-      .then(response => {
-        if (store.errorMessagePassword && store.errorMessagePassword.message === 'Password reset successful.') {
-          setPassword('');
-          setConfirmPassword('');
-          setToken('');
-          setError('');
-          navigate("/login");
-        }
-      })
+    .then(response => {
+      if (store.errorMessagePassword && store.errorMessagePassword.message === 'Password reset successful.') {
+      setPassword('');
+      setConfirmPassword('');
+      setToken('');
+      setError('');
+      navigate("/login");
+      }
+    })
 
   };
 
