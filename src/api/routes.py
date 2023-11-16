@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Book, WishlistBook,Conversation
+from api.models import db, User, Book, WishlistBook,Conversation,Favorite
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -32,18 +32,24 @@ def handle_hello():
 @api.route('/signup', methods=['POST'])
 def signup():
     body = request.json
+    user = User.query.filter_by(email=body['email']).first()
+    if user:
+        return jsonify({"error": "Email already exists. Please use a different email."}), 409
+
     user = User(
         email=body["email"],
         password=generate_password_hash(body["password"]),
         first_name=body["first_name"],
         last_name=body["last_name"],
         age=body["age"],
-        location=body["location"]
+        location=body["location"],
+        coordinates=body["coordinates"]
     )
     db.session.add(user)
     db.session.commit()
     token = create_access_token(identity=user.email)
     return jsonify(user=user.serialize(), token=token), 201
+
 
 @api.route('/login', methods=['POST'])
 def login():
@@ -140,6 +146,9 @@ def add_book():
         year=body["year"],
         quantity=body["quantity"],
         image=body["image"],
+        donate=body["donate"],
+        exchange=body["exchange"],
+        description=body["description"],
         user_id=user.id,
     )
     db.session.add(book)
@@ -270,3 +279,92 @@ def delete_wishlist_book(wishlistbookID):
     db.session.commit()
     return jsonify("book deleted successfully"), 200
     
+# edit book
+@api.route('/editbook/<int:book_id>', methods=['PUT'])
+@jwt_required()
+def edit_book(book_id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("User doesn't exist"), 400
+
+    book = Book.query.get(book_id)
+    if book is None:
+        return jsonify("Book doesn't exist"), 400
+
+    body = request.json
+    book.name = body.get("name", book.name)
+    book.author = body.get("author", book.author)
+    book.category = body.get("category", book.category)
+    book.year = body.get("year", book.year)
+    book.quantity = body.get("quantity", book.quantity)
+    book.image = body.get("image", book.image)
+    book.donate = body.get("donate", book.donate)
+    book.exchange = body.get("exchange", book.exchange)
+    book.description = body.get("description", book.description)
+
+    db.session.commit()
+    return jsonify(book.serialize())
+
+#get  edit book
+@api.route('/vieweditbook/<int:book_id>', methods=['GET'])
+@jwt_required()
+def get_edit_book(book_id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("User doesn't exist"), 400
+
+    book = Book.query.get(book_id)
+    if book is None:
+        return jsonify("Book doesn't exist"), 400
+
+    return jsonify(book.serialize())
+
+@api.route('/addfavoritebook', methods=["POST"])
+@jwt_required()
+def add_favorite():
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    body=request.json
+    favorite_book=Favorite(
+        user_id=body["user_id"],
+        book_id=body["book_id"],
+    )
+    db.session.add(favorite_book)
+    db.session.commit()
+    return favorite_book.serialize(),200
+
+@api.route('/deletefavoritebook/<int:bookid>', methods=["DELETE"])
+@jwt_required()
+def delete_favorite_book(bookid):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("This user doesn't exist"), 400
+    select_book = Favorite.query.filter_by(user_id=user.id, book_id=bookid).first()
+    if select_book is None:
+        return jsonify("This book doesn't exist"), 400
+    if select_book.book.user_id == user.id:
+        return jsonify("you are not authorized to delete this book")
+    db.session.delete(select_book)
+    db.session.commit()
+    return jsonify("favorite book deleted successfully"), 200
+
+
+@api.route('/viewfavoritebook/<int:userid>', methods=['GET'])
+@jwt_required()
+def get_favorite_book(userid):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("User doesn't exist"), 400
+
+    favorite_books = Favorite.query.filter_by(user_id=userid).all()
+    favorite_books_dictionary = [book.serialize() for book in favorite_books]
+    if favorite_books is None:
+        return jsonify("Book doesn't exist"), 400
+
+    return jsonify(favorite_books_dictionary),200

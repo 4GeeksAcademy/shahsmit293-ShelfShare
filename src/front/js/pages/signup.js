@@ -1,29 +1,39 @@
 import React, { useContext, useState } from "react";
+import PlacesAutocomplete, { geocodeByAddress, geocodeByPlaceId, getLatLng } from "react-places-autocomplete";
 import { Context } from "../store/appContext";
 import "../../styles/signup.css";
 import { useNavigate } from "react-router-dom";
+import LocationSearchInput from "../component/locationSearchInput";
 
 export const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState("");
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null
+  });
   const [location, setLocation] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
 
-  const backgroundStyle = {
-    backgroundImage: `url(https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA1L2pvYjE4MDgtcmVtaXgtMDRhLWMuanBn.jpg)`,
-    backgroundSize: "contain",
-    backgroundPosition: "center",
-    minHeight: "100vh", // Set the minimum height to cover the entire viewport
-  };
+  // const backgroundStyle = {
+  //   backgroundImage: `url(https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA1L2pvYjE4MDgtcmVtaXgtMDRhLWMuanBn.jpg)`,
+  //   backgroundSize: "contain",
+  //   backgroundPosition: "center",
+  //   minHeight: "100vh", // Set the minimum height to cover the entire viewport
+  // };
 
   return (
-    <div className="container mt-4 rounded" style={{ ...backgroundStyle }}>
+    <div className="container">
       <div className="row">
-        <div className="col-md-6 offset-md-3">
+        <div className="col-md-6">
+          <img src="https://m.media-amazon.com/images/I/61I-fP2T5gL._AC_SL1100_.jpg" alt="Background" className="background-image" />
+        </div>
+        <div className="col-md-6">
+          <h2 className="text-center">Sign Up</h2>
           <form className="form mt-4">
             <div className="mb-3">
               <label htmlFor="firstName" className="form-label">
@@ -55,7 +65,7 @@ export const SignUp = () => {
               />
             </div>
 
-            <div className="mb-3">
+            <div className="">
               <label htmlFor="age" className="form-label">
                 Age:
               </label>
@@ -69,20 +79,18 @@ export const SignUp = () => {
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="location" className="form-label">
-                Location:
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                id="location"
-                name="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                required
-              />
-            </div>
+            <br />
+            <br />
+
+            <label>Address:</label>
+            <LocationSearchInput
+              setLocation={setLocation}
+              setCoordinates={setCoordinates}
+              location={location}
+            />
+
+            <br />
+            <br />
 
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
@@ -116,11 +124,11 @@ export const SignUp = () => {
 
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-success"
               style={{ marginBottom: "175px" }}
               onClick={(e) => {
                 actions
-                  .signup(email, password, age, location, firstName, lastName)
+                  .signup(email, password, age, location, firstName, lastName, coordinates)
                   .then(() => navigate("/"));
               }}
             >

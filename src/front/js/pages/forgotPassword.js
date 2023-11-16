@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/login.css";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +7,7 @@ import axios from 'axios';
 
 const forgotPassword = ({ onClose }) => {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState(null);
 
   const handleForgotPassword = () => {
     axios
@@ -15,7 +17,22 @@ const forgotPassword = ({ onClose }) => {
         onClose();
       })
       .catch((error) => {
-        console.error(error);
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          setError(error.response.data);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+          setError('No response received from server.');
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+          setError(error.message);
+        }
       });
   };
 

@@ -22,6 +22,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       descendingbooks: [],
       singlebook: [],
       years: [],
+      onlyexchangebooks: [],
+      onlydonatebooks: [],
+      exchangeanddonatebooks: [],
       users: [],
       wishlistBooks: [],
       singleUser: undefined,
@@ -31,8 +34,12 @@ const getState = ({ getStore, getActions, setStore }) => {
       allinbox: undefined,
       contacted: [],
       matchingBooks: undefined,
-      error_message_login:"",
-      errorMessagePassword:"",
+      editbook: undefined,
+      favoritebookid: undefined,
+      booksWithin30Kilometers: undefined,
+      filterfavorite: undefined,
+      error_message_login: "",
+      errorMessagePassword: "",
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -51,14 +58,14 @@ const getState = ({ getStore, getActions, setStore }) => {
         const confirmLogout = window.confirm("Are you sure?");
         if (confirmLogout) {
           logout();
-          window.location.reload();
+          window.location.href = '/';
         }
       },
 
       updateStoreFromStorage: () => {
         let accessToken = sessionStorage.getItem("token");
-        let userString= sessionStorage.getItem("user");
-        let userObject= JSON.parse(userString);
+        let userString = sessionStorage.getItem("user");
+        let userObject = JSON.parse(userString);
         if (accessToken && accessToken != "" && accessToken != "undefined") {
           setStore({ accessToken: accessToken });
           setStore({ user: userObject });
@@ -78,7 +85,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      signup: (email, password, age, location, first_name, last_name) => {
+      signup: (email, password, age, location, first_name, last_name, coordinates) => {
         return fetch(backend + "api/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -89,9 +96,17 @@ const getState = ({ getStore, getActions, setStore }) => {
             last_name: last_name,
             age: age,
             location: location,
+            coordinates: coordinates
           }),
         })
-          .then((resp) => resp.json())
+          .then((resp) => {
+            if (resp.status === 409) {
+              alert('Email already exists. Please use a different email.');
+              window.location.reload();
+              throw new Error('Email conflict');
+            }
+            return resp.json();
+          })
           .then((data) => {
             setStore({
               user: data.user,
@@ -152,7 +167,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
       // add book
-      addbook: (name, author, category, quantity, image, year, user_id) => {
+      addbook: (name, author, category, quantity, image, year, donate, exchange, description, user_id) => {
         const store = getStore();
         return fetch(backend + "api/addbook", {
           method: "POST",
@@ -167,6 +182,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             quantity: quantity,
             image: image,
             year: year,
+            donate: donate,
+            exchange: exchange,
+            description: description,
             user_id: user_id,
           }),
         })
@@ -208,27 +226,43 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //for all books
-      allbooksdata: () => {
-        fetch(backend + "api/allbooks")
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            }
+      allbooksdata: async () => {
+        const response = await fetch(backend + "api/allbooks");
+        if (response.ok) {
+          console.log(response)
+          const data = await response.json();
+          console.log('Fetched data:', data);
+          console.log(data)
+          const asc = [...data];
+          const desc = [...data];
+          const years = [...data];
+          const reverse = [...data];
+          const distance = [...data];
+          const favorite = [...data];
+          const exchange = data.filter((item) => item.exchange === "Yes");
+          console.log('Exchange books:', exchange);
+          const donate = data.filter((item) => item.donate === "Yes");
+          console.log('Donate books:', donate);
+          const exchangedonate = data.filter((item) => item.exchange === "Yes" && item.donate === "Yes");
+          console.log('Exchange & Donate books:', exchangedonate);
+          setStore({
+            allbooks: data,
+            ascendingbooks: asc,
+            descendingbooks: desc,
+            years: years,
+            reverseallbook: reverse,
+            onlyexchangebooks: exchange,
+            onlydonatebooks: donate,
+            exchangeanddonatebooks: exchangedonate,
+            booksWithin30Kilometers: distance,
+            filterfavorite: favorite
           })
-          .then((data) => {
-            const asc = [...data];
-            const desc = [...data];
-            const years = [...data];
-            const reverse = [...data];
-            setStore({
-              allbooks: data,
-              ascendingbooks: asc,
-              descendingbooks: desc,
-              years: years,
-              reverseallbook: reverse,
-            });
-          });
+        } else {
+          console.log('Fetch request failed:', response.status, response.statusText);
+        }
       },
+
+
 
       loadAllUserInformation: () => {
         fetch(backend + "api/allusers")
@@ -255,6 +289,62 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .then((data) => {
             setStore({ singlebook: data });
+          });
+      },
+
+      //for edit book
+      editbooks: (id, name, author, category, quantity, image, year, donate, exchange, description) => {
+        const store = getStore();
+        return fetch(`${backend}api/editbook/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: JSON.stringify({
+            name: name,
+            author: author,
+            category: category,
+            quantity: quantity,
+            image: image,
+            year: year,
+            donate: donate,
+            exchange: exchange,
+            description: description,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            // Update the allbooks array
+            store.allbooks = store.allbooks.map(b => b.id === id ? data.book : b);
+          });
+      },
+
+      //get editbooks
+      geteditbooks: (j, setname, setauthor, setYear, setcategory, setquantity, setImage, setDonate, setExchange, setDescription) => {
+        const store = getStore();
+        return fetch(`${backend}api/vieweditbook/${j}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          }
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then((data) => {
+            setname(data.name)
+            setauthor(data.author)
+            setYear(data.year)
+            setcategory(data.category)
+            setquantity(data.quantity)
+            setImage(data.image)
+            setDonate(data.donate)
+            setExchange(data.exchange)
+            setDescription(data.description)
+            setStore({ editbook: data });
           });
       },
       //for single user
@@ -426,6 +516,73 @@ const getState = ({ getStore, getActions, setStore }) => {
           matchingBooks: matchingBooks,
         });
       },
+
+      // Add favorite book
+      addfavoritebook: (user_id, book_id) => {
+        const store = getStore();
+        return fetch(`${backend}api/addfavoritebook`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            book_id: book_id,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            window.location.reload();
+            return data.favorite_book;
+          }).catch((error) => {
+            console.error('Error:', error);
+          });;
+      },
+
+      //delete favoritebook
+      deletefavoritebook: (bookid) => {
+        const store = getStore();
+        fetch(`${backend}api/deletefavoritebook/${bookid}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("Error deleting book from your favorite");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting book from your favorite", error);
+          });
+      },
+
+      //get favoritebook
+      getfavoritebook: (id) => {
+        const store = getStore();
+        return fetch(`${backend}api/viewfavoritebook/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then((data) => {
+            let allids = data.map((item) => item.book_id)
+            setStore({ favoritebookid: allids });
+          });
+      },
+
 
       changeColor: (index, color) => {
         //get the store

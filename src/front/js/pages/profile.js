@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import "../../styles/home.css";
+import "../../styles/profile.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 export const Profile = () => {
@@ -18,11 +18,11 @@ export const Profile = () => {
   }, [store.singleUser]);
 
   useEffect(() => {
-    console.log(store.matchingBooks);
+    // console.log(store.matchingBooks);
   }, [store.matchingBooks]);
 
   return (
-    <div className="container-fluid">
+    <div className="background container-fluid">
       <div className="row d-flex justify-content-evenly mt-4">
         <div className="col-4 d-flex justify-content-center align-items-center">
           <h3>My available books</h3>
@@ -38,30 +38,49 @@ export const Profile = () => {
             {store.singleUser?.books.map((book, index) => {
               return (
                 <li
-                  className="list-group-item d-flex justify-content-between"
+                  className="list-group-item d-flex justify-content-between align-items-center"
                   key={book.id}
                 >
-                  {book.name} by {book.author}
-                  <button
-                    className="btn btn-danger btn-sm mx-auto"
-                    onClick={() => {
-                      actions.deleteBook(book.id);
-                    }}
-                  >
-                    <i className="fa-solid fa-trash-can"></i>
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm mx-auto"
-                    onClick={() => {
-                      navigate(`/showbook/${book.id}`);
-                    }}
-                  >
-                    View
-                  </button>
+                  <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
+                    <span style={{ fontSize: '1em' }}>Book Name: <span style={{ color: 'blue', textTransform: 'uppercase' }}>{book.name}</span></span>
+                    <span style={{ fontSize: '1em' }}>Author Name: <span style={{ color: 'red', textTransform: 'uppercase' }}>{book.author}</span></span>
+                  </div>
+
+                  <div style={{ gap: '10px', display: 'flex', alignItems: 'center' }}>
+                    <button
+                      className="btn btn-danger btn-sm mx-auto"
+                      onClick={() => {
+                        actions.deleteBook(book.id);
+                      }}
+                      style={{ padding: '5px 10px' }}
+                    >
+                      <i class="fa-solid fa-trash-can" style={{ verticalAlign: 'middle' }}></i>
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm mx-auto"
+                      onClick={() => {
+                        navigate(`/showbook/${book.id}`);
+                      }}
+                      style={{ padding: '5px 10px' }}
+                    >
+                      <span style={{ verticalAlign: 'middle' }}>View</span>
+                    </button>
+                    <button
+                      className="btn btn-info btn-sm mx-auto"
+                      onClick={() => {
+                        navigate(`/editbook/${book.id}`);
+                      }}
+                      style={{ padding: '5px 10px' }}
+                    >
+                      <i className="fas fa-edit" style={{ verticalAlign: 'middle' }}></i>
+                    </button>
+                  </div>
                 </li>
               );
             })}
           </ul>
+
+
           <button
             className="btn btn-success btn-sm mx-auto"
             onClick={() => {
@@ -76,34 +95,44 @@ export const Profile = () => {
             {store.singleUser?.wishlist_books.map((book, index) => {
               return (
                 <li
-                  className="list-group-item d-flex justify-content-between"
+                  className="list-group-item d-flex justify-content-between align-items-center"
                   key={book.id}
                 >
-                  {book.name} by {book.author}
-                  <button
-                    className="btn btn-danger btn-xs mx-auto"
-                    onClick={() => {
-                      actions.deleteWishlistBook(book.id);
-                    }}
-                  >
-                    <i className="fa-solid fa-trash-can"></i>
-                  </button>
-                  {store.matchingBooks?.find(
-                    (book2) =>
-                      book.name === book2.name && book.author === book2.author
-                  ) ? (
+                  <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
+                    <span style={{ fontSize: '1em' }}>Book Name: <span style={{ color: 'blue', textTransform: 'uppercase' }}>{book.name}</span></span>
+                    <span style={{ fontSize: '1em' }}>Author Name: <span style={{ color: 'red', textTransform: 'uppercase' }}>{book.author}</span></span>
+                  </div>
+
+                  <div style={{ gap: '10px', display: 'flex', alignItems: 'center' }}>
                     <button
+                      className="btn btn-danger btn-sm mx-auto"
                       onClick={() => {
-                        navigate("/", { state: { search: book.name } });
+                        actions.deleteWishlistBook(book.id);
                       }}
+                      style={{ padding: '5px 10px' }}
                     >
-                      matched
+                      <i className="fa-solid fa-trash-can" style={{ verticalAlign: 'middle' }}></i>
                     </button>
-                  ) : null}
+                    {store.matchingBooks?.find(
+                      (book2) =>
+                        book.name === book2.name && book.author === book2.author
+                    ) ? (
+                      <button
+                        className="btn btn-info btn-sm mx-auto"
+                        onClick={() => {
+                          navigate("/", { state: { search: book.name } });
+                        }}
+                        style={{ padding: '5px 10px' }}
+                      >
+                        <span style={{ verticalAlign: 'middle' }}>Matched</span>
+                      </button>
+                    ) : null}
+                  </div>
                 </li>
               );
             })}
           </ul>
+
           <button
             className="btn btn-success btn-sm mx-auto"
             onClick={() => {
