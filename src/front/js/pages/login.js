@@ -10,7 +10,7 @@ export const Login = () => {
   const { store, actions } = useContext(Context);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [error, setError] = useState("");
-  const [login_error_message, setLogin_error_message] = useState("");
+  const [login_error_message,setLogin_error_message] = useState("");
 
   const validateLogin = () => {
     if (email == "" && password == "") {
@@ -53,7 +53,7 @@ export const Login = () => {
             </div>
             <div>
               <div>
-                <i class="fa-regular fa-envelope"></i>
+                <i className="fa-regular fa-envelope"></i>
                 <input
                   className="input"
                   type="email"
@@ -65,9 +65,9 @@ export const Login = () => {
               </div>
               <div>
                 {store.accessToken ?
-                  <i class="fa-solid fa-lock-open"></i>
+                  <i className="fa-solid fa-lock-open"></i>
                   :
-                  <i class="fa-solid fa-lock"></i>
+                  <i className="fa-solid fa-lock"></i>
                 }
                 <input
                   className="input"
@@ -93,7 +93,7 @@ export const Login = () => {
                 {store.accessToken ?
                   <button
                     type="button"
-                    class="btn btn-secondary"
+                    className="btn btn-secondary"
                     onClick={() => {
                       actions.handleLogout()
                     }
@@ -104,14 +104,14 @@ export const Login = () => {
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={() => {
-                      if (email && password) {
+                    onClick={() => {                     
+                      if (email && password){
                         setLogin_error_message(store.error_message_login)
                         actions.login(email, password)
                         setError("")
-                      } else {
-                        setLogin_error_message("")
-                        validateLogin()
+                        } else {
+                          setLogin_error_message("")
+                          validateLogin()
                       }
                     }
                     }
