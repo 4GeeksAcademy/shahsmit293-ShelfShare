@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import "../../styles/addbook.css";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -155,7 +154,7 @@ export const Editbook = () => {
                             id="Description"
                             name="Description"
                             rows={4}
-                            cols={80}
+                            cols={60}
                             placeholder="Type here about book.............."
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
@@ -169,6 +168,7 @@ export const Editbook = () => {
 
                         <button
                             type="button"
+                            className="btn btn-success"
                             onClick={(e) => {
                                 e.preventDefault();
                                 actions.editbooks(
