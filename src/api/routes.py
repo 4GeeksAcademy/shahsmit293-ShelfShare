@@ -32,6 +32,10 @@ def handle_hello():
 @api.route('/signup', methods=['POST'])
 def signup():
     body = request.json
+    user = User.query.filter_by(email=body['email']).first()
+    if user:
+        return jsonify({"error": "Email already exists. Please use a different email."}), 409
+
     user = User(
         email=body["email"],
         password=generate_password_hash(body["password"]),
@@ -45,6 +49,7 @@ def signup():
     db.session.commit()
     token = create_access_token(identity=user.email)
     return jsonify(user=user.serialize(), token=token), 201
+
 
 @api.route('/login', methods=['POST'])
 def login():

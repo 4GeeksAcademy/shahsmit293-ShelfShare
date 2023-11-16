@@ -26,7 +26,7 @@ export const Addbook = () => {
   };
 
   return (
-    <div className="background container mt-4 rounded" style={{ ...backgroundStyle }}>
+    <div className="background container mt-4 rounded">
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <form className="form mt-4">
@@ -103,7 +103,7 @@ export const Addbook = () => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="imageset" className="form-label">
+              <label >
                 Image:
               </label>
               <input
@@ -140,7 +140,7 @@ export const Addbook = () => {
               id="Description"
               name="Description"
               rows={4}
-              cols={80}
+              cols={60}
               defaultValue={""}
               placeholder="Type here about book.............."
               value={description}
@@ -155,6 +155,7 @@ export const Addbook = () => {
 
             <button
               type="button"
+              className="btn btn-success"
               onClick={(e) => {
                 actions
                   .addbook(

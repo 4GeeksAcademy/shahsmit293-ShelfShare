@@ -1,0 +1,32 @@
+.main {
+  background-image: url("https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA1L2pvYjE4MDgtcmVtaXgtMDRhLWMuanBn.jpg");
+  background-repeat: repeat;
+  height: 100vh;
+  background-position: center;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 25px;
+  padding: 20px; /* inner spacing */
+}
+
+.bookname {
+  flex-direction: row;
+}
+
+.description {
+  overflow-wrap: break-word;
+}
+.bookname {
+  font-family: fantasy;
+}
+
+.author {
+  font-family: cursive;
+}
+
+.description {
+  color: goldenrod;
+}
