@@ -188,7 +188,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         })
           .then((resp) => resp.json())
           .then((data) => {
-            store.allbooks.push(data.book);
+            store.allbooks.push(data);
           });
       },
 
@@ -502,6 +502,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       matchingWishlistBook: () => {
         const store = getStore();
         if (!store.singleUser) return;
+        console.log("..............", store.allbooks, store.singleUser.wishlist_books)
         const matchingBooks = store.singleUser.wishlist_books.filter((book) => {
           return store.allbooks.find(
             (book2) => book.name === book2.name && book.author === book2.author
