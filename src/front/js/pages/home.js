@@ -112,7 +112,7 @@ export const Home = () => {
   return (
     <div className="background text-center mt-4 mb-4">
       <div className="add books">
-        <button type="button" class="btn btn-success"
+        <button type="button" class="btn btn-success w-25"
           onClick={() => {
             {
               store.accessToken
