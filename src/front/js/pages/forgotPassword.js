@@ -10,7 +10,7 @@ const forgotPassword = ({ onClose }) => {
 
   const handleForgotPassword = () => {
     axios
-      .post('https://zany-meme-5ww5xwq55prh4v6r-3001.app.github.dev/api/forgot-password', { email })
+      .post(`${process.env.BACKEND_URL}api/forgot-password`, { email })
       .then((response) => {
         alert('A password reset email with instructions has been sent to your email address.');
         onClose();

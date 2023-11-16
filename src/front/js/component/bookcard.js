@@ -50,27 +50,27 @@ export const Bookcard = (props) => {
             store.favoritebookid && store.favoritebookid.includes(props.bookid) ? (
               <button
                 className="btn"
-                style={{ color: "blue" }}
+                style={{ color: "red" }}
                 onClick={() => {
                   actions.deletefavoritebook(props.bookid);
                 }}
               >
-                <i className="far fa-bookmark"></i>
+                <i className="fas fa-bookmark"></i>
               </button>
             ) : (
               <button
                 className="btn"
-                style={{ color: "red" }}
+                style={{ color: "black" }}
                 onClick={() => {
                   actions.addfavoritebook(store.activeuser, props.bookid);
                 }}
               >
-                <i className="far fa-bookmark"></i>
+                <i className="fas fa-bookmark"></i>
               </button>
             )
           ) : (
             <button className="btn" style={{ display: "none" }}>
-              <i className="far fa-bookmark"></i>
+              <i className="fas fa-bookmark"></i>
             </button>
           )}
         </div>

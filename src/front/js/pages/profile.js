@@ -149,7 +149,7 @@ export const Profile = () => {
         </div>
       </div>
       <div className="row mb-2 d-flex justify-content-center">
-        <div className="col-4 d-flex align-items-center flex-column border border-3 p-2">
+        <div className="col-4 d-flex align-items-center flex-column glowing-border card-background p-2">
           <p>
             Name: {store.singleUser?.first_name} {store.singleUser?.last_name}
           </p>
@@ -157,6 +157,7 @@ export const Profile = () => {
           <p>Address: {store.singleUser?.location}</p>
         </div>
       </div>
+
     </div>
   );
 };
