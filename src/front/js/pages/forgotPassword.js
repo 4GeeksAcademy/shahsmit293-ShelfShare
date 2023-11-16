@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/login.css";
 import { useNavigate } from "react-router-dom";
