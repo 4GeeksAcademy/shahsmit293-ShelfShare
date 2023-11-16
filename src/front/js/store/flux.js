@@ -99,7 +99,14 @@ const getState = ({ getStore, getActions, setStore }) => {
             coordinates: coordinates
           }),
         })
-          .then((resp) => resp.json())
+          .then((resp) => {
+            if (resp.status === 409) {
+              alert('Email already exists. Please use a different email.');
+              window.location.reload();
+              throw new Error('Email conflict');
+            }
+            return resp.json();
+          })
           .then((data) => {
             setStore({
               user: data.user,
