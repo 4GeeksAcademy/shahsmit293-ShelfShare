@@ -24,9 +24,6 @@ export const Navbar = () => {
             />
           </Link>
           <p className="logo-text">ShelfShare</p>
-          <p className="About-text">
-            <b>About Us</b>
-          </p>
         </div>
 
         <div className="d-flex flex-direction-row justify-content-center align-items-center">

@@ -162,7 +162,7 @@ export const Home = () => {
           </select>
         </div>
       </div>
-      <div className="row gy-3 mt-4">
+      <div className="row gy-3 mt-4 p-3">
         {dataType().length > 0 ? (
           dataType()
             .filter((item) => {
