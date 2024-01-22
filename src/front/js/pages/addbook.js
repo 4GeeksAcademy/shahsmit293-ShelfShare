@@ -142,7 +142,7 @@ export const Addbook = () => {
               rows={4}
               cols={60}
               defaultValue={""}
-              placeholder="Type here about book.............."
+              placeholder="Please describe your book here..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
