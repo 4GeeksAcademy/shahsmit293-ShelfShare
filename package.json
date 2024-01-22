@@ -8,7 +8,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --port 3000",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "serve production": "serve -s build"
   },
   "author": {
     "name": "Alejandro Sanchez",
