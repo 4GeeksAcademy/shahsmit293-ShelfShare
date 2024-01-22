@@ -15,10 +15,10 @@ export const Bookcard = (props) => {
           className="card-img-top"
           src={props.image}
           alt="Card image cap"
-          style={{ width: "100%", height: "200px", objectFit: "contain" }}
+          style={{ width: "150px", height: "200px", objectFit: "contain" }}
         />
         <div className="container">
-          <h5 className="card-title"><b>{props.bookname}</b></h5>
+          <h5 className="card-title mt-1"><b>{props.bookname}</b></h5>
           <p className="card-text">Author:{props.author}</p>
           <p className="card-text">Year:{props.year}</p>
           <p className="card-text">Category:{props.category}</p>
