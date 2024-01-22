@@ -110,7 +110,7 @@ export const Home = () => {
     }
   };
   return (
-    <div className="background text-center mt-5 ms-2 me-2">
+    <div className="background text-center mt-5 ms-2 me-2 px-3">
       <div className="add books mt-4 mb-4">
         <button type="button" className="btn btn-success w-25"
           onClick={() => {

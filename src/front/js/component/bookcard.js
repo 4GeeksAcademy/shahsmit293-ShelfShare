@@ -7,7 +7,6 @@ export const Bookcard = (props) => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
   const isUserBook = store.activeuser === props.yourbookid;
-  let locationArray = props.location.split(", ");
 
   return (
     <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
