@@ -9,7 +9,7 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --port 3000",
     "build": "webpack --config webpack.prod.js",
-    "serve": "serve -s build"
+    "serve": "serve -s public"
   },
   "author": {
     "name": "Alejandro Sanchez",
