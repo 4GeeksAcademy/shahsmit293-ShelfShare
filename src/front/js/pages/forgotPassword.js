@@ -1,7 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import { Context } from "../store/appContext";
+import React, { useState} from "react";
 import "../../styles/login.css";
-import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const forgotPassword = ({ onClose }) => {

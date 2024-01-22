@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext } from "react/cjs/react.development";
+
 import { Context } from "../store/appContext";
 export const Inbox = () => {
   const { store, actions } = useContext(Context);
