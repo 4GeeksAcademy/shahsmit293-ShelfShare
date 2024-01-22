@@ -1,2 +1,2 @@
 release: pipenv run upgrade
-web: npm serve production
+web: npm run serve production
