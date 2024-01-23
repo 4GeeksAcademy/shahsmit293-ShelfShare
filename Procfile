@@ -1,3 +1,3 @@
 release: pipenv run upgrade
 web: npm run serve
-api: pipenv run start
+api: gunicorn wsgi --chdir ./src/
