@@ -3,5 +3,6 @@
   to = "/index.html"
   status = 200
 
-[[build]]
-  ignore = ["Pipfile", "Pipfile.lock"]
+[build]
+  ignore = "Pipfile"
+  ignore = "Pipfile.lock"
