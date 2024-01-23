@@ -3,5 +3,5 @@
   to = "/index.html"
   status = 200
 
-[build]
+[[build]]
   ignore = ["Pipfile", "Pipfile.lock"]
