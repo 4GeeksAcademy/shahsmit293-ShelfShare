@@ -4,4 +4,4 @@
   status = 200
 
 [build]
-  ignore = "Pipfile"
+  command = "npm run serve"
