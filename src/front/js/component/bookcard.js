@@ -18,12 +18,12 @@ export const Bookcard = (props) => {
           style={{ width: "150px", height: "200px", objectFit: "contain" }}
         />
         <div className="container">
-          <h5 className="card-title mt-1"><b>{props.bookname}</b></h5>
-          <p className="card-text">Author:{props.author}</p>
-          <p className="card-text">Year:{props.year}</p>
-          <p className="card-text">Category:{props.category}</p>
-          <p className="card-text">Available For Exchange:{props.exchange}</p>
-          <p className="card-text">Available For Donate:{props.donate}</p>{ }
+          <h4 className="card-title mt-1 mb-1"><b>{props.bookname.substring(0, 17)}{props.bookname.length > 17 && "..."}</b></h4>
+          <p className="card-text">Author: {props.author}</p>
+          <p className="card-text">Year: {props.year}</p>
+          <p className="card-text">Category: {props.category}</p>
+          <p className="card-text">Available For Exchange: {props.exchange}</p>
+          <p className="card-text">Available For Donation: {props.donate}</p>{ }
           {store.activeuser ? (
             <button
               className="btn btn-success"

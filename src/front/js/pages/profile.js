@@ -27,7 +27,7 @@ export const Profile = () => {
     <div className="background container-fluid">
       <div className="row d-flex justify-content-evenly mt-4 pt-4">
         <div className="col-4 d-flex justify-content-center align-items-center">
-          <h3>My available books</h3>
+          <h3>My Bookshelf</h3>
         </div>
         <div className="col-4 d-flex justify-content-center align-items center">
           <h3 className="">My Wishlist</h3>
@@ -35,7 +35,7 @@ export const Profile = () => {
       </div>
 
       <div className="row d-flex justify-content-evenly">
-        <div className="col-4 border border-3 rounded d-flex flex-column p-4 m-4">
+        <div className="col-4 border border-3 rounded-5 d-flex flex-column p-4 m-4">
           <ul className="list-group">
             {store.singleUser?.books.map((book, index) => {
               return (
@@ -56,7 +56,7 @@ export const Profile = () => {
             Add a book
           </button>
         </div>
-        <div className="col-4 border border-3 rounded d-flex flex-column p-4 m-4">
+        <div className="col-4 border border-3 rounded-5 d-flex flex-column p-4 m-4">
           <ul className="list-group">
             {store.singleUser?.wishlist_books.map((book, index) => {
               return (

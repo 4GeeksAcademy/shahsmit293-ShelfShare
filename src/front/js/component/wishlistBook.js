@@ -17,10 +17,10 @@ export const WishlistBook = (book) => {
     
 
     return (
-        <div className="d-flex flex-row p-2 border border-black rounded-5 align-items-center justify-content-center mb-2" style={{ background: "#d9d9d9" }}>
+        <div className="d-flex flex-row p-2 border border-2 border-black rounded-5 align-items-center justify-content-center mb-2" style={{ background: "white" }}>
             <div className="d-flex flex-column w-50 align-items-center">
-                <p className="fs-3">{book.name}</p>
-                <p>Author: {book.author}</p>
+                <p className="fs-4">{book.name.substring(0,14)}{book.name > 14 && "..."}</p>
+                <p>By: {book.author}</p>
             </div>
             <div className="d-flex w-50 justify-content-between">
                 <button
@@ -41,9 +41,9 @@ export const WishlistBook = (book) => {
                         onClick={() => {
                           navigate("/", { state: { search: book.name } });
                         }}
-                        style={{ padding: '5px 10px' }}
+                        style={{ padding: '5px 10px', width: '75px' }}
                       >
-                        <span style={{ verticalAlign: 'middle' }}>Matched</span>
+                        <span style={{ verticalAlign: 'middle' }}>Match</span>
                       </button>
                     ) : null}
             </div>

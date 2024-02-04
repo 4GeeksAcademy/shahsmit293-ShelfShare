@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext } from "react/cjs/react.development";
 import { Context } from "../store/appContext";
 import { Messagecard } from "../component/messagebar";
 import "../../styles/chat.css";
@@ -21,12 +20,12 @@ export const Chat = () => {
         {store.allchats?.map((chat, index) =>
           chat.sender_id === parseInt(senderid) ? (
             <div key={index} className="sender">
-              <p style={{ marginBottom: "0.5em" }}>{chat.message}</p>
+              <p style={{ marginBottom: "0.2em" }}>{chat.message}</p>
               <p style={{ fontSize: "0.6em", color: "#808080", textAlign: "right" }}>{chat.current_date} {chat.current_time}</p>
             </div>
           ) : (
             <div key={index} className="receiver">
-              <p style={{ marginBottom: "0.5em" }}>{chat.message}</p>
+              <p style={{ marginBottom: "0.2em" }}>{chat.message}</p>
               <p style={{ fontSize: "0.6em", color: "#9B9B9B", textAlign: "right" }}>{chat.current_date} {chat.current_time}</p>
             </div>
           )
@@ -45,9 +44,7 @@ export const Chat = () => {
         <button
           onClick={() => {
             actions.addchats(+senderid, +receiverid, value);
-            // Clear the input field
             setValue("");
-            // Reload the page
             window.location.reload();
           }}
         >

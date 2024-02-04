@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import { Context } from "../store/appContext";
+
 export const Inbox = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
@@ -11,8 +11,8 @@ export const Inbox = () => {
     actions.inboxchats(+inboxid);
   }, []);
   return (
-    <div className="allchats" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-      <h2 style={{ color: "black", textAlign: "center", "margin": "2.5%" }}>LIST OF CONTACTED USERS</h2>
+    <div className="allchats" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <h2 style={{ color: "black", textAlign: "center", "margin": "2.5%" }}>Messages</h2>
       {store.contacted
         .filter(
           (value, index, self) =>
@@ -42,12 +42,12 @@ export const Inbox = () => {
                 textAlign: "center",
                 textDecoration: "none",
                 display: "inline-block",
-                fontSize: "16px",
+                fontSize: "24px",
                 transitionDuration: "0.4s",
                 cursor: "pointer"
               }}
             >
-              Connect to user: {item.username}
+              {item.username}
             </button>
           );
         })}
