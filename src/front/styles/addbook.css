@@ -1,0 +1,22 @@
+.background {
+  background-color: #f3f3f3;
+  color: #111;
+  background-image: url("https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA1L2pvYjE4MDgtcmVtaXgtMDRhLWMuanBn.jpg");
+  background-repeat: repeat;
+  height: 100vh;
+  background-position: center;
+}
+
+.form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.submit-button {
+  width: 100%;
+  background-color: #f0c14b;
+  border: 1px solid #a88734;
+  color: #111;
+}

@@ -1,0 +1,16 @@
+.background {
+  background-image: url("https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA1L2pvYjE4MDgtcmVtaXgtMDRhLWMuanBn.jpg");
+  background-repeat: repeat;
+  height: 100vh;
+  background-position: center;
+}
+
+.glowing-border {
+  border: 3px solid #f0f0f0;
+  box-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ffcc00,
+    0 0 40px #ffcc00;
+}
+
+.card-background {
+  background-color: #ffffff; /* Change this to any color you like */
+}
